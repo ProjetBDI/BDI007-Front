@@ -1,0 +1,32 @@
+
+/* SCSS RGB */ 
+$naples-yellow: rgba(241, 206, 83, 1); 
+$pistachio: rgba(158, 209, 134, 1); 
+$emerald: rgba(116, 210, 159, 1); 
+$turquoise: rgba(74, 211, 184, 1); 
+$viridian: rgba(0, 127, 95, 1); 
+
+/* SCSS Gradient */ 
+$gradient-top: linear-gradient(0deg, #f1ce53ff, #9ed186ff, #74d29fff, #4ad3b8ff, #007f5fff); 
+$gradient-right: linear-gradient(90deg, #f1ce53ff, #9ed186ff, #74d29fff, #4ad3b8ff, #007f5fff); 
+$gradient-bottom: linear-gradient(180deg, #f1ce53ff, #9ed186ff, #74d29fff, #4ad3b8ff, #007f5fff); 
+$gradient-left: linear-gradient(270deg, #f1ce53ff, #9ed186ff, #74d29fff, #4ad3b8ff, #007f5fff); 
+$gradient-top-right: linear-gradient(45deg, #f1ce53ff, #9ed186ff, #74d29fff, #4ad3b8ff, 
+#007f5fff); 
+$gradient-bottom-right: linear-gradient(135deg, #f1ce53ff, #9ed186ff, #74d29fff, #4ad3b8ff, 
+#007f5fff); 
+$gradient-top-left: linear-gradient(225deg, #f1ce53ff, #9ed186ff, #74d29fff, #4ad3b8ff, 
+#007f5fff); 
+$gradient-bottom-left: linear-gradient(315deg, #f1ce53ff, #9ed186ff, #74d29fff, #4ad3b8ff, 
+#007f5fff); 
+$gradient-radial: radial-gradient(#f1ce53ff, #9ed186ff, #74d29fff, #4ad3b8ff, #007f5fff);
+
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.875em; // environ 11 pts
+}
+
+.title {
+    //TODO: police open sans semibold à importer
+}
