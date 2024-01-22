@@ -1,4 +1,8 @@
 
+/* 
+    COULEURS 
+*/
+
 /* SCSS RGB */ 
 $naples-yellow: rgba(241, 206, 83, 1); 
 $pistachio: rgba(158, 209, 134, 1); 
@@ -21,12 +25,30 @@ $gradient-bottom-left: linear-gradient(315deg, #f1ce53ff, #9ed186ff, #74d29fff, 
 #007f5fff); 
 $gradient-radial: radial-gradient(#f1ce53ff, #9ed186ff, #74d29fff, #4ad3b8ff, #007f5fff);
 
+/*
+    TYPOGRAPHIE
+*/
+
+@font-face {
+    font-family: 'Open Sans SemiBold';
+    src: url(assets/fonts/OpenSans-SemiBold.ttf);
+}
+
 
 * {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 0.875em; // environ 11 pts
 }
 
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background-color: $viridian;
+}
+
 .title {
-    //TODO: police open sans semibold à importer
+    font-family: 'Open Sans SemiBold';
 }
