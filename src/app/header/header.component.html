@@ -1,0 +1,16 @@
+<div id="menu" class="shadow ">
+    <img id="logo" class="" src="../../assets/images/FestCarWhiteBG.png"/>
+    <div id="menuIcons">
+        <div class="menuIcon icon shadow" title="Connecte toi pour prendre ton pass !" (click)="login()">
+            
+            <img *ngIf="this.user$ | async as U; else basePP" [src]="U?.photoUrl"/>
+            <ng-template #basePP class="superposable superposable_sub">
+                <img src="../../assets/icons/google.png"/>
+            </ng-template>
+        </div>
+        <div class="menuIcon icon shadow" title="Plus d'options">
+            <img src="../../assets/icons/plusHorizontal.png"/>
+        </div>
+    </div>
+    
+</div>
