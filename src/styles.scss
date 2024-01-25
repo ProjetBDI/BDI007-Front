@@ -37,7 +37,7 @@ $gradient-radial: radial-gradient(#f1ce53ff, #9ed186ff, #74d29fff, #4ad3b8ff, #0
 
 * {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 0.875em; // environ 11 pts
+    font-size: 11px; // environ 11 pts
 }
 
 body {
@@ -47,8 +47,33 @@ body {
     overflow-x: hidden;
     overflow-y: hidden;
     background-color: $viridian;
+    //background-image: $gradient-top;
 }
 
 .title {
     font-family: 'Open Sans SemiBold';
 }
+
+.icon {
+    border-radius: 100%;
+    background-color: white;
+    cursor: pointer;
+}
+
+.card {
+    border-radius: 16px;
+    background-color: white;
+    outline: none;
+    appearance: none;
+    border: none;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.shadow { box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px; }
+.dropShadow { filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.12)) }
