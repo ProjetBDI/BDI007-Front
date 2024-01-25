@@ -37,7 +37,7 @@ $gradient-radial: radial-gradient(#f1ce53ff, #9ed186ff, #74d29fff, #4ad3b8ff, #0
 
 * {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px; // environ 11 pts
+    font-size: 11px;
 }
 
 body {
@@ -73,6 +73,26 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.separator {
+    width: 100%;
+    height: 1px;
+    background-color: #e0e0e0;
+    overflow-y: auto;
+}
+        
+.scrollbar::-webkit-scrollbar {
+    width: 12px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    border-radius: 8px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: #e0e0e0;
 }
 
 .shadow { box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px; }

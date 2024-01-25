@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
 
 	constructor(private appService: AppService) { }
 
-	title = 'angular-nodejs-example';
+	title = 'Festicar';
 
 	person: any;
     
