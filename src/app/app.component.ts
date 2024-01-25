@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from './app.service';
+import { RoutingService } from './routing.service';
 
 @Component({
 	selector: 'app-root',
@@ -8,19 +9,10 @@ import { AppService } from './app.service';
 })
 export class AppComponent implements OnInit {
 
-	constructor(private appService: AppService) { }
+	constructor( protected rs: RoutingService) { }
 
 	title = 'Festicar';
 
-	person: any;
-    
-    connected = false;
-
 	ngOnInit() {
-		this.appService.getPerson()
-			.subscribe((person: any) => {
-				this.person = person;
-                this.connected = true;
-			});
 	}
 }

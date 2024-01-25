@@ -11,4 +11,12 @@ export class RoutingService {
   goToRecherche() {
     this.router.navigateByUrl("recherche");
   }
+
+  goToHome() {
+    this.router.navigateByUrl("");
+  }
+
+  getRouterUrl() {
+    return this.router.url;
+  }
 }

@@ -1,11 +1,11 @@
 <div id="menu" class="shadow ">
-    <img id="logo" class="" src="../../assets/images/FestCarWhiteBG.png"/>
+    <img id="logo" class="" src="../../assets/images/FestCarWhiteBG.png" (click)="goHome()"/>
     <div id="menuIcons">
-        <div class="menuIcon icon shadow" title="Connecte toi pour prendre ton pass !" (click)="login()">
+        <div class="menuIcon icon shadow" title="Connecte toi pour prendre ton pass !">
             
-            <img *ngIf="this.user$ | async as U; else basePP" [src]="U?.photoUrl"/>
+            <img *ngIf="this.user$ | async as U; else basePP" [src]="U?.photoUrl" (click)="logout()"/>
             <ng-template #basePP class="superposable superposable_sub">
-                <img src="../../assets/icons/google.png"/>
+                <img src="../../assets/icons/google.png" (click)="login()"/>
             </ng-template>
         </div>
         <div class="menuIcon icon shadow" title="Plus d'options">

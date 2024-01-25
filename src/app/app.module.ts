@@ -13,6 +13,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 import { environment } from '../environments/environment';
+import { HomeComponent } from './home/home.component';
 
 // state related imports
 // import { StoreModule } from '@ngrx/store';
@@ -25,7 +26,8 @@ import { environment } from '../environments/environment';
   declarations: [
     AppComponent,
     HeaderComponent,
-    RechercheComponent
+    RechercheComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

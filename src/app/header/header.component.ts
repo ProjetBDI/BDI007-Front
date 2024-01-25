@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, map } from 'rxjs';
 import { FestiUser } from '../eltDefinitions';
 import { Auth } from '@angular/fire/auth';
 import { UserService } from '../user.service';
+import { RoutingService } from '../routing.service';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,7 @@ export class HeaderComponent implements OnInit {
 
   public user$: Observable<FestiUser | undefined> | undefined; // utilisateur connecté
 
-  constructor(protected us : UserService) {
+  constructor(protected us : UserService, protected rs: RoutingService) {
     const partie = document.getElementById("app-partie");
     if (partie) {
       partie.addEventListener("unload", () => {
@@ -37,6 +38,10 @@ export class HeaderComponent implements OnInit {
 
   async logout() {
     this.us.logout();
+  }
+
+  goHome() {
+    this.rs.goToHome();
   }
 
 }
