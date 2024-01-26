@@ -31,7 +31,7 @@ export class RechercheComponent {
     let id: number = 0;
     let festival: Festival | undefined;
 
-    for(let i = 0; i < this.result.length; i++) {
+    for(let i = 1; i < 20; i++) {
       festival = this.constituteResult(String(id));
       this.result.push(festival);
     }
