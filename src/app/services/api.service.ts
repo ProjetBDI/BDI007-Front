@@ -18,8 +18,6 @@ export class ApiService {
   }
 
   getFestivalByID(id: String){
-    console.log("TEST");
-    console.log(`/festivals/ + ${id}`);
     return this.http.get(`/festivals/ + ${id}`);
   }
 
