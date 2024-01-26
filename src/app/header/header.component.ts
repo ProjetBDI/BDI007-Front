@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { FestiUser } from '../eltDefinitions';
 import { Auth } from '@angular/fire/auth';
-import { UserService } from '../user.service';
-import { RoutingService } from '../routing.service';
+import { UserService } from '../services/user.service';
+import { RoutingService } from '../services/routing.service';
 
 @Component({
   selector: 'app-header',

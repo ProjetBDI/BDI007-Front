@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from './app.service';
-import { RoutingService } from './routing.service';
+import { RoutingService } from './services/routing.service';
 
 @Component({
 	selector: 'app-root',

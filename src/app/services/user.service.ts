@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Auth, authState, GoogleAuthProvider, signInWithPopup, signOut, User } from '@angular/fire/auth';
 import {  doc, docData, Firestore, FirestoreDataConverter, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, tap } from 'rxjs';
-import { FestiUser } from './eltDefinitions';
+import { FestiUser } from '../eltDefinitions';
 
 const conv : FirestoreDataConverter<FestiUser> = {
   toFirestore : val => val,

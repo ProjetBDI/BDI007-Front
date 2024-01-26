@@ -1,12 +1,19 @@
-<div id="container" class="scrollbar card centered">
-    <div class="title">Résultat de recherche</div>
-    <div class="element" *ngFor="let elt of test">
-        <div>Nom</div>
-        <div>Lieu</div>
-        <div>Du ... au ... </div>
-        <div>Genre</div>
-        <div>Pass disponibles</div>
-        <div>Sélectionner</div>
-        <div class="separator"></div>
+<div id="componentContainer">
+    <form class="card centered shadow" (ngSubmit)="this.search()" *ngIf="this.searched === false">
+        <input placeholder="Trouve ton festival !"/>
+        <button type="submit" (click)="this.search()">GO</button>
+    </form>
+    
+    <div id="searchContainer" class="scrollbar card centered_X" *ngIf="this.searched === true">
+        <div class="title">Résultat de recherche</div>
+        <div class="element" *ngFor="let elt of result">
+            <div>Nom</div>
+            <div>Lieu</div>
+            <div>Du ... au ... </div>
+            <div>Genre</div>
+            <div>Pass disponibles</div>
+            <div>Sélectionner</div>
+            <div class="separator"></div>
+        </div>
     </div>
 </div>
