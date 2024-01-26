@@ -22,6 +22,7 @@ export class RechercheComponent {
     
     this.api.getFestivalByID(id).subscribe((data: Partial<Observer<Festival>>) => {
       let festival: Festival = data as Festival;
+      console.log(festival);
       return festival
     });
     return undefined;
