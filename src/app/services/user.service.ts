@@ -8,8 +8,8 @@ const conv : FirestoreDataConverter<FestiUser> = {
   toFirestore : val => val,
   fromFirestore : snap => ({
     name : snap.get("name"),
-    photoUrl : snap.get("photoUrl"),
-    id: snap.get("id")
+    email : snap.get("email"),
+    photoUrl : snap.get("photoUrl")
   })
 }
 
@@ -30,7 +30,8 @@ export class UserService {
         const snapUser = await getDoc( docUser );
         if (!snapUser.exists()) {
           setDoc(docUser, {
-            name: u.displayName ?? u.email ?? u.uid,
+            name: u.displayName ?? "",
+            email: u.email ?? "",
             photoUrl: u.photoURL ?? ""
 
           } satisfies FestiUser)

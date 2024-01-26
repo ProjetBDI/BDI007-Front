@@ -1,5 +1,6 @@
 export interface FestiUser{
   name: string
+  email: string
   readonly photoUrl : string
 }
 

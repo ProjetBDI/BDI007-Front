@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RoutingService } from '../services/routing.service';
 import { ApiService } from '../services/api.service';
 import { Festival } from '../eltDefinitions';
-import { Observer } from 'rxjs';
+import { Observable, Observer, map } from 'rxjs';
 
 @Component({
   selector: 'app-recherche',
@@ -16,24 +16,24 @@ export class RechercheComponent {
 
   constructor(private rs: RoutingService, private api: ApiService) { }
 
-  constituteResult(id : String): Festival | undefined {
+  constituteResult(id : String): Observable<Festival> {
     this.searched = true;
 
     
-    this.api.getFestivalByID(id).subscribe((data: Partial<Observer<Festival>>) => {
+    return this.api.getFestivalByID(id).pipe(map((data: Partial<Observer<Festival>>) => {
       let festival: Festival = data as Festival;
-      console.log(festival);
-      return festival
-    });
-    return undefined;
+      return festival;
+    }));
   }
 
   search() {
     let festival: Festival | undefined;
-
+    console.log("--------------------------------");
     for(let i = 1; i < 20; i++) {
-      festival = this.constituteResult(String(i));
-      this.result.push(festival);
+      this.constituteResult(String(i)).subscribe(festival => {
+        console.log(festival);
+        this.result.push(festival);
+      });
     }
   }
 }
