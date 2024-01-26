@@ -29,11 +29,10 @@ export class RechercheComponent {
   }
 
   search() {
-    let id: number = 0;
     let festival: Festival | undefined;
 
     for(let i = 1; i < 20; i++) {
-      festival = this.constituteResult(String(id));
+      festival = this.constituteResult(String(i));
       this.result.push(festival);
     }
   }
