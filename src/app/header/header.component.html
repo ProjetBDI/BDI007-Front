@@ -1,3 +1,16 @@
-<div class="header">
-  <h1>Angular With Java</h1>
+<div id="menu" class="shadow ">
+    <img id="logo" class="" src="../../assets/images/FestCarWhiteBG.png" (click)="goHome()"/>
+    <div id="menuIcons">
+        <div class="menuIcon icon shadow" title="Connecte toi pour prendre ton pass !">
+            
+            <img *ngIf="this.user$ | async as U; else basePP" [src]="U?.photoUrl" (click)="logout()"/>
+            <ng-template #basePP class="superposable superposable_sub">
+                <img src="../../assets/icons/google.png" (click)="login()"/>
+            </ng-template>
+        </div>
+        <div class="menuIcon icon shadow" title="Plus d'options">
+            <img src="../../assets/icons/plusHorizontal.png"/>
+        </div>
+    </div>
+    
 </div>

@@ -1,26 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from './app.service';
+import { RoutingService } from './services/routing.service';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.css']
+	styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
 
-	constructor(private appService: AppService) { }
+	constructor( protected rs: RoutingService) { }
 
-	title = 'angular-nodejs-example';
-
-	person: any;
-    
-    connected = false;
+	title = 'Festicar';
 
 	ngOnInit() {
-		this.appService.getPerson()
-			.subscribe((person: any) => {
-				this.person = person;
-                this.connected = true;
-			});
 	}
 }

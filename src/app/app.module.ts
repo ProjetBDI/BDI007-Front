@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { provideAuth,getAuth } from '@angular/fire/auth';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -7,6 +8,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
+import { RechercheComponent } from './recherche/recherche.component';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+
+import { environment } from '../environments/environment';
+import { HomeComponent } from './home/home.component';
 
 // state related imports
 // import { StoreModule } from '@ngrx/store';
@@ -18,7 +25,9 @@ import { HeaderComponent } from './header/header.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    RechercheComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -26,6 +35,9 @@ import { HeaderComponent } from './header/header.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore())
     /**
      * StoreModule.forRoot is imported once in the root module, accepting a reducer
      * function or object map of reducer functions. If passed an object of
