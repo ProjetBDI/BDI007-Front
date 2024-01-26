@@ -81,17 +81,21 @@ body {
     background-color: #e0e0e0;
     overflow-y: auto;
 }
-        
+
+.scrollbar {
+    overflow-y: scroll;
+}
+
 .scrollbar::-webkit-scrollbar {
     width: 12px;
 }
 
 .scrollbar::-webkit-scrollbar-track {
-    border-radius: 8px;
+    border-radius: 16px;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-    border-radius: 8px;
+    border-radius: 16px;
     background-color: #e0e0e0;
 }
 
