@@ -1,35 +1,39 @@
 <div id="componentContainer">
-    <form class="card centered shadow" (ngSubmit)="this.search()" *ngIf="this.searched === false">
-        <input placeholder="Trouve ton festival !"/>
-        <button type="submit" (click)="this.search()">GO</button>
+    <form class="centered" (ngSubmit)="this.search()" *ngIf="this.searched === false">
+        <input class="shadow" placeholder="Trouve ton festival !"/>
+        <button class="shadow" type="submit" (click)="this.search()">
+            <img src="../../assets/icons/recherche.png" alt="search"/>
+        </button>
     </form>
     
-    <div id="searchContainer" class="scrollbar card centered_X shadow" *ngIf="this.searched === true">
-        <div class="title">Résultat de recherche</div>
-        <div *ngFor="let elt of result">
-            <div class="element">
-                <div class="elt1">Nom {{elt?.nom}}</div>
-                <div class="elt2">Lieu {{elt?.lieuPrincipal}}</div>
-                <div class="elt3">Du {{elt?.dateDebut}} au {{elt?.dateFin}} </div>
-                <div class="elt4">Domaine {{elt?.domaine}}</div>
-                <div class="elt5">Sous-domaine {{elt?.sousDomaine}}</div>
-                <div class="elt6">Pass disponibles {{elt?.nbPassDispo}}</div>
-                <div class="elt7">Tarif {{elt?.tarifPass}}</div>
-                <div class="elt8"></div>
-                <div class="elt9"></div>
-                <div class="elt10"></div>
-                <div class="elt11"></div>
-                <div class="elt12"></div>
-                <div class="elt13"></div>
-                <div class="elt14 status card"
-                [class.green]="elt?.status === 'OUVERT'"
-                [class.red]="elt?.status === 'PLEIN'"
-                [class.gray]="elt?.status === undefined || elt?.status === ''">
+    <div id="searchContainer" class="card centered_X shadow" *ngIf="this.searched === true">
+        <div id="title" class="shadow">Résultat de recherche</div>
+        <div class="scrollbar searchResults">
+            <div *ngFor="let elt of result">
+                <div class="element">
+                    <div class="elt1"><span class="title">Nom</span> {{elt?.nom}}</div>
+                    <div class="elt2"><span class="title">Lieu</span> {{elt?.lieuPrincipal}}</div>
+                    <div class="elt3"><span class="title">Du</span> {{elt?.dateDebut}} <span class="title">au</span> {{elt?.dateFin}} </div>
+                    <div class="elt4"><span class="title">Domaine</span> {{elt?.domaine}}</div>
+                    <div class="elt5"><span class="title">Sous-domaine</span> {{elt?.sousDomaine}}</div>
+                    <div class="elt6"><span class="title">Pass disponibles</span> {{elt?.nbPassDispo}}</div>
+                    <div class="elt7"><span class="title">Tarif</span> {{elt?.tarifPass}}</div>
+                    <div class="elt8"></div>
+                    <div class="elt9"></div>
+                    <div class="elt10"></div>
+                    <div class="elt11"></div>
+                    <div class="elt12"></div>
+                    <div class="elt13"></div>
+                    <div class="elt14 status card"
+                    [class.green]="elt?.status === 'OUVERT'"
+                    [class.red]="elt?.status === 'PLEIN'"
+                    [class.gray]="elt?.status === undefined || elt?.status === ''">
+                    </div>
+                    <div class="selecteur elt15"></div>
                 </div>
-                <div class="selecteur elt15"></div>
-            </div>
 
-            <div class="separator"></div>
+                <div class="separator"></div>
+            </div>
         </div>
     </div>
 </div>
