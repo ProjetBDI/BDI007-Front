@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RoutingService } from '../services/routing.service';
 
 @Component({
   selector: 'app-home',
@@ -8,5 +7,4 @@ import { RoutingService } from '../services/routing.service';
 })
 export class HomeComponent {
 
-  constructor(protected rs: RoutingService) { }
 }

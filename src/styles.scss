@@ -3,13 +3,19 @@
 :root {
 
     /* 
-    COULEURS 
+        COULEURS 
     */
     --naples-yellow: #{$naples-yellow};
     --pistachio: #{$pistachio};
     --emerald: #{$emerald};
     --turquoise: #{$turquoise};
     --viridian: #{$viridian};
+
+    --naples-yellow-dark: #{$naples-yellow-dark};
+    --pistachio-dark: #{$pistachio-dark};
+    --emerald-dark: #{$emerald-dark};
+    --turquoise-dark: #{$turquoise-dark};
+    --viridian-dark: #{$viridian-dark};
 
     --gray: #e0e0e0;
     --darkGray: #757575;
@@ -26,7 +32,7 @@
 }
 
 /*
-    TYPOGRAPHIE
+    TYPOGRAPHIE & BASIQUES
 */
 
 @font-face {
@@ -59,6 +65,10 @@ body {
     cursor: pointer;
 }
 
+/*
+    HABILLAGE
+*/
+
 .card {
     border-radius: 16px;
     background-color: white;
@@ -66,6 +76,17 @@ body {
     appearance: none;
     border: none;
 }
+
+.shadow { box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px; }
+.dropShadow { filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.12)) }
+
+.convertible {
+    filter: invert(81%) sepia(11%) saturate(1159%) hue-rotate(57deg) brightness(94%) contrast(93%);
+}
+
+/*
+    POSITIONNEMMENT (éviter centered, préférer flex)
+*/
 
 .centered {
     position: absolute;
@@ -86,12 +107,21 @@ body {
     transform: translate(0%, -50%);
 }
 
-.separator {
+.separatorX {
     width: 90%;
     height: 1px;
     background-color: var(--gray);
-    overflow-y: auto;
 }
+
+.separatorY {
+    width: 1px;
+    height: 90%;
+    background-color: var(--gray);
+}
+
+/* 
+    SCROLLBAR
+*/
 
 .scrollbar {
     overflow-y: scroll;
@@ -105,9 +135,23 @@ body {
     background-color: var(--gray);
 }
 
-.shadow { box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px; }
-.dropShadow { filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.12)) }
+/* 
+    ANIMATIONS
+*/
 
-.convertible {
-    filter: invert(81%) sepia(11%) saturate(1159%) hue-rotate(57deg) brightness(94%) contrast(93%);
+.pop {
+    animation: pop 0.45s linear 1;
+}
+
+@keyframes pop{
+    50%  {transform: scale(1.1); }
+}
+
+.fadeIn {
+    animation: fadeIn 0.45s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
 }

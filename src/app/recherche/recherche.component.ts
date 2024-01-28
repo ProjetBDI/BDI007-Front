@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { RoutingService } from '../services/routing.service';
-import { ApiService } from '../services/api.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { RoutingService } from '../shared/services/routing.service';
+import { ApiService } from '../shared/services/api.service';
 import { Festival } from '../eltDefinitions';
 import { Observable, Observer, map } from 'rxjs';
 
@@ -13,8 +13,10 @@ export class RechercheComponent {
 
   result: (Festival|undefined)[] = [];
   searched: boolean = false;
+  selected: Festival | undefined;
+  nbPass: number = 0;
 
-  constructor(private rs: RoutingService, private api: ApiService) { }
+  constructor(protected rs: RoutingService, private api: ApiService) { }
 
   constituteResult(id : String): Observable<Festival> {
     this.searched = true;
@@ -27,13 +29,26 @@ export class RechercheComponent {
   }
 
   search() {
+    this.result = [];
+
+    this.rs.inSearch = true;
+
     let festival: Festival | undefined;
     console.log("--------------------------------");
     for(let i = 1; i < 20; i++) {
       this.constituteResult(String(i)).subscribe(festival => {
-        console.log(festival);
         this.result.push(festival);
       });
     }
+  }
+
+  addPass(selected: Festival | undefined) {
+    this.nbPass++;
+    this.selected = this.nbPass === 0 ? undefined : selected;
+  }
+
+  rmPass() {
+    this.nbPass = this.nbPass === 0 ? 0 : (this.nbPass - 1);
+    this.selected = this.nbPass === 0 ? undefined : this.selected;
   }
 }

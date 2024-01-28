@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 })
 export class RoutingService {
 
+  inSearch: boolean = false;
+
   constructor(private router: Router) { }
 
   goToRecherche() {
@@ -13,6 +15,7 @@ export class RoutingService {
   }
 
   goToHome() {
+    this.inSearch = false;
     this.router.navigateByUrl("");
   }
 

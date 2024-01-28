@@ -1,16 +1,28 @@
 <div id="menu" class="shadow ">
-    <img id="logo" class="" src="../../assets/images/FestCarWhiteBG.png" (click)="goHome()"/>
+    <img id="logo" class="" src="../../assets/images/FestCarWhiteBG.png" (click)="this.rs.goToHome();"/>
     <div id="menuIcons">
         <div class="menuIcon icon shadow" title="Connecte toi pour prendre ton pass !">
-            
             <img *ngIf="this.user$ | async as U; else basePP" [src]="U?.photoUrl" id="googlePP" (click)="logout()"/>
             <ng-template #basePP class="superposable superposable_sub">
                 <img src="../../assets/icons/google.png" class="convertible" (click)="login()"/>
             </ng-template>
         </div>
         <div class="menuIcon icon shadow" title="Plus d'options">
-            <img src="../../assets/icons/plusHorizontal.png" class="convertible"/>
+            <img src="../../assets/icons/plusHorizontal.png" class="convertible" (click)="changeMenuState()"/>
         </div>
     </div>
-    
+</div>
+
+<div id="menuContainer" class="fadeIn card shadow" *ngIf="this.inMenu === true">
+    <div *ngFor="let elt of elements, let isLast = last">
+        <div class="element">
+            <div *ngIf="elt === 'Connexion' || elt === 'Déconnexion'; else notLogin">
+                <div class="title" (click)="gestConnexion()">{{elt}}</div>
+            </div>
+            <ng-template #notLogin>
+                <div><div class="title">{{elt}}</div>  <span>SOON</span></div>
+            </ng-template>
+        </div>
+        <div class="separatorX" *ngIf="!isLast"></div>
+    </div>
 </div>

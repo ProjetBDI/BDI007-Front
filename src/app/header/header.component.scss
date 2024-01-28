@@ -49,6 +49,48 @@
     top: 0;
     left: 0;
   }
-  .superposable_sub {
+
+.superposable_sub {
     z-index: 1;
-  }
+}
+
+#menuContainer {
+    width: 12vw;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    top: 110px;
+    right: 2%;
+
+    padding: 1%;
+    box-sizing: border-box;
+}
+
+.element {
+    margin-top: 1%;
+    margin-bottom: 1%;
+
+    div {
+        font-size: 18px;
+
+        span {
+            color: var(--gray);
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+
+        div {
+            color: var(--pistachio);
+        }
+    }
+
+    width: 100%;
+    height: 100%;
+
+    margin-top: 1%;
+    margin-bottom: 0.5%;
+}
