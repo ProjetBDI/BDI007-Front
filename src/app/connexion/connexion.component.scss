@@ -16,23 +16,41 @@ form {
 
 input {
     width: 100%;
+    margin-top: 2%;
+    font-size: 18px !important;
     border: none;
     outline: none;
     background: none;
 }
 
+.inputs {
+    margin-bottom: 16px;
+}
+
 .container {
-    width: 10vw;
+    min-width: 10vw;
     padding: 0 16px 0 16px;
 
     #header {
-        font-size: 24px !important;
+        .title{ font-size: 24px !important; }
         color: var(--darkGray);
         margin-bottom: 16px;
     }
 }
 
-#signId {
+.googleBtns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    u {
+        text-decoration: none;
+    }
+
+}
+
+#signIn {
     width: 100%;
     display: flex;
     flex-direction: row;

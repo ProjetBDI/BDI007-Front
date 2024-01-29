@@ -19,3 +19,10 @@ export interface Festival {
   tarifPass: number,
   status: string
 }
+
+export interface Panier {
+  id: string,
+  date: Date,
+  idProprietaire: string,
+  nomFestivaliers: string
+}
