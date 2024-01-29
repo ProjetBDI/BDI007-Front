@@ -1,13 +1,13 @@
 <div id="componentContainer">
     <div class="s100">
-        <form class="pop" (ngSubmit)="this.search()" *ngIf="this.rs.inSearch === false">
+        <form class="pop" (ngSubmit)="this.search()" *ngIf="this.ds.inSearch === false">
             <input class="shadow" placeholder="Trouve ton festival !"/>
             <button class="research shadow" type="submit" (click)="this.search()">
                 <img src="../../assets/icons/recherche.png" alt="search"/>
             </button>
         </form>
 
-        <div id="searchContainer" class="pop card cTest shadow" *ngIf="this.rs.inSearch === true">
+        <div id="searchContainer" class="pop card cTest shadow" *ngIf="this.ds.inSearch === true">
             <div id="title" class="shadow">Résultat de recherche</div>
             <div class="scrollbar searchResults">
                 <div class="searchContent" *ngFor="let elt of result, let isLast = last" [class.dernier]="isLast">
@@ -40,9 +40,12 @@
                             <div class="selecteur inline"
                             [class.available]="elt?.status === 'OUVERT'"
                             [class.unavailable]="elt?.status !== 'OUVERT'">
-                                <button (click)="rmPass()">&lt;</button>
-                                <div>{{nbPass}}</div>
-                                <button (click)="addPass(elt)">&gt;</button>
+                                <button [disabled]="this.selected !== undefined && elt !== this.selected" (click)="rmPass()">&lt;</button>
+                                <div *ngIf="this.selected === undefined || this.selected !== elt; else nbPassTmp">0</div>
+                                <ng-template #nbPassTmp>
+                                    <div>{{nbPass}}</div>
+                                </ng-template>
+                                <button [disabled]="this.selected !== undefined && elt !== this.selected" (click)="addPass(elt)">&gt;</button>
                             </div>
                         </div>
                     </div>

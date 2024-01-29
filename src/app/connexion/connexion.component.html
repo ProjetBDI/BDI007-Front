@@ -1,0 +1,70 @@
+<!-- Page de connexion avec register si pas de compte -->
+<div class="container card shadow centered">
+    <section *ngIf="bsNotAccount.asObservable() | async ; else notAccount">  
+        <div id="header">
+            <div class="title">
+                <span>Connexion</span>
+            </div>
+        </div>
+
+        <div>
+            <form [formGroup]="fgLogin">
+
+                <div id="email">
+                    <input matInput type="email" placeholder="email address" [formControl]="fgLogin.controls.email">
+                </div>
+                <div class="separatorX"></div>
+
+                <div id="password">
+                    <input matInput type="password" placeholder="password" [formControl]="fgLogin.controls.password">
+                </div>
+                <div class="separatorX"></div>
+
+                <div id="create-account"><u><span (click)="this.bsNotAccount.next(false)">Create Account ?</span></u></div>
+
+                <div id="signIn">
+                    <button type="button" mat-raised-button color="primary" (click)="login()">
+                        Sign in
+                    </button>
+
+                    <button type="button" mat-raised-button (click)="loginGoogle()"><img class="icon" src="https://fulltimeblog.com/wp-content/uploads/2019/05/1024px-Google__G__Logo-1-1000x1000.png" height ="25" width="25" /><span></span></button>
+                </div>
+
+            </form>
+        </div>
+    </section>
+    
+    
+    <ng-template #notAccount>    
+        <div id="header">
+            <div id="title">
+                <span>Sign Up</span>
+            </div>
+        </div>
+
+        <div id="separatorX">
+            <form [formGroup]="fgRegister">
+                <div id="field">
+                    <input matInput type="email" placeholder="email address" [formControl]="fgRegister.controls.email">
+                </div>
+
+                <div id="field">
+                    <input matInput type="password" placeholder="password" [formControl] = "fgRegister.controls.password">
+                </div>
+
+                <div id="field">
+                    <input matInput type="password" placeholder="confirm password" [formControl]="fgRegister.controls.passwordCheck">
+                </div>
+
+                <div id="footer" (click)="backToConnexion()"><u><span>Retour</span></u></div>
+
+                <div id="actions">
+                    <button mat-raised-button color="primary" (click)="register()">
+                        Sign up
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </ng-template>
+</div>

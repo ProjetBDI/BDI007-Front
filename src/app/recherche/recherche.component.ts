@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { RoutingService } from '../shared/services/routing.service';
 import { ApiService } from '../shared/services/api.service';
-import { Festival } from '../eltDefinitions';
+import { Festival } from '../shared/services/eltDefinitions';
 import { Observable, Observer, map } from 'rxjs';
+import { Router } from '@angular/router';
+import { DataService } from '../shared/services/data.service';
 
 @Component({
   selector: 'app-recherche',
@@ -12,15 +13,16 @@ import { Observable, Observer, map } from 'rxjs';
 export class RechercheComponent {
 
   result: (Festival|undefined)[] = [];
-  searched: boolean = false;
   selected: Festival | undefined;
   nbPass: number = 0;
 
-  constructor(protected rs: RoutingService, private api: ApiService) { }
+  constructor(protected rs: Router, private api: ApiService, protected ds: DataService) { 
+    this.ds.inSearch = false;
+  }
 
-  constituteResult(id : String): Observable<Festival> {
-    this.searched = true;
-
+  constituteResult(id : string): Observable<Festival> {
+    
+    this.selected = undefined;
     
     return this.api.getFestivalByID(id).pipe(map((data: Partial<Observer<Festival>>) => {
       let festival: Festival = data as Festival;
@@ -31,7 +33,7 @@ export class RechercheComponent {
   search() {
     this.result = [];
 
-    this.rs.inSearch = true;
+    this.ds.inSearch = true;
 
     let festival: Festival | undefined;
     console.log("--------------------------------");

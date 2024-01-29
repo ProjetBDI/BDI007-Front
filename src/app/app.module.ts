@@ -16,6 +16,7 @@ import { environment } from '../environments/environment';
 import { PanierComponent } from './panier/panier.component';
 import { HistoriqueComponent } from './historique/historique.component';
 import { HomeComponent } from './home/home.component';
+import { ConnexionComponent } from './connexion/connexion.component';
 
 // state related imports
 // import { StoreModule } from '@ngrx/store';
@@ -31,7 +32,8 @@ import { HomeComponent } from './home/home.component';
     RechercheComponent,
     PanierComponent,
     HistoriqueComponent,
-    HomeComponent
+    HomeComponent,
+    ConnexionComponent
   ],
   imports: [
     BrowserModule,

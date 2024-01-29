@@ -1,17 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Auth, authState, GoogleAuthProvider, signInWithPopup, signOut, User } from '@angular/fire/auth';
+import { Auth, authState, GoogleAuthProvider, signInWithPopup, signOut, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, user } from '@angular/fire/auth';
 import {  doc, docData, Firestore, FirestoreDataConverter, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, tap } from 'rxjs';
-import { FestiUser } from '../../eltDefinitions';
-
-const conv : FirestoreDataConverter<FestiUser> = {
-  toFirestore : val => val,
-  fromFirestore : snap => ({
-    name : snap.get("name"),
-    email : snap.get("email"),
-    photoUrl : snap.get("photoUrl")
-  })
-}
+import { FestiUser } from './eltDefinitions';
+import { convUserCredentialToFestiUser, convUserToFestiUser } from './eltConverters';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -26,14 +19,14 @@ export class UserService {
       filter( u => !!u ),
       map( u => u as User ),
       tap( async u => {
-        const docUser =  doc(this.fs, `users/${u.uid}`).withConverter(conv) ;
+        const docUser =  doc(this.fs, `users/${u.uid}`).withConverter(convUserToFestiUser) ;
         const snapUser = await getDoc( docUser );
         if (!snapUser.exists()) {
           setDoc(docUser, {
             name: u.displayName ?? "",
             email: u.email ?? "",
-            photoUrl: u.photoURL ?? ""
-
+            photoUrl: u.photoURL ?? "",
+            dateNaissance: "",
           } satisfies FestiUser)
         }
       })
@@ -43,7 +36,7 @@ export class UserService {
     this.obsFestiUsers$ = authState(this.auth).pipe(
       switchMap( (user) => {
         if(user){
-          const userRef = doc(this.fs , `users/${user.uid}`).withConverter(conv)
+          const userRef = doc(this.fs , `users/${user.uid}`).withConverter(convUserToFestiUser)
           const userData$ = docData(userRef)
           return userData$
         } else{
@@ -51,7 +44,7 @@ export class UserService {
         }
       })
     )
-   }
+  }
 
   //Fonction pour se connecter à firebase
   async login() {
@@ -64,12 +57,41 @@ export class UserService {
 
     try{
       await signInWithPopup(this.auth, googleProvider); // on ouvre une popup pour se connecter
+      console.log("Login success ! : " + this.auth.name); // si réussi, on affiche un message de réussite
     } catch(e){
       console.log("Login error (Google): " + e); // si erreur, on affiche l'erreur de login
     }
 
     this.bsAuth.next(false); // on passe l'état de la connection à false
   }
+
+  // fonction se connecter avec adresse mail
+  async loginMail(email: string, password: string) {
+    this.bsAuth.next(true); // on passe l'état de la connection à false
+
+    try{
+      await signInWithEmailAndPassword(this.auth, email, password); // on ouvre une popup pour se connecter
+    } catch(e){
+      console.log("Login error (Mail): " + e); // si erreur, on affiche l'erreur de login
+    }
+
+    this.bsAuth.next(false); // on passe l'état de la connection à false
+  }
+
+  async registerMail(email: string, password: string): Promise<FestiUser | void> {
+    try {
+      let uc = await createUserWithEmailAndPassword(this.auth, email, password);
+      await this.loginMail(email, password);
+      console.log("Register success !", user.name);
+      this.bsAuth.next(true);
+      return convUserCredentialToFestiUser(uc);
+
+    } catch (exception) {
+      console.log("Register failed ! ", exception);
+      this.bsAuth.next(false);
+    }
+
+  };
 
   //fonction pour se deconnecter de firebase
   async logout() {
@@ -79,28 +101,5 @@ export class UserService {
     } catch(e){
       console.log("Logout failed (Google): " + e); // si erreur, on affiche l'erreur de logout
     }
-  }
-
-  //Retourne un User (firebase) si l'utilisateur est connecté, erreur sinon
-  async getUser(): Promise<User | null> {
-    return new Promise<User | null>((resolve, reject) => {
-      authState(this.auth).subscribe(u => {
-        if (u != null) {
-
-          resolve(u);
-        }
-      }, error => {
-        reject(error);
-      });
-    });
-  }
-
-  //Retourne un MiahootUser (firebase) si l'utilisateur est connecté, erreur sinon
-  async  getIdUserFB(): Promise<string> {
-    const user = await this.getUser();
-    if (user) {
-      return user.uid;
-    }
-    return "nullUserId";
   }
 }

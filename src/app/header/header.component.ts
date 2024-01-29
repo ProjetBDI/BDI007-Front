@@ -1,22 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { FestiUser } from '../eltDefinitions';
-import { Auth } from '@angular/fire/auth';
+import { FestiUser } from '../shared/services/eltDefinitions';
 import { UserService } from '../shared/services/user.service';
-import { RoutingService } from '../shared/services/routing.service';
+import { Router } from '@angular/router';
+import { DataService } from '../shared/services/data.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
-  public user$: Observable<FestiUser | undefined> | undefined; // utilisateur connecté
-  inMenu: boolean = false;
-  elements: string[] = ["Panier", "Historique", "Covoiturage", "Gestion", "Connexion"];
+  bsMenu = new BehaviorSubject<string>("")
 
-  constructor(protected us : UserService, protected rs: RoutingService) {
+  @HostListener('document:click', ['$event'])
+  clickout(event: MouseEvent) {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      this.bsMenu.next("");
+    }
+  }
+
+  constructor(protected us : UserService, protected rs: Router, private ds: DataService, private eRef: ElementRef) {
     const partie = document.getElementById("app-partie");
     if (partie) {
       partie.addEventListener("unload", () => {
@@ -25,39 +30,19 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.user$ = this.us.obsFestiUsers$;
-    this.user$.subscribe(
-      data => {
-        if (data) {
-          this.elements[4] = "Déconnexion";
-        } else {
-          this.elements[4] = "Connexion";
-        }
-      },
-      error => console.error(error),
-      () => console.log('Observable complet')
-    );
-  }
-
   async login() {
-    this.us.login();
+    this.bsMenu.next("");
+    this.rs.navigateByUrl('connexion')
   }
 
   async logout() {
+    this.bsMenu.next("");
     this.us.logout();
+    this.rs.navigateByUrl("");
   }
 
-  async gestConnexion() {
-    if (this.elements[4] === "Déconnexion")  {
-      this.logout();
-    } else {
-      this.login();
-    }
-  }
-
-  changeMenuState() {
-    this.inMenu = !this.inMenu;
+  goBack() {
+    this.rs.navigateByUrl("");
   }
 
 }

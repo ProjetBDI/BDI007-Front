@@ -116,6 +116,7 @@ button.research {
   box-sizing: border-box;
   margin: 0;
   flex: 1;
+  font-weight: 600;
 }
 
 .selecteur {
@@ -208,4 +209,8 @@ button.research {
 
 .separatorX {
   width: 100%;
+}
+
+body html {
+  background-color: transparent !important;
 }

@@ -1,7 +1,8 @@
 export interface FestiUser{
   name: string
   email: string
-  readonly photoUrl : string
+  readonly photoUrl : string,
+  dateNaissance?: String,
 }
 
 export interface Festival {

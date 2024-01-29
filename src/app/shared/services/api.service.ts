@@ -7,29 +7,42 @@ import { UserService } from './user.service';
 })
 export class ApiService {
 
-  private apiCustom = "/api/v1"
+  private apiPath = "/api/v1"
 
   constructor(private http: HttpClient, private us: UserService) { }
+
 
   /* FESTIVALS */
 
   getFestivals(){
-    return this.http.get(`/festivals`);
+    return this.http.get(this.apiPath + `/festival`);
   }
 
-  getFestivalByID(id: String){
-    return this.http.get(`/festivals/ + ${id}`);
+  getFestivalByID(id: string){
+    return this.http.get(this.apiPath + `/festival/ + ${id}`);
   }
 
 
   /* COVOITURAGES */
 
   getCovoiturages(){
-    return this.http.get(`/covoiturages`);
+    return this.http.get(this.apiPath + `/covoiturage`);
   }
 
   getCovoituragebyID(id: number){
-    return this.http.get(`/covoiturages/ + ${id}`);
+    return this.http.get(this.apiPath + `/covoiturage/ + ${id}`);
+  }
+
+  // Panier
+
+  getPanierForUser(){
+    // return this.http.get(this.apiPath + `/panier/${this.user}`);
+  }
+
+  // Utilisateurs
+
+  postUser(){
+    // return this.http.post(this.apiPath + `/user`, this.user);
   }
 
 

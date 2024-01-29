@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DataService } from '../shared/services/data.service';
 
 @Component({
   selector: 'app-home',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  constructor(protected ds: DataService) {}
 }

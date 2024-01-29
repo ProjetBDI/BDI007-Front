@@ -1,28 +1,51 @@
-<div id="menu" class="shadow ">
-    <img id="logo" class="" src="../../assets/images/FestCarWhiteBG.png" (click)="this.rs.goToHome();"/>
+<div id="menu" class="shadow">
+    <img id="logo" class="" src="../../assets/images/FestCarWhiteBG.png" (click)="this.rs.navigateByUrl('');"/>
     <div id="menuIcons">
         <div class="menuIcon icon shadow" title="Connecte toi pour prendre ton pass !">
-            <img *ngIf="this.user$ | async as U; else basePP" [src]="U?.photoUrl" id="googlePP" (click)="logout()"/>
+            <img *ngIf="this.us.obsFestiUsers$ | async as U; else basePP" [src]="U?.photoUrl" id="googlePP" (click)="this.bsMenu.value !== 'Profil' ? this.bsMenu.next('Profil') : this.bsMenu.next('')"/>
             <ng-template #basePP class="superposable superposable_sub">
-                <img src="../../assets/icons/google.png" class="convertible" (click)="login()"/>
+                <img src="../../assets/icons/google.png" class="convertible" (click)="this.bsMenu.value !== 'Profil' ? this.bsMenu.next('Profil') : this.bsMenu.next('')"/>
             </ng-template>
         </div>
         <div class="menuIcon icon shadow" title="Plus d'options">
-            <img src="../../assets/icons/plusHorizontal.png" class="convertible" (click)="changeMenuState()"/>
+            <img src="../../assets/icons/plusHorizontal.png" class="convertible" (click)="this.bsMenu.value !== 'Menu' ? this.bsMenu.next('Menu') : this.bsMenu.next('')"/>
         </div>
     </div>
 </div>
 
-<div id="menuContainer" class="fadeIn card shadow" *ngIf="this.inMenu === true">
-    <div *ngFor="let elt of elements, let isLast = last">
-        <div class="element">
-            <div *ngIf="elt === 'Connexion' || elt === 'Déconnexion'; else notLogin">
-                <div class="title" (click)="gestConnexion()">{{elt}}</div>
-            </div>
-            <ng-template #notLogin>
-                <div><div class="title">{{elt}}</div>  <span>SOON</span></div>
-            </ng-template>
-        </div>
-        <div class="separatorX" *ngIf="!isLast"></div>
+<div id="menuContainer" class="fadeIn card shadow" *ngIf="this.bsMenu.value === 'Menu'">
+
+    <div class="element">
+        <div class="title" (click)="this.rs.navigateByUrl('panier')">Panier</div> <span>In progress...</span>
     </div>
+    <div class="separatorX"></div>
+    <div class="element">
+        <div class="title" (click)="this.rs.navigateByUrl('Historique')">Historique</div> <span>SOON</span>
+    </div>
+    <div class="separatorX"></div>
+    <div class="element">
+        <div class="title" (click)="this.rs.navigateByUrl('Covoiturage')">Covoiturage</div> <span>SOON</span>
+    </div>
+    <div class="separatorX"></div>
+    <div class="element">
+        <div class="title" (click)="this.rs.navigateByUrl('Gestion')">Gestion</div> <span>SOON</span>
+    </div>
+</div>
+
+
+<div id="menuContainer" class="fadeIn card shadow" *ngIf="this.bsMenu.value === 'Profil'">
+
+    <div class="element">
+        <div class="title">Mon Profil</div> <span>SOON</span>
+    </div>
+    <div class="separatorX"></div>
+    <div class="element">  
+        <div *ngIf="this.us.obsFestiUsers$ | async; else unLogged">
+            <div class="title" (click)="logout()">Déconnexion</div>
+        </div>
+        <ng-template #unLogged>
+            <div class="title" (click)="login()">Connexion</div> 
+        </ng-template>
+    </div>
+    
 </div>
