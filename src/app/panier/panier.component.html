@@ -1,14 +1,45 @@
-<p>panier works!</p>
+<div class="container">
+    <div class="card centered shadow">
+        <div *ngIf="this.obsPanier$ | async as panier ; else vide">
+            <div class="title centered_X">
+                Mon Panier
+            </div>
+            <table class="table">
+                <tr>
+                    <th>Date</th>
+                    <th>Proprietaire</th>
+                    <th>noms des festivaliers</th>
+                </tr>
+                <tr>
+                    <td>{{panier.date | date:'yyyy-MM-dd'}}</td>
+                    <td>Yves Ledru</td>
+                    <td>
+                        <ul>
+                            <li *ngFor="let festivalier of panier.nomFestivaliers">{{festivalier}}</li>
+                        </ul>
+                    </td>
+                </tr>
+                <footer class="title centered_X">
+                    <span>Prix total : 100.98 €</span>
+                    <button type="button" (click)="this.bsPaiement.next(true)">Payer</button>
+                </footer>
+            </table>
 
-<div class="card">
-    <div class="title">
-        Panier
-    </div>
-    <table>
-        <div>
-            <tr>
-                ok
-            </tr>
         </div>
-    </table>
+
+        <ng-template #vide>
+            <div class="title">
+                Panier vide
+            </div>
+        </ng-template>
+
+    </div>
+
+    <div class="card centered shadow popup" *ngIf="this.bsPaiement.value">
+        Souhaitez-vous effectuer le paiement de 100 dollars ?
+        <button type="button" (click)="this.bsPaiement.next(false)">oui</button>
+        <button type="button" (click)="this.bsPaiement.next(false)">non</button>
+    </div>
 </div>
+
+

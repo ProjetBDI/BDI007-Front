@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../shared/services/api.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Panier } from '../shared/services/eltDefinitions';
 import { UserService } from '../shared/services/user.service';
 
@@ -11,7 +11,9 @@ import { UserService } from '../shared/services/user.service';
 })
 export class PanierComponent implements OnInit{
 
-  private obsPanier$ : Observable<Panier | undefined>
+  protected obsPanier$ : Observable<Panier | undefined>
+
+  protected bsPaiement = new BehaviorSubject<boolean>(false);
 
   constructor(private api: ApiService, private us: UserService) { 
     // this.obsPanier$ = this.api.getPanier();
@@ -19,7 +21,7 @@ export class PanierComponent implements OnInit{
       id: "1",
       date: new Date(),
       idProprietaire: "1",
-      nomFestivaliers: "test"
+      nomFestivaliers: ["Arthur","Alex", "Kyks", "Vincent"]
     }
     this.obsPanier$ = new Observable<Panier | undefined>(subscriber => {
       subscriber.next(panier);
