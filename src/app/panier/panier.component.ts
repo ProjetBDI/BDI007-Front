@@ -16,12 +16,13 @@ export class PanierComponent implements OnInit{
   protected bsPaiement = new BehaviorSubject<boolean>(false);
 
   constructor(private api: ApiService, private us: UserService) { 
-    // this.obsPanier$ = this.api.getPanier();
+    // this.obsPanier$ = this.api.getCurrentPanierByUser();
     let panier : Panier = {
       id: "1",
       date: new Date(),
-      idProprietaire: "1",
-      nomFestivaliers: ["Arthur","Alex", "Kyks", "Vincent"]
+      proprietaire: undefined,
+      nomFestivaliers: ["Arthur","Alex", "Kyks", "Vincent"],
+      nbPlaceOccuppee: 4,
     }
     this.obsPanier$ = new Observable<Panier | undefined>(subscriber => {
       subscriber.next(panier);
