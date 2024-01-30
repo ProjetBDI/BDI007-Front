@@ -1,14 +1,19 @@
 <div id="menu" class="shadow">
-    <img id="logo" class="" src="../../assets/images/FestCarWhiteBG.png" (click)="this.goBack();"/>
-    <div id="menuIcons">
+    <div id="menuIconsL">
+        <div class="menuIcon icon shadow" title="Retour à l'accueil">
+            <img class="convertible" src="../../assets/icons/accueil.png" alt="Home" (click)="this.goBack()"/>
+        </div>
+    </div>
+    <img id="logo" class="" src="../../assets/images/FestCarWhiteBG.png" alt="LogoMain" (click)="this.goBack()"/>
+    <div id="menuIconsR">
         <div class="menuIcon icon shadow" title="Connecte toi pour prendre ton pass !">
-            <img *ngIf="this.us.obsFestiUsers$ | async as U; else basePP" [src]="U?.photoUrl" id="googlePP" (click)="this.bsMenu.value !== 'Profil' ? this.bsMenu.next('Profil') : this.bsMenu.next('')"/>
+            <img *ngIf="this.us.obsFestiUsers$ | async as U; else basePP" [src]="U?.photoUrl" id="googlePP" alt="MenuConnexion" (click)="this.bsMenu.value !== 'Profil' ? this.bsMenu.next('Profil') : this.bsMenu.next('')"/>
             <ng-template #basePP class="superposable superposable_sub">
-                <img class="convertible button" src="../../assets/icons/utilisateur.png" (click)="this.bsMenu.value !== 'Profil' ? this.bsMenu.next('Profil') : this.bsMenu.next('')"/>
+                <img class="convertible button" src="../../assets/icons/utilisateur.png" alt="Connexion" (click)="this.bsMenu.value !== 'Profil' ? this.bsMenu.next('Profil') : this.bsMenu.next('')"/>
             </ng-template>
         </div>
         <div class="menuIcon icon shadow" title="Plus d'options">
-            <img class="convertible" src="../../assets/icons/plusHorizontal.png" (click)="this.bsMenu.value !== 'Menu' ? this.bsMenu.next('Menu') : this.bsMenu.next('')"/>
+            <img class="convertible" src="../../assets/icons/plusHorizontal.png" alt="Options" (click)="this.bsMenu.value !== 'Menu' ? this.bsMenu.next('Menu') : this.bsMenu.next('')"/>
         </div>
     </div>
 </div>

@@ -110,11 +110,15 @@ button.research {
   img{
     width: 24px;
   }
+
+  .convertible { 
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(4deg) brightness(111%) contrast(101%);
+  }
 }
 
 .element {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(5, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
@@ -132,12 +136,6 @@ button.research {
   .elt8 { grid-area: 3 / 2 / 4 / 3; }
   .elt9 { grid-area: 4 / 2 / 5 / 3; }
   .elt10 { grid-area: 5 / 2 / 6 / 3; }
-  .elt11 { grid-area: 1 / 3 / 2 / 4; }
-  .elt12 { grid-area: 2 / 3 / 3 / 4; }
-  .elt13 { grid-area: 2 / 3 / 3 / 4; }
-  .elt14 { grid-area: 3 / 3 / 4 / 4; }
-  .elt15 { grid-area: 4 / 3 / 5 / 4; }
-  .elt16 { grid-area: 5 / 3 / 6 / 4; }
 }
 
 .status, .selecteur {

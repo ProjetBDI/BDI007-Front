@@ -16,14 +16,14 @@ export interface Festival {
   lieuPrincipal: string,
   dateDebut: Date,
   dateFin: Date,
-  domaine: string,
-  sousDomaine: string,
   siteWeb: string,
   nbPassDispo: number,
   nbPassIndispo: number,
   nbPassTotal: number,
   tarifPass: number,
-  status: string
+  status: string,
+  idCommune: Commune,
+  idDomaine: Domaine
 }
 
 export interface Panier {
@@ -81,4 +81,10 @@ export interface Departement {
   code: string,
   nom: string,
   region: string
+}
+
+export interface Domaine {
+  idDomaine: number,
+  nomDomaine: string,
+  sousDomaine: string
 }
