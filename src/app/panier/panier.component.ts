@@ -20,7 +20,7 @@ export class PanierComponent implements OnInit{
     let panier : Panier = {
       id: "1",
       date: new Date(),
-      idProprietaire: "1",
+      proprietaire: undefined,
       nomFestivaliers: ["Arthur","Alex", "Kyks", "Vincent"],
       nbPlaceOccuppee: 4,
     }

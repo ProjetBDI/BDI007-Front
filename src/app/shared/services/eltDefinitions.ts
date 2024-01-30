@@ -23,7 +23,7 @@ export interface Festival {
 export interface Panier {
   id: string,
   date: Date,
-  idProprietaire: string,
+  proprietaire: FestiUser | undefined,
   nomFestivaliers: string[] // ex: "Arthur - Alex - Kyks - Vincent" à split pour faire une liste
   nbPlaceOccuppee: number,
 }
