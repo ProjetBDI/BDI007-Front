@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
-import { Covoiturage, FestiUser, Panier, PanierState } from './eltDefinitions';
-import { Observable, filter, map, of, startWith, switchMap } from 'rxjs';
+import { Covoiturage, Etape, FestiUser, Panier, PanierState } from './eltDefinitions';
+import { Observable, filter, forkJoin, map, of, startWith, switchMap } from 'rxjs';
 import { User } from '@angular/fire/auth';
 
 @Injectable({
