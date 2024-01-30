@@ -47,11 +47,17 @@ export class ApiService {
   }
 
   getFestivalsWithPage(page: number){
-    return this.http.get(this.apiPath + `/festivals/ + ${page}`);
+    return this.http.get(this.apiPath + `/festivals/${page}`);
+  }
+
+  getFestivalsWithPageAndName(page: number, name: string){
+    let regex = /^ *$/;
+    if(regex.test(name)){ name = "%20"; }
+    return this.http.get(this.apiPath + `/festivals/page/1/name/${name}`);
   }
 
   getFestivalByID(id: number){
-    return this.http.get(this.apiPath + `/festival/ + ${id}`);
+    return this.http.get(this.apiPath + `/festival/${id}`);
   }
 
 
@@ -62,17 +68,17 @@ export class ApiService {
   }
 
   getCovoituragesWithPage(page: number){
-    return this.http.get(this.apiPath + `/covoiturages/ + ${page}`);
+    return this.http.get(this.apiPath + `/covoiturages/${page}`);
   }
 
   getCovoituragebyID(id: number){
-    return this.http.get(this.apiPath + `/covoiturage/ + ${id}`);
+    return this.http.get(this.apiPath + `/covoiturage/${id}`);
   }
 
   /* PANIERS */
 
   getCurrentPanierByUtilisateur(id: number){
-    return this.http.get(this.apiPath + `/panier/utilisateur/current/ + `)
+    return this.http.get(this.apiPath + `/panier/utilisateur/current/${id}`)
   }
 
   postPanier(panier: Panier){
@@ -91,17 +97,17 @@ export class ApiService {
   /* ETAPES */
 
   getEtapeByID(id: number){
-    return this.http.get(this.apiPath + `/etape/ + ${id}`);
+    return this.http.get(this.apiPath + `/etape/${id}`);
   }
 
   /* UTILISATEURS */
 
   getUtilisateurByID(id: number){
-    return this.http.get(this.apiPath + `/utilisateur/ + ${id}`);
+    return this.http.get(this.apiPath + `/utilisateur/${id}`);
   }
 
   getUtilisateurByEmail(email: string){
-    return this.http.get(this.apiPath + `/utilisateur/email/ + ${email}`);
+    return this.http.get(this.apiPath + `/utilisateur/email/${email}`);
   }
 
 
