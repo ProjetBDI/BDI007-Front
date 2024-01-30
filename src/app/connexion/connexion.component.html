@@ -24,13 +24,13 @@
                 </div>
 
                 <div class="signIn">
-                    <div id="create-account" class="shadow"><u><span (click)="this.bsNotAccount.next(false)">Créer un compte</span></u></div>
-                    <button type="button" class="shadow" (click)="login()">
+                    <div id="create-account" class="CTA2 shadow"><u><span (click)="this.bsNotAccount.next(false)">Créer un compte</span></u></div>
+                    <button type="button" class="CTA2 shadow" (click)="login()">
                         Se connecter
                     </button>
                 </div>
                 
-                <div class="google shadow" (click)="loginGoogle()">
+                <div class="google CTA1 shadow" (click)="loginGoogle()">
                     <div>Connexion avec </div>
                     <button type="button">
                         <img class="convertible" src="../../assets/icons/google.png" height ="25" width="25" alt="ConnexionGoogle"/>
@@ -48,7 +48,7 @@
                     Inscription
                 </div>
             </div>
-    
+            
             <div class="inputs">
                 <form [formGroup]="fgRegister">
                     <div id="email">
@@ -63,14 +63,13 @@
                         <input type="password" placeholder="Confirmation mot de passe" [formControl]="fgRegister.controls.passwordCheck">
                     </div>
                     <div class="separatorX"></div>
-    
+                    
                     <div class="actions">
-                        <div id="goBack" class="shadow" (click)="backToConnexion()"><u><span>Retour</span></u></div>
-                        <button class="shadow" (click)="register()">
+                        <div id="goBack" class="CTA2 shadow" (click)="backToConnexion()"><u><span>Retour</span></u></div>
+                        <button id="inscription" class="CTA1 shadow" (click)="register()">
                             S'inscrire
                         </button>
                     </div>
-    
                 </form>
             </div>
         </div>

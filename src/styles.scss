@@ -46,6 +46,10 @@
     font-size: 14px;
 }
 
+html {
+    width: 100vw;
+}
+
 body {
     margin: 0;
     width: 100vw;
@@ -158,6 +162,28 @@ body {
 
 .fadeIn {
     animation: fadeIn 0.45s ease-in-out;
+}
+
+.CTA1 {
+    padding: 4% 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: var(--pistachio);
+    cursor: pointer;
+}
+
+.CTA2 {
+    padding: 4% 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    background-color: white;
+    cursor: pointer;
 }
 
 @keyframes fadeIn {
