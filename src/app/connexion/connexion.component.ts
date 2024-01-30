@@ -20,6 +20,9 @@ export class ConnexionComponent {
   })
 
   public fgRegister = new FormGroup({
+    nom: new FormControl("", [Validators.required, Validators.minLength(2)]),
+    prenom: new FormControl("", [Validators.required, Validators.minLength(2)]),
+    dateNaissance: new FormControl(new Date(), [Validators.required]),
     email: new FormControl("", [Validators.required, Validators.email]),
     password: new FormControl("", [Validators.required, Validators.minLength(6)]),
     passwordCheck: new FormControl("", [Validators.required, Validators.minLength(6)])
@@ -54,7 +57,7 @@ export class ConnexionComponent {
   }
 
   async register() {
-    await this.us.registerMail(<string>this.fgRegister.controls.email.value, <string>this.fgRegister.controls.password.value)
+    await this.us.registerMail(<string>this.fgRegister.controls.nom.value, <string>this.fgRegister.controls.prenom.value, <Date>this.fgRegister.controls.dateNaissance.value, <string>this.fgRegister.controls.email.value, <string>this.fgRegister.controls.password.value)
     if (this.us.bsAuth.value) {
       this.router.navigateByUrl("")
     } else {

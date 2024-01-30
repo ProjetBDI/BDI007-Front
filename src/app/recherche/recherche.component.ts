@@ -46,7 +46,6 @@ export class RechercheComponent {
         this.result.push(festival);
       });
     });
-
   }
 
   addPass(selected: Festival | undefined) {

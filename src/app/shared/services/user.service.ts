@@ -23,10 +23,11 @@ export class UserService {
         const snapUser = await getDoc( docUser );
         if (!snapUser.exists()) {
           setDoc(docUser, {
-            name: u.displayName ?? "",
+            nom: u.displayName?.split(" ")[1] ?? "",
+            prenom: u.displayName?.split(" ")[0] ?? "",
             email: u.email ?? "",
             photoUrl: u.photoURL ?? "",
-            dateNaissance: "",
+            dateNaissance: new Date(2000, 1, 1),
           } satisfies FestiUser)
         }
       })
@@ -57,7 +58,7 @@ export class UserService {
 
     try{
       await signInWithPopup(this.auth, googleProvider); // on ouvre une popup pour se connecter
-      console.log("Login success ! : " + this.auth.name); // si réussi, on affiche un message de réussite
+      console.log("Login success ! : "); // si réussi, on affiche un message de réussite
     } catch(e){
       console.log("Login error (Google): " + e); // si erreur, on affiche l'erreur de login
     }
@@ -78,10 +79,19 @@ export class UserService {
     this.bsAuth.next(false); // on passe l'état de la connection à false
   }
 
-  async registerMail(email: string, password: string): Promise<FestiUser | void> {
+  async registerMail(nom: string, prenom: string, dateNaissance: Date, email:string, password: string): Promise<FestiUser | void> {
     try {
       let uc = await createUserWithEmailAndPassword(this.auth, email, password);
       await this.loginMail(email, password);
+      const userRef = doc(this.fs, `users/${uc.user?.uid}`).withConverter(convUserToFestiUser);
+      await setDoc(userRef, {
+        nom: nom,
+        prenom: prenom,
+        dateNaissance: dateNaissance,
+        email: email,
+        photoUrl: "",
+      } as FestiUser);
+      
       console.log("Register success !", user.name);
       this.bsAuth.next(true);
       return convUserCredentialToFestiUser(uc);

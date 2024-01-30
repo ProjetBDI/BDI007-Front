@@ -12,7 +12,7 @@
                 <img class="convertible button" src="../../assets/icons/utilisateur.png" alt="Connexion" (click)="this.bsMenu.value !== 'Profil' ? this.bsMenu.next('Profil') : this.bsMenu.next('')"/>
             </ng-template>
         </div>
-        <div *ngIf="this.us.bsAuth | async" class="menuIcon icon shadow" title="Plus d'options">
+        <div *ngIf="this.us.obsFestiUsers$ | async" class="menuIcon icon shadow" title="Plus d'options">
             <img class="convertible" src="../../assets/icons/plusHorizontal.png" alt="Options" (click)="this.bsMenu.value !== 'Menu' ? this.bsMenu.next('Menu') : this.bsMenu.next('')"/>
         </div>
     </div>

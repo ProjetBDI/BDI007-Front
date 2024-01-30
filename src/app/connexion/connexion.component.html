@@ -51,6 +51,17 @@
             
             <div class="inputs">
                 <form [formGroup]="fgRegister">
+                    <div id="name">
+                        <input type="text" placeholder="Nom" [formControl]="fgRegister.controls.nom">
+                    </div>
+                    <div class="separatorX"></div>
+                    <div id="firstname">
+                        <input type="text" placeholder="Prénom" [formControl]="fgRegister.controls.prenom">
+                    </div>
+                    <div class="separatorX"></div>
+                    <div id="date">
+                        <input type="date" placeholder="Date de naissance" [formControl]="fgRegister.controls.dateNaissance">
+                    </div>
                     <div id="email">
                         <input type="email" placeholder="Email" [formControl]="fgRegister.controls.email">
                     </div>

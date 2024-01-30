@@ -1,8 +1,9 @@
 export interface FestiUser{
-  name: string
+  nom: string,
+  prenom: string,
   email: string
   readonly photoUrl : string,
-  dateNaissance?: String,
+  dateNaissance?: Date,
 }
 
 export interface PanierState {

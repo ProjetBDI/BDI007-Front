@@ -82,7 +82,7 @@ export class ApiService {
   }
 
   postPanier(panier: Panier){
-    //TODO
+    return this.http.post(this.apiPath + `/panier`, panier);
   }
 
   parsePanier(panier: Panier){
