@@ -3,17 +3,29 @@
 <div class="container">
     <div class="card centered shadow">
         <div class="panier" *ngIf="this.obsPanier$ | async as panier ; else vide">
-            <div class="title centered_X">
+            <div class="title">
                 Mon Panier
             </div>
+            
+            <div class="separatorX"></div>
+                <header>
+                    Mon covoit pour le festival machin
+                </header>
+                <div class="separatorX"></div>
+
             <table class="table">
+                
                 <tr>
                     <th>Date</th>
-                    <th>Proprietaire</th>
+                    <th>Heure</th>
+                    <th>Lieu RDV</th>
+                    <th>Conducteur</th>
                     <th>Noms des festivaliers</th>
                 </tr>
-                <tr>
+                <tr>                    
                     <td>{{panier.date | date:'yyyy-MM-dd'}}</td>
+                    <td>{{panier.date | date:'HH:MM'}}</td>
+                    <td>109 Batiment F UFR im2ag</td>
                     <td>Yves Ledru</td>
                     <td>
                         <ul>
@@ -22,6 +34,16 @@
                     </td>
                 </tr>
                 </table>
+                <ul class="mobile">
+                    <li>Date : {{panier.date | date:'yyyy-MM-dd'}}</li>
+                    <li>Heure : {{panier.date | date:'HH:MM'}}</li>
+                    <li>Lieu : 109 Batiment F UFR im2ag</li>
+                    <li>Conducteur : Yves Ledru</li>
+                    <li>Noms des festivaliers : 
+                        <ul>
+                            <li *ngFor="let festivalier of panier.nomFestivaliers">{{festivalier}}</li>
+                        </ul>
+                </ul>
                     <div class="moreInfos" colspan="3">
                         <div class="wrap-collabsible">
                             <input id="collapsible" class="toggle" type="checkbox">
@@ -41,7 +63,6 @@
                         <span class="title">Prix total : 100.98 €</span>
                         <button class="CTA1 shadow" type="button" (click)="this.bsPaiement.next(true)">Payer</button>
                     </footer>
-
         </div>
 
         <ng-template #vide>
