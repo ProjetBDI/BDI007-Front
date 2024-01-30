@@ -23,7 +23,6 @@ export class PanierComponent implements OnInit{
       nomFestivaliers: ["Arthur", "Alex", "Kyks", "Vincent"],
       nbPlaceOccuppee: 4,
       etapes: [],
-      id: ''
     }
     this.obsPanier$ = new Observable<Panier | undefined>(subscriber => {
       subscriber.next(panier);

@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
-import { Panier } from './eltDefinitions';
+import { Covoiturage, FestiUser, Panier, PanierState } from './eltDefinitions';
+import { Observable, filter, map, of, startWith, switchMap } from 'rxjs';
+import { User } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -10,28 +12,32 @@ export class ApiService {
 
   private apiPath = "/api/v1"
 
-  // readonly obsPanierState$: Observable<PanierState>;
+  readonly obsPanierState$: Observable<PanierState>;
 
   constructor(private http: HttpClient, private us: UserService) {
-    // this.obsPanierState$ = this.us.bsAuth.pipe(
-    //   startWith(undefined),
-    //   filter(U => !!U),
-    //   map(U => U as unknown as FestiUser),
-    //   switchMap( (user) => {
-    //     return this.http.get(this.apiPath + `/panier/${user}`).pipe(
-    //       map( (panier: Panier) => {
-    //         return {
-    //           panier: panier,
-    //           covoiturage: panier.covoiturage,
-    //           etapes: panier.etapes,
-    //         } as PanierState
-    //       })
-    //     )
-    //   })
-  
+    this.obsPanierState$ = this.us.bsAuth.pipe(
+      startWith(undefined),
+      filter(U => !!U),
+      switchMap((user) => {
+        return this.http.get<Panier>(this.apiPath + `/panier/${user}`).pipe(
+          switchMap((panier: Panier) => {
+            // Assuming you have an API endpoint to get the covoiturage and etapes data
+            const covoiturage$ = this.http.get<Covoiturage>(this.apiPath + `/covoiturage/${panier}`);
+            const etapes$ = this.http.get<Etape[]>(this.apiPath + `/etapes/${panier}`);
 
-      
-    // ) satisfies Observable<PanierState>
+            return forkJoin({ panier: of(panier), covoiturage$, etapes$ }).pipe(
+              map(({ panier, covoiturage$, etapes$ }) => {
+                return {
+                  panier,
+                  covoiturage: covoiturage$,
+                  etapes: etapes$
+                } as PanierState;
+              })
+            );
+          })
+        );
+      })
+    );
   }
 
   /* FESTIVALS */

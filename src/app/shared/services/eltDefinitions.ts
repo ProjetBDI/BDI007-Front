@@ -28,7 +28,6 @@ export interface Festival {
 
 export interface Panier {
   etapes: Etape[]
-  id: string,
   date: Date,
   proprietaire: FestiUser | undefined,
   nomFestivaliers: string[] // ex: "Arthur - Alex - Kyks - Vincent" à split pour faire une liste
