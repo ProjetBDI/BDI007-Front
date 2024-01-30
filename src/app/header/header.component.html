@@ -4,7 +4,7 @@
         <div class="menuIcon icon shadow" title="Connecte toi pour prendre ton pass !">
             <img *ngIf="this.us.obsFestiUsers$ | async as U; else basePP" [src]="U?.photoUrl" id="googlePP" (click)="this.bsMenu.value !== 'Profil' ? this.bsMenu.next('Profil') : this.bsMenu.next('')"/>
             <ng-template #basePP class="superposable superposable_sub">
-                <img class="convertible" src="../../assets/icons/utilisateur.png" (click)="this.bsMenu.value !== 'Profil' ? this.bsMenu.next('Profil') : this.bsMenu.next('')"/>
+                <img class="convertible button" src="../../assets/icons/utilisateur.png" (click)="this.bsMenu.value !== 'Profil' ? this.bsMenu.next('Profil') : this.bsMenu.next('')"/>
             </ng-template>
         </div>
         <div class="menuIcon icon shadow" title="Plus d'options">

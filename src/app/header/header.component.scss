@@ -18,7 +18,7 @@
 }
 
 #menuIcons {
-    height: 51px;
+    height: 100%;
     position: absolute;
     right: 2%;
     display: flex;
@@ -55,15 +55,13 @@
 }
 
 #menuContainer {
-    width: 12vw;
-    height: max-content;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     position: absolute;
     top: 110px;
     right: 2%;
-
+    z-index: 1000;
     padding: 1%;
     box-sizing: border-box;
 }
