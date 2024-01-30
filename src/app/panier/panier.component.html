@@ -1,7 +1,8 @@
 <img id="logoAbstract" class="dropShadow" src="../../assets/images/FestCarAbstract.png" alt="FestiCarAbstract"/>
+
 <div class="container">
     <div class="card centered shadow">
-        <div *ngIf="this.obsPanier$ | async as panier ; else vide">
+        <div class="panier" *ngIf="this.obsPanier$ | async as panier ; else vide">
             <div class="title centered_X">
                 Mon Panier
             </div>
@@ -9,7 +10,7 @@
                 <tr>
                     <th>Date</th>
                     <th>Proprietaire</th>
-                    <th>noms des festivaliers</th>
+                    <th>Noms des festivaliers</th>
                 </tr>
                 <tr>
                     <td>{{panier.date | date:'yyyy-MM-dd'}}</td>
@@ -20,11 +21,26 @@
                         </ul>
                     </td>
                 </tr>
-                <footer class="title centered_X">
-                    <span>Prix total : 100.98 €</span>
-                    <button type="button" (click)="this.bsPaiement.next(true)">Payer</button>
-                </footer>
-            </table>
+                </table>
+                    <div class="moreInfos" colspan="3">
+                        <div class="wrap-collabsible">
+                            <input id="collapsible" class="toggle" type="checkbox">
+                            <label for="collapsible" class="lbl-toggle">Détail des étapes</label>
+                            <div class="collapsible-content">
+                                <div class="content-inner">
+                                    <p>
+                                    QUnit is by calling one of the object that are embedded in JavaScript, and faster JavaScript program could also used with
+                                    its elegant, well documented, and functional programming using JS, HTML pages Modernizr is a popular browsers without
+                                    plug-ins. Test-Driven Development.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="title">
+                        <span>Prix total : 100.98 €</span>
+                        <button type="button" (click)="this.bsPaiement.next(true)">Payer</button>
+                    </footer>
 
         </div>
 
