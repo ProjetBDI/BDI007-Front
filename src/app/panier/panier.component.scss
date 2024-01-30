@@ -3,6 +3,13 @@
         width: 90%;
         height: 70%;
     }
+    .table {
+        display: none;
+    }
+
+    .card {
+        width: 80vw !important;
+    }
 }
 
 @media screen and (min-width: 769px) {
@@ -10,12 +17,13 @@
         width: 50vw;
         height: 30vh;
     }
+
+    .mobile {
+        display: none !important;
+    }
     
 }
 
-.table {
-    padding-top: 10%;
-}
 
 .title {
     margin: 2%;
@@ -31,7 +39,6 @@
 .table {
     border-collapse: separate;
     border-spacing: 0 1em;
-    padding: 1em;
     width: 100%;
     margin-top: 2%;
 
@@ -41,12 +48,26 @@
     border-top: 1px solid var(--gray);
     text-align: center;
     padding: 1em;
+    align-items: center;
 }
-
+.table ul {
+    padding: 0;
+}
 .table th {
     padding: 1em;
 }
 
+
+.table header {
+    background-color: var(--gray);
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    padding: 1em;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    width: 100%;
+}
 
 
 .card {
@@ -195,4 +216,21 @@ footer {
 }
 footer button {
     padding: 3% 6%;
+}
+
+.mobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: left;
+    width: 100%;
+}
+
+.mobile li {
+    display: flex;
+    flex-direction: row;
+    // justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 2% 0;
 }
