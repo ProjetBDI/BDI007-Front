@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
-import { Covoiturage, FestiUser, Panier, PanierState } from './eltDefinitions';
-import { Observable, filter, map, of, startWith, switchMap } from 'rxjs';
-import { User } from '@angular/fire/auth';
+import { Panier } from './eltDefinitions';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +40,11 @@ export class ApiService {
     return this.http.get(this.apiPath + `/festival`);
   }
 
-  getFestivalByID(id: string){
+  getFestivalsWithPage(page: number){
+    return this.http.get(this.apiPath + `/festival/ + ${page}`);
+  }
+
+  getFestivalByID(id: number){
     return this.http.get(this.apiPath + `/festival/ + ${id}`);
   }
 
@@ -53,21 +55,47 @@ export class ApiService {
     return this.http.get(this.apiPath + `/covoiturage`);
   }
 
+  getCovoituragesWithPage(page: number){
+    return this.http.get(this.apiPath + `/covoiturage/ + ${page}`);
+  }
+
   getCovoituragebyID(id: number){
     return this.http.get(this.apiPath + `/covoiturage/ + ${id}`);
   }
 
-  // Panier
+  /* PANIERS */
 
-  getPanierForUser() : Observable<Panier | undefined>{
-    return of(undefined);
-    // return this.http.get(this.apiPath + `/panier/${this.user}`);
+  getCurrentPanierByUtilisateur(id: number){
+    return this.http.get(this.apiPath + `/panier/utilisateur/current/ + `)
   }
 
-  // Utilisateurs
+  postPanier(panier: Panier){
+    //TODO
+  }
 
-  postUser(){
-    // return this.http.post(this.apiPath + `/user`, this.user);
+  parsePanier(panier: Panier){
+    // let panierJSON = {
+    //   "datePaiement": panier.date,
+    //   "nomFestivaliers": panier.nomFestivaliers,
+    //   "idProprietaire": 
+    // }
+    // return panierJSON;
+  }
+
+  /* ETAPES */
+
+  getEtapeByID(id: number){
+    return this.http.get(this.apiPath + `/etape/ + ${id}`);
+  }
+
+  /* UTILISATEURS */
+
+  getUtilisateurByID(id: number){
+    return this.http.get(this.apiPath + `/utilisateur/ + ${id}`);
+  }
+
+  getUtilisateurByEmail(email: string){
+    return this.http.get(this.apiPath + `/utilisateur/email/ + ${email}`);
   }
 
 

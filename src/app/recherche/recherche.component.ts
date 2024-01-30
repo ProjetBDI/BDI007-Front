@@ -18,11 +18,12 @@ export class RechercheComponent {
 
   constructor(protected rs: Router, private api: ApiService, protected ds: DataService) { }
 
-  constituteResult(id : string): Observable<Festival> {
+  constituteResult(id : number): Observable<Festival> {
     
     this.selected = undefined;
     
     return this.api.getFestivalByID(id).pipe(map((data: Partial<Observer<Festival>>) => {
+      console.log(data);
       let festival: Festival = data as Festival;
       return festival;
     }));
@@ -36,7 +37,7 @@ export class RechercheComponent {
     let festival: Festival | undefined;
     console.log("--------------------------------");
     for(let i = 1; i < 20; i++) {
-      this.constituteResult(String(i)).subscribe(festival => {
+      this.constituteResult(i).subscribe(festival => {
         this.result.push(festival);
       });
     }
