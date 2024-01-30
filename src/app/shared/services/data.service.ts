@@ -6,7 +6,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DataService {
 
-  inSearch: boolean = false;
+  inSearch: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor() { }
+  
 }

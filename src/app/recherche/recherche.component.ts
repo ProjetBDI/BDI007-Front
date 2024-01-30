@@ -16,9 +16,7 @@ export class RechercheComponent {
   selected: Festival | undefined;
   nbPass: number = 0;
 
-  constructor(protected rs: Router, private api: ApiService, protected ds: DataService) { 
-    this.ds.inSearch = false;
-  }
+  constructor(protected rs: Router, private api: ApiService, protected ds: DataService) { }
 
   constituteResult(id : string): Observable<Festival> {
     
@@ -33,7 +31,7 @@ export class RechercheComponent {
   search() {
     this.result = [];
 
-    this.ds.inSearch = true;
+    this.ds.inSearch.next(true);
 
     let festival: Festival | undefined;
     console.log("--------------------------------");

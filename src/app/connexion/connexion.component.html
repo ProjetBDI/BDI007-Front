@@ -1,7 +1,8 @@
 <!-- Page de connexion avec register si pas de compte -->
+<img id="logoAbstract" class="dropShadow" src="../../assets/images/FestCarAbstract.png" alt="FestiCarAbstract"/>
 <div class="container card shadow centered">
     <section *ngIf="bsNotAccount.asObservable() | async ; else notAccount">  
-        <div id="header">
+        <div class="header">
             <div class="title">
                 Connexion
             </div>
@@ -12,63 +13,66 @@
 
                 <div class="inputs">
                     <div id="email">
-                        <input type="email" placeholder="email address" [formControl]="fgLogin.controls.email">
+                        <input type="email" placeholder="Email" [formControl]="fgLogin.controls.email">
                     </div>
                     <div class="separatorX"></div>
     
                     <div id="password">
-                        <input type="password" placeholder="password" [formControl]="fgLogin.controls.password">
+                        <input type="password" placeholder="Mot de passe" [formControl]="fgLogin.controls.password">
                     </div>
                     <div class="separatorX"></div>
                 </div>
 
-                <div class="googleBtns">
-                    <div id="create-account"><u><span (click)="this.bsNotAccount.next(false)">Create Account ?</span></u></div>
-
-                    <div id="signIn">
-                        <button type="button" color="primary" (click)="login()">
-                            Sign in
-                        </button>
-
-                        <button type="button" (click)="loginGoogle()"><img class="convertible" src="../../assets/icons/google.png" height ="25" width="25" alt="ConnexionGoogle"/><span></span></button>
-                    </div>
+                <div class="signIn">
+                    <div id="create-account" class="shadow"><u><span (click)="this.bsNotAccount.next(false)">Créer un compte</span></u></div>
+                    <button type="button" class="shadow" (click)="login()">
+                        Se connecter
+                    </button>
                 </div>
-
+                
+                <div class="google shadow" (click)="loginGoogle()">
+                    <div>Connexion avec </div>
+                    <button type="button">
+                        <img class="convertible" src="../../assets/icons/google.png" height ="25" width="25" alt="ConnexionGoogle"/>
+                    </button>
+                </div>
             </form>
         </div>
     </section>
     
     
     <ng-template #notAccount>    
-        <div id="header">
-            <div class="title">
-                Inscription
+        <div class="section">
+            <div class="header">
+                <div class="title">
+                    Inscription
+                </div>
             </div>
-        </div>
-
-        <div id="separatorX">
-            <form [formGroup]="fgRegister">
-                <div id="field">
-                    <input type="email" placeholder="email address" [formControl]="fgRegister.controls.email">
-                </div>
-
-                <div id="field">
-                    <input type="password" placeholder="password" [formControl] = "fgRegister.controls.password">
-                </div>
-
-                <div id="field">
-                    <input type="password" placeholder="confirm password" [formControl]="fgRegister.controls.passwordCheck">
-                </div>
-
-                <div id="footer" (click)="backToConnexion()"><u><span>Retour</span></u></div>
-
-                <div id="actions">
-                    <button color="primary" (click)="register()">
-                        Sign up
-                    </button>
-                </div>
-
-            </form>
+    
+            <div class="inputs">
+                <form [formGroup]="fgRegister">
+                    <div id="email">
+                        <input type="email" placeholder="Email" [formControl]="fgRegister.controls.email">
+                    </div>
+                    <div class="separatorX"></div>
+                    <div id="password">
+                        <input type="password" placeholder="Mot de passe" [formControl] = "fgRegister.controls.password">
+                    </div>
+                    <div class="separatorX"></div>
+                    <div id="password">
+                        <input type="password" placeholder="Confirmation mot de passe" [formControl]="fgRegister.controls.passwordCheck">
+                    </div>
+                    <div class="separatorX"></div>
+    
+                    <div class="actions">
+                        <div id="goBack" class="shadow" (click)="backToConnexion()"><u><span>Retour</span></u></div>
+                        <button class="shadow" (click)="register()">
+                            S'inscrire
+                        </button>
+                    </div>
+    
+                </form>
+            </div>
         </div>
     </ng-template>
 </div>
