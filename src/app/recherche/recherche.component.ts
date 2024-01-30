@@ -15,14 +15,15 @@ export class RechercheComponent {
   result: (Festival|undefined)[] = [];
   selected: Festival | undefined;
   nbPass: number = 0;
+  nbPages: number = 0;
 
   constructor(protected rs: Router, private api: ApiService, protected ds: DataService) { }
 
-  constituteResult(id : number): Observable<Festival> {
+  constituteResult(nbPages : number): Observable<Festival> {
     
     this.selected = undefined;
     
-    return this.api.getFestivalByID(id).pipe(map((data: Partial<Observer<Festival>>) => {
+    return this.api.getFestivalsWithPage(nbPages).pipe(map((data: Partial<Observer<Festival>>) => {
       console.log(data);
       let festival: Festival = data as Festival;
       return festival;
@@ -35,12 +36,10 @@ export class RechercheComponent {
     this.ds.inSearch.next(true);
 
     let festival: Festival | undefined;
-    console.log("--------------------------------");
-    for(let i = 1; i < 20; i++) {
-      this.constituteResult(i).subscribe(festival => {
-        this.result.push(festival);
-      });
-    }
+    this.constituteResult(0).subscribe(festival => {
+      this.result.push(festival);
+    });
+
   }
 
   addPass(selected: Festival | undefined) {

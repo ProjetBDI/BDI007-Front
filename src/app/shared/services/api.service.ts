@@ -43,11 +43,11 @@ export class ApiService {
   /* FESTIVALS */
 
   getFestivals(){
-    return this.http.get(this.apiPath + `/festival`);
+    return this.http.get(this.apiPath + `/festivals`);
   }
 
   getFestivalsWithPage(page: number){
-    return this.http.get(this.apiPath + `/festival/ + ${page}`);
+    return this.http.get(this.apiPath + `/festivals/ + ${page}`);
   }
 
   getFestivalByID(id: number){
@@ -58,11 +58,11 @@ export class ApiService {
   /* COVOITURAGES */
 
   getCovoiturages(){
-    return this.http.get(this.apiPath + `/covoiturage`);
+    return this.http.get(this.apiPath + `/covoiturages`);
   }
 
   getCovoituragesWithPage(page: number){
-    return this.http.get(this.apiPath + `/covoiturage/ + ${page}`);
+    return this.http.get(this.apiPath + `/covoiturages/ + ${page}`);
   }
 
   getCovoituragebyID(id: number){
