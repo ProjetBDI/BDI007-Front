@@ -1,4 +1,4 @@
-section {
+section, .section{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,7 +16,7 @@ form {
 
 input {
     width: 100%;
-    margin-top: 2%;
+    margin: 4% 0;
     font-size: 18px !important;
     border: none;
     outline: none;
@@ -25,35 +25,63 @@ input {
 
 .inputs {
     margin-bottom: 16px;
+
+    .separatorX {
+        margin-bottom: 4%;
+    }
 }
 
 .container {
-    min-width: 10vw;
+    width: 12vw;
     padding: 0 16px 0 16px;
 
-    #header {
+    .header {
         .title{ font-size: 24px !important; }
-        color: var(--darkGray);
         margin-bottom: 16px;
     }
 }
 
-.googleBtns {
+.signIn, .actions {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 4%;
 
     u {
         text-decoration: none;
     }
 
+    div, button {
+        padding: 4% 2%;
+        flex-grow: 1;
+        text-align: center;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--gray);
+            color: white;
+        }
+    }
+
 }
 
-#signIn {
-    width: 100%;
+.google {
+    margin: 4% 0;
+    padding: 4% 0;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    color: white;
+    background-color: var(--pistachio);
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--pistachio-dark);
+    }
+
+    .convertible { 
+        filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(4deg) brightness(111%) contrast(101%);
+    }
 }
