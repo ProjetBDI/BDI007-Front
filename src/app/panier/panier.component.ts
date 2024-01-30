@@ -16,7 +16,7 @@ export class PanierComponent implements OnInit{
   protected bsPaiement = new BehaviorSubject<boolean>(false);
 
   constructor(private api: ApiService, private us: UserService) { 
-    this.obsPanier$ = this.api.getCurrentPanierByUser();
+    // this.obsPanier$ = this.api.getCurrentPanierByUser();
     let panier : Panier = {
       id: "1",
       date: new Date(),
