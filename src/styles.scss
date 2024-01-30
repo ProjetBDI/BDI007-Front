@@ -17,11 +17,11 @@
     --turquoise-dark: #{$turquoise-dark};
     --viridian-dark: #{$viridian-dark};
 
-    --naples-yellow-lighter: #{$naples-yellow-lighter};
-    --pistachio-lighter: #{$pistachio-lighter};
-    --emerald-lighter: #{$emerald-lighter};
-    --turquoise-lighter: #{$turquoise-lighter};
-    --viridian-lighter: #{$viridian-lighter};
+    --naples-yellow-light: #{$naples-yellow-light};
+    --pistachio-light: #{$pistachio-light};
+    --emerald-light: #{$emerald-light};
+    --turquoise-light: #{$turquoise-light};
+    --viridian-light: #{$viridian-light};
 
     --gray: #e0e0e0;
     --darkGray: #757575;
@@ -186,7 +186,9 @@ body {
 }
 
 .CTA1 {
-    padding: 4% 0;
+    padding: 4% 2%;
+    border: none;
+    outline: none;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -194,10 +196,16 @@ body {
     color: white;
     background-color: var(--pistachio);
     cursor: pointer;
+
+    &:hover {
+        background-color: var(--pistachio-dark);
+    }
 }
 
 .CTA2 {
-    padding: 4% 0;
+    padding: 4% 2%;
+    border: none;
+    outline: none;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -205,6 +213,10 @@ body {
     color: black;
     background-color: white;
     cursor: pointer;
+
+    &:hover {
+        background-color: var(--gray);
+    }
 }
 
 @keyframes fadeIn {
