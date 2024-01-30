@@ -24,5 +24,5 @@ export interface Panier {
   id: string,
   date: Date,
   idProprietaire: string,
-  nomFestivaliers: string
+  nomFestivaliers: string[]
 }
