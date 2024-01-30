@@ -33,9 +33,13 @@
     }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
   #searchContainer {
     width: 90%;
+
+    .searchResults {
+      padding-right: 12px;
+    }
   }
 
   .line {
@@ -238,6 +242,10 @@ button.research {
   .sideButtons {
     width: 30%;
     flex-direction: column;
+
+    .separatorY {
+      display: none;
+    }
   }
 }
 
