@@ -12,6 +12,13 @@ $emerald-dark: darken($emerald, 10%);
 $turquoise-dark: darken($turquoise, 10%); 
 $viridian-dark: darken($viridian, 10%); 
 
+/* SCSS RGB LIGHTER */
+$naples-yellow-lighter: lighten($naples-yellow, 10%);
+$pistachio-lighter: lighten($pistachio, 10%);
+$emerald-lighter: lighten($emerald, 10%);
+$turquoise-lighter: lighten($turquoise, 10%);
+$viridian-lighter: lighten($viridian, 10%);
+
 
 /* SCSS Gradient */ 
 $gradient-top: linear-gradient(0deg, #f1ce53ff, #9ed186ff, #74d29fff, #4ad3b8ff, #007f5fff); 
