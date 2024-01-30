@@ -37,8 +37,8 @@
                             </div>
                         </div>
                     </div>
-                    <footer class="title">
-                        <span>Prix total : 100.98 €</span>
+                    <footer>
+                        <span class="title">Prix total : 100.98 €</span>
                         <button class="CTA1 shadow" type="button" (click)="this.bsPaiement.next(true)">Payer</button>
                     </footer>
 
@@ -54,8 +54,12 @@
 
     <div class="card centered shadow popup" *ngIf="this.bsPaiement.value">
         Souhaitez-vous effectuer le paiement de 100 dollars ?
-        <button type="button" (click)="this.bsPaiement.next(false)">oui</button>
-        <button type="button" (click)="this.bsPaiement.next(false)">non</button>
+
+        <div class="response">
+            <button class="CTA1 shadow" type="button" (click)="this.bsPaiement.next(false)">Payer</button>
+            <button class="CTA2 shadow" type="button" (click)="this.bsPaiement.next(false)">Annuler</button>
+        </div>
+        
     </div>
 </div>
 

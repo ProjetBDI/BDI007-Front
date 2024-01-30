@@ -5,6 +5,12 @@ export interface FestiUser{
   dateNaissance?: String,
 }
 
+export interface PanierState {
+  panier: Panier,
+  covoiturage: Covoiturage,
+  etapes: Etape[],
+}
+
 export interface Festival {
   nom: string,
   lieuPrincipal: string,
@@ -21,6 +27,7 @@ export interface Festival {
 }
 
 export interface Panier {
+  etapes: Etape[]
   id: string,
   date: Date,
   proprietaire: FestiUser | undefined,

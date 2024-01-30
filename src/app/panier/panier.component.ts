@@ -18,15 +18,17 @@ export class PanierComponent implements OnInit{
   constructor(private api: ApiService, private us: UserService) { 
     // this.obsPanier$ = this.api.getCurrentPanierByUser();
     let panier : Panier = {
-      id: "1",
       date: new Date(),
       proprietaire: undefined,
-      nomFestivaliers: ["Arthur","Alex", "Kyks", "Vincent"],
+      nomFestivaliers: ["Arthur", "Alex", "Kyks", "Vincent"],
       nbPlaceOccuppee: 4,
+      etapes: [],
+      id: ''
     }
     this.obsPanier$ = new Observable<Panier | undefined>(subscriber => {
       subscriber.next(panier);
     });
+    
     // à remplacer par l'appel de l'api
   }
   
