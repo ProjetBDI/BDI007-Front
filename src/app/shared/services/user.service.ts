@@ -2,34 +2,32 @@ import { Injectable } from '@angular/core';
 import { Auth, authState, GoogleAuthProvider, signInWithPopup, signOut, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, user } from '@angular/fire/auth';
 import {  doc, docData, Firestore, FirestoreDataConverter, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, tap } from 'rxjs';
-import { FestiUser } from './eltDefinitions';
-import { convUserCredentialToFestiUser, convUserToFestiUser } from './eltConverters';
+import { Utilisateur } from './eltDefinitions';
+import { convUserCredentialToUtilisateur, convUserToUtilisateur } from './eltConverters';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  obsFestiUsers$ : Observable<FestiUser|undefined>;
+  obsFestiUsers$ : Observable<Utilisateur|undefined>;
   bsAuth: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  bsIdAuth: BehaviorSubject<number> = new BehaviorSubject(-1);
-  bsEmailAuth: BehaviorSubject<string> = new BehaviorSubject("");
 
   constructor(private auth: Auth, private fs : Firestore) { 
     authState(this.auth).pipe(
       filter( u => !!u ),
       map( u => u as User ),
       tap( async u => {
-        const docUser =  doc(this.fs, `users/${u.uid}`).withConverter(convUserToFestiUser) ;
+        const docUser =  doc(this.fs, `users/${u.uid}`).withConverter(convUserToUtilisateur) ;
         const snapUser = await getDoc( docUser );
         if (!snapUser.exists()) {
           setDoc(docUser, {
             nom: u.displayName?.split(" ")[1] ?? "",
             prenom: u.displayName?.split(" ")[0] ?? "",
+            dateNaissance: new Date(),
             email: u.email ?? "",
-            photoUrl: u.photoURL ?? "",
-            dateNaissance: new Date(2000, 1, 1),
-          } satisfies FestiUser)
+            photoUrl: u.photoURL ?? "https://cdn-icons-png.flaticon.com/512/1077/1077012.png",
+          } as Utilisateur);
         }
       })
     ).subscribe()
@@ -39,7 +37,7 @@ export class UserService {
       switchMap( (user) => {
         if(user){
           
-          const userRef = doc(this.fs , `users/${user.uid}`).withConverter(convUserToFestiUser)
+          const userRef = doc(this.fs , `users/${user.uid}`).withConverter(convUserToUtilisateur)
           const userData$ = docData(userRef)
           return userData$
         } else{
@@ -60,7 +58,6 @@ export class UserService {
 
     try{
       await signInWithPopup(this.auth, googleProvider); // on ouvre une popup pour se connecter
-      this.bsEmailAuth.next(this.auth.currentUser?.email ?? "");
       console.log("Login success ! : "); // si réussi, on affiche un message de réussite
     } catch(e){
       console.log("Login error (Google): " + e); // si erreur, on affiche l'erreur de login
@@ -82,22 +79,22 @@ export class UserService {
     this.bsAuth.next(false); // on passe l'état de la connection à false
   }
 
-  async registerMail(nom: string, prenom: string, dateNaissance: Date, email:string, password: string): Promise<FestiUser | void> {
+  async registerMail(nom: string, prenom: string, dateNaissance: Date, email:string, password: string): Promise<Utilisateur | void> {
     try {
       let uc = await createUserWithEmailAndPassword(this.auth, email, password);
       await this.loginMail(email, password);
-      const userRef = doc(this.fs, `users/${uc.user?.uid}`).withConverter(convUserToFestiUser);
+      const userRef = doc(this.fs, `users/${uc.user?.uid}`).withConverter(convUserToUtilisateur);
       await setDoc(userRef, {
         nom: nom,
         prenom: prenom,
         dateNaissance: dateNaissance,
         email: email,
         photoUrl: "",
-      } as FestiUser);
+      } as Utilisateur);
       
       console.log("Register success !", user.name);
       this.bsAuth.next(true);
-      return convUserCredentialToFestiUser(uc);
+      return convUserCredentialToUtilisateur(uc);
 
     } catch (exception) {
       console.log("Register failed ! ", exception);
@@ -108,7 +105,6 @@ export class UserService {
 
   //fonction pour se deconnecter de firebase
   async logout() {
-    this.bsIdAuth.next(-1); // on passe l'id de l'utilisateur à -1
 
     try{
       await signOut(this.auth); // on se déconnecte
