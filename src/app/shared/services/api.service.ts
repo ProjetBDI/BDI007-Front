@@ -19,11 +19,11 @@ export class ApiService {
   /* FESTIVALS */
 
   getFestivals(){
-    return this.http.get(this.apiPath + `/festivals`);
+    return lastValueFrom(this.http.get(this.apiPath + `/festivals`));
   }
 
   getFestivalsWithPage(page: number){
-    return this.http.get<Array<Festival>>(this.apiPath + `/festivals/${page}`);
+    return lastValueFrom(this.http.get<Array<Festival>>(this.apiPath + `/festivals/${page}`));
   }
 
   getFestivalsWithPageAndName(page: number, name: string){
@@ -33,22 +33,22 @@ export class ApiService {
   }
 
   getFestivalByID(id: number){
-    return this.http.get<Festival>(this.apiPath + `/festival/${id}`);
+    return lastValueFrom(this.http.get<Festival>(this.apiPath + `/festival/${id}`));
   }
 
 
   /* COVOITURAGES */
 
   getCovoiturages(){
-    return this.http.get(this.apiPath + `/covoiturages`);
+    return lastValueFrom(this.http.get(this.apiPath + `/covoiturages`));
   }
 
   getCovoituragesWithPage(page: number){
-    return this.http.get(this.apiPath + `/covoiturages/${page}`);
+    return lastValueFrom(this.http.get(this.apiPath + `/covoiturages/${page}`));
   }
 
-  getCovoituragebyID(id: number) : Observable<Covoiturage>{
-    return this.http.get<Covoiturage>(this.apiPath + `/covoiturage/${id}`);
+  getCovoituragebyID(id: number){
+    return lastValueFrom(this.http.get<Covoiturage>(this.apiPath + `/covoiturage/${id}`));
   }
 
   /* PANIERS */

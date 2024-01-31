@@ -216,12 +216,6 @@ button.research.inSearch {
   position: relative;
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
-
 .line {
   display:flex;
 }
@@ -236,7 +230,7 @@ button.research.inSearch {
 }
 
 .scrollbar {
-  height: 90%;
+  height: 85%;
 }
 
 .separatorX {
@@ -249,6 +243,20 @@ body html {
 
 .convertible { 
   filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(4deg) brightness(111%) contrast(101%);
+}
+
+.footer {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  padding: 0 12px;
+
+  button {
+    padding: 2%;
+    width:23%;
+  }
 }
 
 @media screen and (max-width: 768px) {

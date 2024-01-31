@@ -1,14 +1,13 @@
 <img id="logoAbstract" class="dropShadow" src="../../assets/images/FestCarAbstract.png" alt="FestiCarAbstract"/>
 <div id="componentContainer">
     <div class="s100">
-        <form class="pop" (ngSubmit)="this.search()">
-            <input class="shadow nom" type="text" placeholder="Trouve ton festival !" [class.inSearch]="this.ds.inSearch.value"/>
-            <input class="shadow date" type="date"/>
-            <input class="shadow tarif" type="number" min="0" placeholder="tarif"/>
-            <select class="shadow dispo">
+        <form class="pop" *ngIf="typeRecherche === 'festival'" [formGroup]="festiSearch" (ngSubmit)="this.search('festival')">
+            <input class="shadow nom" type="text" placeholder="Trouve ton festival !" [formControl]="festiSearch.controls.festiNom"  [class.inSearch]="this.ds.inSearch.value"/>
+            <input class="shadow date" type="date" [formControl]="festiSearch.controls.festiDate"/>
+            <input class="shadow tarif" type="number" min="0" placeholder="tarif" [formControl]="festiSearch.controls.festiTarif"/>
+            <select class="shadow dispo" [formControl]="festiSearch.controls.festiOptions" >
                 <option value="" disabled selected>statut</option>
-                <option value="ouvert">ouvert</option>
-                <option value="plein">plein</option>
+                <option *ngFor="let option of options" [value]="option">{{option}}</option>
             </select>
             <button class="research shadow" type="submit" [class.inSearch]="this.ds.inSearch.value">
                 <img class="convertible" src="../../assets/icons/recherche.png" alt="Search"/>
@@ -55,6 +54,9 @@
 
                     <div class="separatorX" *ngIf="!isLast"></div>
                 </div>
+            </div>
+            <div class="footer">
+                <button class="CTA1 shadow" (click)="this.toCovoits()">Covoiturages &gt;</button>
             </div>
         </div>
     </div>
