@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -40,6 +40,7 @@ import { ConnexionComponent } from './connexion/connexion.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),

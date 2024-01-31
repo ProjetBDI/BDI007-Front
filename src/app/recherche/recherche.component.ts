@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ApiService } from '../shared/services/api.service';
 import { Commune, Domaine, Festival } from '../shared/services/eltDefinitions';
-import { Observable, Observer, map } from 'rxjs';
+import { Observable, Observer, from, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { DataService } from '../shared/services/data.service';
+import { connectFirestoreEmulator } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-recherche',
@@ -17,32 +18,18 @@ export class RechercheComponent {
   nbPass: number = 0;
   nbPages: number = 0;
 
-  constructor(protected rs: Router, private api: ApiService, protected ds: DataService) { }
+  constructor(protected rs: Router, private api: ApiService, protected ds: DataService) { console.log("INIT RECHERCHE") }
 
   search() {
+    
     this.result = [];
-
+    
     this.ds.inSearch.next(true);
-
-    let festival: Festival | undefined;
-
-    this.api.getFestivalsWithPageAndName(1,"").subscribe((response: Object): void => {
-      (response as any[]).forEach(item => {
-        festival = {
-          nom: item.nom,
-          dateDebut: item.dateDebut,
-          dateFin: item.dateFin,
-          siteWeb: item.siteWeb,
-          lieuPrincipal: item.lieuPrincipal,
-          nbPassTotal: item.nbPassTotal,
-          nbPassDispo: item.nbPassDispo,
-          nbPassIndispo: item.nbPassIndispo,
-          tarifPass: item.tarifPass,
-          status: item.status,
-          idCommune: item as Commune,
-          idDomaine: item as Domaine
-        };
-
+    
+    from(this.api.getFestivalsWithPageAndName(1,"")).subscribe((festivals: Festival[]) => { 
+      this.nbPages = festivals.length;
+      festivals.forEach((festival: Festival) => {
+        console.log(festival);
         this.result.push(festival);
       });
     });

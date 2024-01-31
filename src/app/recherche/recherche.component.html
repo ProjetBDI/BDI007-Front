@@ -10,13 +10,12 @@
                 <option value="ouvert">ouvert</option>
                 <option value="plein">plein</option>
             </select>
-            <button class="research shadow" type="submit" (click)="this.search()" [class.inSearch]="this.ds.inSearch.value">
+            <button class="research shadow" type="submit" [class.inSearch]="this.ds.inSearch.value">
                 <img class="convertible" src="../../assets/icons/recherche.png" alt="Search"/>
             </button>
         </form>
 
-        <div id="searchContainer" class="pop card shadow">
-            <!-- <div id="title" class="shadow">Résultat de recherche</div> -->
+        <div id="searchContainer" class="pop card shadow" *ngIf="this.ds.inSearch.value">
             <div class="scrollbar searchResults">
                 <div class="searchContent" *ngFor="let elt of result, let isLast = last" [class.dernier]="isLast">
                     <div class="line">

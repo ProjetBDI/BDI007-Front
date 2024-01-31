@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
-import { Covoiturage, Etape, FestiUser, Panier, PanierState } from './eltDefinitions';
-import { Observable, filter, forkJoin, map, of, startWith, switchMap } from 'rxjs';
+import { Covoiturage, Etape, FestiUser, Festival, Panier, PanierState } from './eltDefinitions';
+import { Observable, filter, forkJoin, lastValueFrom, map, of, startWith, switchMap } from 'rxjs';
 import { User } from '@angular/fire/auth';
 
 @Injectable({
@@ -46,17 +46,17 @@ export class ApiService {
   }
 
   getFestivalsWithPage(page: number){
-    return this.http.get(this.apiPath + `/festivals/${page}`);
+    return this.http.get<Array<Festival>>(this.apiPath + `/festivals/${page}`);
   }
 
   getFestivalsWithPageAndName(page: number, name: string){
     let regex = /^ *$/;
     if(regex.test(name)){ name = "%20"; }
-    return this.http.get(this.apiPath + `/festivals/page/1/name/${name}`);
+    return lastValueFrom(this.http.get<Array<Festival>>(this.apiPath + `/festivals/page/1/name/${name}`));
   }
 
   getFestivalByID(id: number){
-    return this.http.get(this.apiPath + `/festival/${id}`);
+    return this.http.get<Festival>(this.apiPath + `/festival/${id}`);
   }
 
 
