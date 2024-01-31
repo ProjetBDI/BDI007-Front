@@ -13,22 +13,31 @@ export class PanierComponent implements OnInit{
 
   readonly obsPanier$ : Observable<Panier | undefined>;
 
-  bsPanierEtapes = new BehaviorSubject<PanierEtape[] | undefined >([]);
+  readonly obsPanierEtapes$ : Observable<PanierEtape[] | undefined>;
 
   bsPaiement = new BehaviorSubject<boolean>(false);
 
+  sommePrix: number = 0;
+
   listFestivaliers: string[] = [];
 
-  constructor(private api: ApiService,readonly us: UserService) { 
+  constructor(private api: ApiService, readonly us: UserService) { 
     this.obsPanier$ = this.us.obsFestiUsers$.pipe(
-      switchMap( async u => await this.api.getPanierByID(1) 
+      switchMap( async u => {
+        try {
+          return await this.api.getPanierByID(1)
+          // this.api.getCurrentPanierByUtilisateur(u!.idUtilisateur)
+        } catch (error) {
+          return undefined
+        }
+      }
       )
-        // async u => await this.api.getCurrentPanierByUtilisateur(u!.idUtilisateur) )
     )
 
-    this.obsPanier$.pipe(
+    this.obsPanierEtapes$ = this.obsPanier$.pipe(
       tap( async p => {
         if (p !== undefined) {
+
           // enlever les [] dans le string nomsFestivaliers
           let nomsFestivaliers = p.nomsFestivaliers;
           nomsFestivaliers = nomsFestivaliers.substring(1, nomsFestivaliers.length-1);
@@ -36,12 +45,21 @@ export class PanierComponent implements OnInit{
           nomsFestivaliers = nomsFestivaliers.replace(/'/g, "");
           // mettre les noms dans un tableau
           this.listFestivaliers = nomsFestivaliers.split(", ");
-          // récupérer les panierEtapes du panier
-          this.bsPanierEtapes.next(await this.api.getPanierEtapeByPanier(p.idPanier));
+        }
+      }),
+      switchMap( async p => await this.api.getPanierEtapeByPanier(p!.idPanier) )
+    )
+
+    this.obsPanierEtapes$.pipe(
+      tap( async pe => {
+        if (pe !== undefined) {
+          this.sommePrix = 0;
+          pe.forEach( e => {
+            this.sommePrix += e.idEtape.prixEtape * e.idPanier.nomsFestivaliers.split(", ").length;
+          })
         }
       })
-    ).subscribe(
-    )
+    ).subscribe()
   }
   
   ngOnInit(): void {
