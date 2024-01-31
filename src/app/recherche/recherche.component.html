@@ -14,45 +14,100 @@
             </button>
         </form>
 
+        <form *ngIf="typeRecherche === 'covoiturage'">
+            <input class="shadow nom" type="text" placeholder="NomFestival" readonly [class.inSearch]="this.ds.inSearch.value"/>
+            <input class="shadow date" type="date" [formControl]="covoitSearch.controls.covoitDate"/>
+            <select class="shadow dispo" [formControl]="covoitSearch.controls.covoitDep" >
+                <option value="" disabled selected>département</option>
+                <option *ngFor="let departement of departements" [value]="departement">{{departement}}</option>
+            </select>
+            <button class="research shadow" type="submit" [class.inSearch]="this.ds.inSearch.value">
+                <img class="convertible" src="../../assets/icons/recherche.png" alt="Search"/>
+            </button>
+        </form>
+
         <div id="searchContainer" class="pop card shadow" *ngIf="this.ds.inSearch.value">
             <div class="scrollbar searchResults">
-                <div class="searchContent" *ngFor="let elt of result, let isLast = last" [class.dernier]="isLast">
-                    <div class="line">
-                        <div class="element">
-                            <div class="inline elt1"><div class="title">Nom</div> {{elt?.nom ?? "N/C"}}</div>
-                            <div class="inline elt2"><div class="title">Lieu</div> {{elt?.lieuPrincipal ?? "N/C"}}</div>
-                            <div class="inline elt3"><div class="title">Du</div> {{elt?.dateDebut ?? "N/C"}} <div class="title">au</div> {{elt?.dateFin ?? "N/C"}} </div>
-                            <div class="inline elt4"><div class="title">Domaine</div> {{"N/C"}}</div>
-                            <div class="inline elt5"><div class="title">Sous-domaine</div> {{"N/C"}}</div>
-                            <div class="inline elt6"><div class="title">Pass disponibles</div> {{elt?.nbPassDispo ?? "N/C"}}</div>
-                            <div class="inline elt7"><div class="title">Tarif</div> {{elt?.tarifPass ?? "N/C"}}</div>
-                            <div class="inline elt8"></div>
-                            <div class="inline elt9"></div>
-                            <div class="inline elt10"></div>
-                        </div>
-
-                        <div class="sideButtons">
-                            <div class="status"
-                            [class.available]="elt?.status === 'OUVERT'"
-                            [class.unavailable]="elt?.status !== 'OUVERT'">
-                                {{elt?.status ?? "PLEIN"}}
+                <div *ngIf="this.typeRecherche === 'festival'">
+                    <div class="searchContent" *ngFor="let festival of festivals, let isLast = last" [class.dernier]="isLast">
+                        <div class="line">
+                            <div class="element">
+                                <div class="inline elt1"><div class="title">Nom</div> {{festival?.nom ?? "N/C"}}</div>
+                                <div class="inline elt2"><div class="title">Lieu</div> {{festival?.lieuPrincipal ?? "N/C"}}</div>
+                                <div class="inline elt3"><div class="title">Du</div> {{festival?.dateDebut ?? "N/C"}} <div class="title">au</div> {{festival?.dateFin ?? "N/C"}} </div>
+                                <div class="inline elt4"><div class="title">Domaine</div> {{"N/C"}}</div>
+                                <div class="inline elt5"><div class="title">Sous-domaine</div> {{"N/C"}}</div>
+                                <div class="inline elt6"><div class="title">Pass disponibles</div> {{festival?.nbPassDispo ?? "N/C"}}</div>
+                                <div class="inline elt7"><div class="title">Tarif</div> {{festival?.tarifPass ?? "N/C"}}</div>
+                                <div class="inline elt8"></div>
+                                <div class="inline elt9"></div>
+                                <div class="inline elt10"></div>
                             </div>
-                            <div class="separatorX"></div>
-                            <div class="separatorY"></div>
-                            <div class="selecteur inline"
-                            [class.available]="elt?.status === 'OUVERT'"
-                            [class.unavailable]="elt?.status !== 'OUVERT'">
-                                <button [disabled]="elt?.status !== 'OUVERT' && this.selected !== undefined && elt !== this.selected" (click)="rmPass()">&lt;</button>
-                                <div *ngIf="this.selected === undefined || this.selected !== elt; else nbPassTmp">0</div>
-                                <ng-template #nbPassTmp>
-                                    <div>{{nbPass}}</div>
-                                </ng-template>
-                                <button [disabled]="elt?.status !== 'OUVERT' && this.selected !== undefined && elt !== this.selected" (click)="addPass(elt)">&gt;</button>
+    
+                            <div class="sideButtons">
+                                <div class="status"
+                                [class.available]="festival?.status === 'OUVERT'"
+                                [class.unavailable]="festival?.status !== 'OUVERT'">
+                                    {{festival?.status ?? "PLEIN"}}
+                                </div>
+                                <div class="separatorX"></div>
+                                <div class="separatorY"></div>
+                                <div class="selecteur inline"
+                                [class.available]="festival?.status === 'OUVERT'"
+                                [class.unavailable]="festival?.status !== 'OUVERT'">
+                                    <button [disabled]="festival?.status !== 'OUVERT' && this.selected !== undefined && festival !== this.selected" (click)="rmPass()">&lt;</button>
+                                    <div *ngIf="this.selected === undefined || this.selected !== festival; else nbPassTmp">0</div>
+                                    <ng-template #nbPassTmp>
+                                        <div>{{nbPass}}</div>
+                                    </ng-template>
+                                    <button [disabled]="festival?.status !== 'OUVERT' && this.selected !== undefined && festival !== this.selected" (click)="addPass(festival)">&gt;</button>
+                                </div>
                             </div>
                         </div>
+    
+                        <div class="separatorX" *ngIf="!isLast"></div>
                     </div>
+                </div>
 
-                    <div class="separatorX" *ngIf="!isLast"></div>
+                <div *ngIf="this.typeRecherche === 'covoiturage'">
+                    <!-- <div class="searchContent" *ngFor="let elt of covoits, let isLast = last" [class.dernier]="isLast">
+                        <div class="line">
+                            <div class="element">
+                                <div class="inline elt1"><div class="title">Nom</div> {{elt?.nom ?? "N/C"}}</div>
+                                <div class="inline elt2"><div class="title">Lieu</div> {{elt?.lieuPrincipal ?? "N/C"}}</div>
+                                <div class="inline elt3"><div class="title">Du</div> {{elt?.dateDebut ?? "N/C"}} <div class="title">au</div> {{elt?.dateFin ?? "N/C"}} </div>
+                                <div class="inline elt4"><div class="title">Domaine</div> {{"N/C"}}</div>
+                                <div class="inline elt5"><div class="title">Sous-domaine</div> {{"N/C"}}</div>
+                                <div class="inline elt6"><div class="title">Pass disponibles</div> {{elt?.nbPassDispo ?? "N/C"}}</div>
+                                <div class="inline elt7"><div class="title">Tarif</div> {{elt?.tarifPass ?? "N/C"}}</div>
+                                <div class="inline elt8"></div>
+                                <div class="inline elt9"></div>
+                                <div class="inline elt10"></div>
+                            </div>
+
+                            <div class="sideButtons">
+                                <div class="status"
+                                [class.available]="elt?.status === 'OUVERT'"
+                                [class.unavailable]="elt?.status !== 'OUVERT'">
+                                    {{elt?.status ?? "PLEIN"}}
+                                </div>
+                                <div class="separatorX"></div>
+                                <div class="separatorY"></div>
+                                <div class="selecteur inline"
+                                [class.available]="elt?.status === 'OUVERT'"
+                                [class.unavailable]="elt?.status !== 'OUVERT'">
+                                    <button [disabled]="elt?.status !== 'OUVERT' && this.selected !== undefined && elt !== this.selected" (click)="rmPass()">&lt;</button>
+                                    <div *ngIf="this.selected === undefined || this.selected !== elt; else nbPassTmp">0</div>
+                                    <ng-template #nbPassTmp>
+                                        <div>{{nbPass}}</div>
+                                    </ng-template>
+                                    <button [disabled]="elt?.status !== 'OUVERT' && this.selected !== undefined && elt !== this.selected" (click)="addPass(elt)">&gt;</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="separatorX" *ngIf="!isLast"></div>
+                    </div> -->
                 </div>
             </div>
             <div class="footer">

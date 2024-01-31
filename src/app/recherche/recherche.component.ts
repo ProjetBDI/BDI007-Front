@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ApiService } from '../shared/services/api.service';
-import { Commune, Domaine, Festival } from '../shared/services/eltDefinitions';
+import { Commune, Covoiturage, Domaine, Festival } from '../shared/services/eltDefinitions';
 import { Observable, Observer, from, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { DataService } from '../shared/services/data.service';
@@ -14,13 +14,15 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class RechercheComponent {
 
-  result: (Festival|undefined)[] = [];
+  festivals: (Festival|undefined)[] = [];
+  covoits: (Covoiturage|undefined)[] = [];
   selected: Festival | undefined;
 
   nbPass: number = 0;
   nbPlacesPrises: number = 0;
   nbPages: number = 0;
   options: string[] = ["ouvert", "ferme", "plein"];
+  departements: string[] = ["1","2","3"];
   typeRecherche: string = "festival";
 
   festiSearch = new FormGroup({
@@ -30,7 +32,7 @@ export class RechercheComponent {
     festiOptions: new FormControl('')
   })
 
-  covoitSearh = new FormGroup({
+  covoitSearch = new FormGroup({
     covoitDate: new FormControl(new Date()),
     covoitDep: new FormControl('')
   })
@@ -39,7 +41,7 @@ export class RechercheComponent {
 
   search(typeRecherche: string) {
     
-    this.result = [];
+    this.festivals = [];
     
     this.ds.inSearch.next(true);
     
@@ -47,11 +49,16 @@ export class RechercheComponent {
       from(this.api.getFestivalsWithPageAndName(this.nbPages, this.festiSearch.controls.festiNom.value || '')).subscribe((festivals: Festival[]) => { 
         this.nbPages = festivals.length;
         festivals.forEach((festival: Festival) => {
-          this.result.push(festival);
+          this.festivals.push(festival);
         });
       });
     } else if(typeRecherche === "covoiturage") {
-      // from(this.api.getFestivalsWithPageAndName())
+      // from(this.api.getCovoituragesWithPageAndFestival(this.nbPages, this.selected?.id || 0)).subscribe((covoiturages: Covoiturage[]) => { 
+      //   this.nbPages = covoiturages.length;
+      //   covoiturages.forEach((covoiturage: Covoiturage) => {
+      //     this.covoits.push(covoiturage);
+      //   });
+      // });
     }
   }
 

@@ -22,7 +22,7 @@ export class ApiService {
   }
 
   getFestivalsWithPage(page: number){
-    return lastValueFrom(this.http.get<Array<Festival>>(this.apiPath + `/festivals/${page}`));
+    return lastValueFrom(this.http.get<Array<Festival>>(this.apiPath + `/festivals/page/${page}`));
   }
 
   getFestivalsWithPageAndName(page: number, name: string){
@@ -43,7 +43,11 @@ export class ApiService {
   }
 
   getCovoituragesWithPage(page: number){
-    return lastValueFrom(this.http.get(this.apiPath + `/covoiturages/${page}`));
+    return lastValueFrom(this.http.get(this.apiPath + `/covoiturages/page/${page}`));
+  }
+
+  getCovoituragesWithPageAndFestival(page: number, idFestival: number){
+    return lastValueFrom(this.http.get(this.apiPath + `/covoiturages/page/${page}/festival/${idFestival}`));
   }
 
   getCovoituragebyID(id: number){
