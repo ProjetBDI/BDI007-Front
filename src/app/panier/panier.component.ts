@@ -15,13 +15,15 @@ export class PanierComponent implements OnInit{
 
   readonly obsPanierEtapes$ : Observable<PanierEtape[] | undefined>;
 
-  bsPaiement = new BehaviorSubject<boolean>(false);
+  bsPaiement = new BehaviorSubject<number>(-1);
 
   sommePrix: number = 0;
 
+  listPrixEtapes: number[] = [];
+
   listFestivaliers: string[] = [];
 
-  constructor(private api: ApiService, readonly us: UserService) { 
+  constructor(private api: ApiService, readonly us: UserService) {
     this.obsPanier$ = this.us.obsFestiUsers$.pipe(
       switchMap( async u => {
         try {
@@ -54,12 +56,22 @@ export class PanierComponent implements OnInit{
       tap( async pe => {
         if (pe !== undefined) {
           this.sommePrix = 0;
+          this.listPrixEtapes = [];
+
           pe.forEach( e => {
-            this.sommePrix += e.idEtape.prixEtape * e.idPanier.nomsFestivaliers.split(", ").length;
+            this.listPrixEtapes.push((e.idEtape.prixEtape + e.idEtape.idCovoiturage.idFestival.tarifPass) * e.idPanier.nomsFestivaliers.split(", ").length);
+
+            this.sommePrix += (e.idEtape.prixEtape + e.idEtape.idCovoiturage.idFestival.tarifPass) * e.idPanier.nomsFestivaliers.split(", ").length
+            
           })
         }
       })
     ).subscribe()
+  }
+
+  toValidation() {
+    this.bsPaiement.next(1);
+    // this.api.updatePanier(1, this.listFestivaliers.toString(), new Date())
   }
   
   ngOnInit(): void {
