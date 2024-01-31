@@ -24,7 +24,7 @@
                         <th>Conducteur/trice</th>
                         <th>Noms des festivaliers</th>
                         <th>Prix de l'étape</th>
-                        <th>Tarif festival</th>
+                        <th>Tarif festival pour {{this.listFestivaliers.length}} personnes</th>
                     </tr>
                     <tr>                    
                         <td>{{panierEtape.idEtape.idCovoiturage.dateDepart | date:'yyyy-MM-dd'}}</td>
@@ -37,7 +37,7 @@
                             </ul>
                         </td>
                         <td>{{panierEtape.idEtape.prixEtape * this.listFestivaliers.length}} €</td>
-                        <td>{{panierEtape.idEtape.idCovoiturage.idFestival.tarifPass}} € / Personne</td>
+                        <td>{{panierEtape.idEtape.idCovoiturage.idFestival.tarifPass  * this.listFestivaliers.length}} €</td>
                     </tr>
                 </table>
                 <ul class="mobile">
@@ -49,11 +49,13 @@
                     <ul>
                         <li *ngFor="let festivalier of this.listFestivaliers">{{festivalier}}</li>
                     </ul>
-                    <li>Prix de l'étape : {{panierEtape.idEtape.prixEtape * this.listFestivaliers.length}} €</li>
-                    <li>Tarif festival : {{panierEtape.idEtape.idCovoiturage.idFestival.tarifPass}} € / Personne</li>
+                    <li><strong>Prix de l'étape : </strong>{{panierEtape.idEtape.prixEtape * this.listFestivaliers.length}} €</li>
+                    <li><strong>Tarif festival pour {{this.listFestivaliers.length}} personnes : </strong>{{panierEtape.idEtape.idCovoiturage.idFestival.tarifPass  * this.listFestivaliers.length}} €</li>
                     <li></li>
-                    <strong><li>Total pour cette étape : {{this.listPrixEtapes.at(index)}} €</li></strong>
                 </ul>
+
+                <div class="totalOffre">Total pour cette offre : {{this.listPrixEtapes.at(index)}} balles mon copain</div>
+
                 <div class="moreInfos">
                     <div class="wrap-collabsible">
                         <input id="collapsible{{index}}" class="toggle" type="checkbox">
@@ -81,6 +83,7 @@
             <footer>
                 <span class="title">Prix total : {{this.sommePrix}} €</span>
                 <button class="CTA1 shadow" type="button" (click)="this.bsPaiement.next(0)">Payer</button>
+                <button class="CTA2 shadow" type="button">Abandonner</button>
             </footer>
         </div>
         </div>
