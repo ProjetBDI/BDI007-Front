@@ -1,6 +1,5 @@
 import { Component, ElementRef, HostListener } from '@angular/core';
-import { BehaviorSubject, Observable, map } from 'rxjs';
-import { FestiUser } from '../shared/services/eltDefinitions';
+import { BehaviorSubject } from 'rxjs';
 import { UserService } from '../shared/services/user.service';
 import { Router } from '@angular/router';
 import { DataService } from '../shared/services/data.service';

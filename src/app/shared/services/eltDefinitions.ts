@@ -1,35 +1,31 @@
-export interface FestiUser{
+export interface Utilisateur {
+  idUtilisateur: number,
+  email: string,
   nom: string,
   prenom: string,
-  email: string
-  readonly photoUrl : string,
+  motDePasse: string,
   dateNaissance?: Date,
+  telephone: string,
+  photoUrl: string,
 }
 
-export interface UserBD {
-  idUtilisateur: number,
-  nom: string,
-  prenom: string,
-  email: string,
-  motDePasse: string,
-  dateNaissance: Date,
-  telephone: string,
-}
-export interface PanierState {
-  panier: Panier,
-  covoiturage: Covoiturage,
-  etapes: Etape[],
+export interface PanierEtape {
+  idPanierEtape: number,
+  nbPlaceOccupe: number,
+  idEtape: Etape,
+  idPanier: Panier,
 }
 
 export interface Festival {
+  idFestival: number,
   nom: string,
-  lieuPrincipal: string,
   dateDebut: Date,
   dateFin: Date,
   siteWeb: string,
+  lieuPrincipal: string,
+  nbPassTotal: number,
   nbPassDispo: number,
   nbPassIndispo: number,
-  nbPassTotal: number,
   tarifPass: number,
   status: string,
   idCommune: Commune,
@@ -37,20 +33,17 @@ export interface Festival {
 }
 
 export interface Panier {
-  id: number,
+  idPanier: number,
   datePaiement: Date,
-  proprietaire: FestiUser,
-  nomFestivaliers: string[],
-  nbPlaceOccuppee: number,
-  etapes: Etape[],
+  nomFestivaliers: string,
+  idProprietaire: Utilisateur,
 }
 
 export interface Etape {
-  id: number,
-  lieu: Lieu,
-  covoiturage: Covoiturage,
-  dureeDepuisDepart: number,
+  idEtape: number,
   prixEtape: number,
+  dureeDepuisDepart: number,
+  idLieu: Lieu,
 }
 
 export interface Covoiturage {
@@ -62,36 +55,36 @@ export interface Covoiturage {
   modele: string,
   couleur: string,
   prixParPersonne: number,
-  conducteur: FestiUser,
+  conducteur: Utilisateur,
   festival: Festival,
 }
 
 export interface Lieu {
-  id: number,
-  nom: string,
+  idLieu: number,
   adresse: string,
-  codeINSEE: string,
+  codeINSEELieu: string,
   latitude: number,
   longitude: number,
+  nom: string,
   typeLieu: string,
-  commune: Commune
+  idCommune: Commune
 }
 
 export interface Commune {
-  id: number,
+  idCommune: number,
   codeINSEE: string,
   codePostal: string,
   latitude: number,
   longitude: number,
-  nom: string,
-  departement: Departement
+  nomCommune: string,
+  idDepartement: Departement
 }
 
 export interface Departement {
-  id: number,
-  code: string,
-  nom: string,
-  region: string
+  idDepartement: number,
+  numDepartement: string,
+  nomDepartement: string,
+  nomregion: string
 }
 
 export interface Domaine {

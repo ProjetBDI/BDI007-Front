@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
-import { Covoiturage, Festival, Panier, UserBD } from './eltDefinitions';
+import { Covoiturage, Utilisateur, Festival, Panier } from './eltDefinitions';
 import { Observable, lastValueFrom } from 'rxjs';
 
 @Injectable({
@@ -52,6 +52,10 @@ export class ApiService {
 
   /* PANIERS */
 
+  getPanierEtapeByPanier(id: number) : Promise<Panier | undefined>{
+    return lastValueFrom(this.http.get<Panier>(this.apiPath + `/panierEtapes/${id}/panier`));
+  }
+
   async getCurrentPanierByUtilisateur(id: number): Promise<Panier | undefined>{
     return  await lastValueFrom(this.http.get<Panier>(this.apiPath + `/panier/utilisateur/current/${id}`));
   }
@@ -85,8 +89,17 @@ export class ApiService {
     return this.http.get(this.apiPath + `/utilisateur/${id}`);
   }
 
-  async getUtilisateurByEmail(email: string) : Promise<UserBD | undefined>{
-    return await lastValueFrom(this.http.get<UserBD>(this.apiPath + `/utilisateur/email/${email}`));
+  async getUtilisateurByEmail(email: string) : Promise<Utilisateur | undefined>{
+    try{
+      return await lastValueFrom(this.http.get<Utilisateur>(this.apiPath + `/utilisateur/email/${email}`));
+    }
+    catch(e){
+      return undefined;
+    }
+  }
+
+  postUtilisateur(user: Utilisateur){
+    return this.http.post(this.apiPath + `/utilisateur/create`, user);
   }
 
 
