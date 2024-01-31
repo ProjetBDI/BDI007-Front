@@ -18,7 +18,7 @@ export class ApiService {
   /* FESTIVALS */
 
   getFestivals(){
-    return lastValueFrom(this.http.get(this.apiPath + `/festivals`));
+    return lastValueFrom(this.http.get<Array<Festival>>(this.apiPath + `/festivals`));
   }
 
   getFestivalsWithPage(page: number){
@@ -39,15 +39,15 @@ export class ApiService {
   /* COVOITURAGES */
 
   getCovoiturages(){
-    return lastValueFrom(this.http.get(this.apiPath + `/covoiturages`));
+    return lastValueFrom(this.http.get<Array<Covoiturage>>(this.apiPath + `/covoiturages`));
   }
 
   getCovoituragesWithPage(page: number){
-    return lastValueFrom(this.http.get(this.apiPath + `/covoiturages/page/${page}`));
+    return lastValueFrom(this.http.get<Array<Covoiturage>>(this.apiPath + `/covoiturages/page/${page}`));
   }
 
   getCovoituragesWithPageAndFestival(page: number, idFestival: number){
-    return lastValueFrom(this.http.get(this.apiPath + `/covoiturages/page/${page}/festival/${idFestival}`));
+    return lastValueFrom(this.http.get<Array<Covoiturage>>(this.apiPath + `/covoiturages/page/${page}/festival/${idFestival}`));
   }
 
   getCovoituragebyID(id: number){
