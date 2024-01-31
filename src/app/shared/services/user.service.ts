@@ -5,6 +5,7 @@ import { BehaviorSubject, filter, map, Observable, of, switchMap, tap } from 'rx
 import { FestiUser } from './eltDefinitions';
 import { convUserCredentialToFestiUser, convUserToFestiUser } from './eltConverters';
 import { Router } from '@angular/router';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class UserService {
   obsFestiUsers$ : Observable<FestiUser|undefined>;
   bsAuth: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private auth: Auth, private fs : Firestore) { 
+  constructor(private auth: Auth, private fs : Firestore, private api : ApiService) { 
     authState(this.auth).pipe(
       filter( u => !!u ),
       map( u => u as User ),

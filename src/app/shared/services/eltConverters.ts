@@ -1,4 +1,4 @@
-import { FirestoreDataConverter } from "@angular/fire/firestore";
+import { FirestoreDataConverter, doc, docData } from "@angular/fire/firestore";
 import { FestiUser } from "./eltDefinitions";
 import { UserCredential } from "@angular/fire/auth";
 
@@ -15,8 +15,7 @@ export const convUserToFestiUser : FirestoreDataConverter<FestiUser> = {
 
 // convert UserCredential to FestiUser
 export const convUserCredentialToFestiUser = (uc: UserCredential) : FestiUser => ({
-    prenom : uc.user.displayName?.split(" ")[0] ?? "",
-    nom : uc.user.displayName?.split(" ")[1] ?? "",
+    name : uc.user.displayName ?? uc.user.email ?? uc.user.uid,
     email : uc.user.email ?? "",
     dateNaissance : new Date(),
     photoUrl : uc.user.photoURL ?? "https://cdn-icons-png.flaticon.com/512/1077/1077012.png"
