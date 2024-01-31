@@ -4,11 +4,13 @@
         <form class="pop" *ngIf="typeRecherche === 'festival'" [formGroup]="festiSearch" (ngSubmit)="this.search('festival')">
             <input class="shadow nom" type="text" placeholder="Trouve ton festival !" [formControl]="festiSearch.controls.festiNom"  [class.inSearch]="this.ds.inSearch.value"/>
             <input class="shadow date" type="date" [formControl]="festiSearch.controls.festiDate"/>
-            <input class="shadow tarif" type="number" min="0" placeholder="tarif" [formControl]="festiSearch.controls.festiTarif"/>
-            <select class="shadow dispo" [formControl]="festiSearch.controls.festiOptions" >
-                <option value="" disabled selected>statut</option>
-                <option *ngFor="let option of options" [value]="option">{{option}}</option>
-            </select>
+            <div class="tarifDispo">
+                <input class="shadow tarif" type="number" min="0" placeholder="tarif" [formControl]="festiSearch.controls.festiTarif"/>
+                <select class="shadow dispo" [formControl]="festiSearch.controls.festiOptions" >
+                    <option value="" disabled selected>statut</option>
+                    <option *ngFor="let option of options" [value]="option">{{option}}</option>
+                </select>
+            </div>
             <button class="research shadow" type="submit" [class.inSearch]="this.ds.inSearch.value">
                 <img class="convertible" src="../../assets/icons/recherche.png" alt="Search"/>
             </button>
@@ -16,8 +18,8 @@
 
         <form *ngIf="typeRecherche === 'covoiturage'">
             <input class="shadow nom" type="text" placeholder="NomFestival" readonly [class.inSearch]="this.ds.inSearch.value"/>
-            <input class="shadow date" type="date" [formControl]="covoitSearch.controls.covoitDate"/>
-            <select class="shadow dispo" [formControl]="covoitSearch.controls.covoitDep" >
+            <input class="shadow date" type="date" [formControl]="etapeSearch.controls.etapeDate"/>
+            <select class="shadow dispo" [formControl]="etapeSearch.controls.etapeDep" >
                 <option value="" disabled selected>département</option>
                 <option *ngFor="let departement of departements" [value]="departement">{{departement}}</option>
             </select>
@@ -35,8 +37,8 @@
                                 <div class="inline elt1"><div class="title">Nom</div> {{festival?.nom ?? "N/C"}}</div>
                                 <div class="inline elt2"><div class="title">Lieu</div> {{festival?.lieuPrincipal ?? "N/C"}}</div>
                                 <div class="inline elt3"><div class="title">Du</div> {{festival?.dateDebut ?? "N/C"}} <div class="title">au</div> {{festival?.dateFin ?? "N/C"}} </div>
-                                <div class="inline elt4"><div class="title">Domaine</div> {{"N/C"}}</div>
-                                <div class="inline elt5"><div class="title">Sous-domaine</div> {{"N/C"}}</div>
+                                <div class="inline elt4"><div class="title">Domaine</div> {{festival?.idDomaine?.nomDomaine}}</div>
+                                <div class="inline elt5"><div class="title">Sous-domaine</div> {{festival?.idDomaine?.sousDomaine}}</div>
                                 <div class="inline elt6"><div class="title">Pass disponibles</div> {{festival?.nbPassDispo ?? "N/C"}}</div>
                                 <div class="inline elt7"><div class="title">Tarif</div> {{festival?.tarifPass ?? "N/C"}}</div>
                                 <div class="inline elt8"></div>
@@ -70,31 +72,31 @@
                 </div>
 
                 <div *ngIf="this.typeRecherche === 'covoiturage'">
-                    <div class="searchContent" *ngFor="let covoit of covoits, let index = index, let isLast = last" [class.dernier]="isLast">
+                    <div class="searchContent" *ngFor="let covoit of etapes, let index = index, let isLast = last" [class.dernier]="isLast">
                         <div class="line">
                             <div class="element">
-                                <div class="inline elt1"><div class="title">Date départ</div> {{covoit?.dateDepart}}</div>
-                                <div class="inline elt2"><div class="title">Tarif</div> {{covoit?.prixParPersonne}}</div>
-                                <div class="inline elt3"><div class="title">Places disponibles</div> {{covoit?.nbPlaceDispo}}</div>
-                                <div class="inline elt4"><div class="title">Total places</div> {{covoit?.nbPlace}}</div>
+                                <div class="inline elt1"><div class="title">Lieu</div></div>
+                                <div class="inline elt2"><div class="title">Date de départ</div></div>
+                                <div class="inline elt3"><div class="title">Tarif</div></div>
+                                <div class="inline elt4"><div class="title">Places disponibles</div></div>
                                 <div class="inline elt5"></div>
-                                <div class="inline elt6"><div class="title">Conducteur</div> {{covoit?.conducteur?.nom}}</div>
-                                <div class="inline elt7"><div class="title">Marque</div> {{covoit?.marque}}</div>
-                                <div class="inline elt8"><div class="title">Modèle</div> {{covoit?.modele}}</div>
+                                <div class="inline elt6"><div class="title">Conducteur</div></div>
+                                <div class="inline elt7"><div class="title">Marque</div></div>
+                                <div class="inline elt8"><div class="title">Modèle</div></div>
                                 <div class="inline elt9"></div>
                                 <div class="inline elt10"></div>
                             </div>
 
                             <div class="sideButtons">
                                 <div class="selecteur inline"
-                                    [class.unavailable]="(placesPrises[index] - (covoits[index]?.nbPlaceDispo || 0)) <= 0"
-                                    [class.available]="(placesPrises[index] - (covoits[index]?.nbPlaceDispo || 0)) > 0">
-                                    <button [disabled]="this.covoit !== undefined && covoit !== this.covoit || ((placesPrises[index] - (covoits[index]?.nbPlaceDispo || 0)) <= 0)" (click)="rmPlace(index)">&lt;</button>
+                                    [class.unavailable]="(placesPrises[index] - (0)) <= 0"
+                                    [class.available]="(placesPrises[index] - (0)) > 0">
+                                    <button [disabled]="this.covoit !== undefined && covoit !== this.covoit || ((placesPrises[index] - (0)) <= 0)" (click)="rmPlace(index)">&lt;</button>
                                     <div *ngIf="this.selected === undefined || covoit !== this.covoit; else nbPlacesTmp">0</div>
                                     <ng-template #nbPlacesTmp>
                                         <div>{{placesPrises[index]}}</div>
                                     </ng-template>
-                                    <button [disabled]="this.covoit !== undefined && covoit !== this.covoit || ((placesPrises[index] - (covoits[index]?.nbPlaceDispo || 0)) <= 0)" (click)="addPlace(covoit, index)">&gt;</button>
+                                    <button [disabled]="this.covoit !== undefined && covoit !== this.covoit || ((placesPrises[index] - (0)) <= 0)" (click)="addPlace(covoit, index)">&gt;</button>
                                 </div>
                             </div>
                         </div>

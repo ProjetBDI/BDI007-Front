@@ -69,11 +69,11 @@ input.nom, input.tarif, input.date{
 }
 
 input.date {
-  width: 9vw;
+  width: 12vw;
 }
 
 input.tarif {
-  width: 4vw;
+  width: 6vw;
 }
 
 input.nom {
@@ -87,7 +87,7 @@ input.nom.inSearch {
 select {
   font-size: 24px;
   padding: 16px;
-  width: 6vw;
+  width: 10vw;
   color: var(--darkGray);
   outline: none;
   border: none;
@@ -119,6 +119,11 @@ button.research {
 
 button.research.inSearch {
   border-radius: 0 16px 0 0;
+}
+
+.tarifDispo {
+  display: flex;
+  flex-direction: row;
 }
 
 .element {
@@ -260,8 +265,41 @@ body html {
 }
 
 @media screen and (max-width: 768px) {
+
+  form {
+    width: 100%;
+    flex-direction: column;
+
+    input, select {
+      width: 100%;
+      padding: 16px 0;
+    }
+
+    input.nom {
+      border-radius: 16px 16px 0 0;
+    }
+
+    button {
+      border-radius: 0 0 16px 16px;
+      padding: 16px 0;
+    }
+
+    button.inSearch {
+      border-radius: 0;
+    }
+
+    .nom, .date, .tarif, .dispo {
+      padding: 8px 2%;
+      box-sizing: border-box;
+    }
+  }
+
+  button.CTA1 {
+    width: 100%;
+  }
+
   #searchContainer {
-    width: 90%;
+    width: 100%;
 
     .searchResults {
       padding-right: 12px;
@@ -271,6 +309,11 @@ body html {
   .line {
     flex-direction: column;
     margin-bottom: 10px;
+  }
+
+  .s100 {
+    min-width: 90%;
+    width: min-content;
   }
 
   .status, .selecteur, button {

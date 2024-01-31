@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ApiService } from '../shared/services/api.service';
-import { Commune, Covoiturage, Domaine, Festival } from '../shared/services/eltDefinitions';
+import { Commune, Etape, Domaine, Festival } from '../shared/services/eltDefinitions';
 import { Observable, Observer, from, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { DataService } from '../shared/services/data.service';
@@ -15,9 +15,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class RechercheComponent {
 
   festivals: (Festival|undefined)[] = [];
-  covoits: (Covoiturage|undefined)[] = [];
+  etapes: (Etape|undefined)[] = [];
   selected: Festival | undefined;
-  covoitsSelected: (Covoiturage | undefined)[] = [];
+  etapesSelected: (Etape | undefined)[] = [];
 
   nbPass: number = 0;
   placesPrises: number[] = [];
@@ -33,9 +33,9 @@ export class RechercheComponent {
     festiOptions: new FormControl('')
   })
 
-  covoitSearch = new FormGroup({
-    covoitDate: new FormControl(new Date()),
-    covoitDep: new FormControl('')
+  etapeSearch = new FormGroup({
+    etapeDate: new FormControl(new Date()),
+    etapeDep: new FormControl('')
   })
 
   constructor(protected rs: Router, private api: ApiService, protected ds: DataService) { }
@@ -43,7 +43,7 @@ export class RechercheComponent {
   search(typeRecherche: string) {
     
     this.festivals = [];
-    this.covoits = [];
+    this.etapes = [];
     
     this.ds.inSearch.next(true);
     
@@ -54,16 +54,16 @@ export class RechercheComponent {
           this.festivals.push(festival);
         });
       });
-    } else if(typeRecherche === "covoiturage") {
-      from(this.api.getCovoituragesWithPageAndFestival(this.nbPages, this.selected?.idFestival || 0)).subscribe((covoiturages: Covoiturage[]) => { 
-        this.nbPages = covoiturages.length;
-        covoiturages.forEach((covoiturage: Covoiturage) => {
-          console.log(covoiturage);
-          this.covoits.push(covoiturage);
-          this.placesPrises.push(0);
-          this.covoitsSelected.push(undefined);
-        });
-      });
+    } else if(typeRecherche === "etape") {
+      // from(this.api.getEtapesWithPageAndFestival(this.nbPages, this.selected?.idFestival || 0)).subscribe((etapes: Etape[]) => { 
+      //   this.nbPages = etapes.length;
+      //   etapes.forEach((etape: Etape) => {
+      //     console.log(etape);
+      //     this.etapes.push(etape);
+      //     this.placesPrises.push(0);
+      //     this.etapesSelected.push(undefined);
+      //   });
+      // });
     }
   }
 
@@ -72,9 +72,9 @@ export class RechercheComponent {
     this.selected = this.nbPass === 0 ? undefined : selected;
   }
 
-  addPlace(covoit: Covoiturage | undefined, index: number) {
+  addPlace(covoit: Etape | undefined, index: number) {
     this.placesPrises[index]++;
-    this.covoitsSelected[index] = this.placesPrises[index] === 0 ? undefined : covoit;
+    this.etapesSelected[index] = this.placesPrises[index] === 0 ? undefined : covoit;
   }
 
   rmPass() {
@@ -84,13 +84,13 @@ export class RechercheComponent {
 
   rmPlace(index: number) {
     this.placesPrises[index] = this.placesPrises[index] === 0 ? 0 : (this.placesPrises[index] - 1);
-    this.covoitsSelected[index] = this.placesPrises[index] === 0 ? undefined : this.covoitsSelected[index];
+    this.etapesSelected[index] = this.placesPrises[index] === 0 ? undefined : this.etapesSelected[index];
   }
 
   toCovoits() { console.log("Festival sélectionné: ", this.selected);
     if(this.selected){ console.log("toCovoits")
       this.nbPages = 1;
-      this.typeRecherche = "covoiturage";
+      this.typeRecherche = "etape";
       this.search(this.typeRecherche);
     }
   }
