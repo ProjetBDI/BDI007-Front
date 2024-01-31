@@ -1,8 +1,8 @@
 <img id="logoAbstract" class="dropShadow" src="../../assets/images/FestCarAbstract.png" alt="FestiCarAbstract"/>
 
 <div class="container">
-    <div class="card centered shadow overflow">
-        <div *ngIf="this.obsPanier$ | async as panier">
+    <div class="card shadow overflow">
+        <div class="panierContainer" *ngIf="this.obsPanier$ | async as panier">
         <div class="panier" *ngIf="this.obsPanierEtapes$ | async as panierEtapes ; else vide">
             <div class="title">
                 Mon Panier
@@ -81,7 +81,7 @@
             </div>
             </div>
             <footer>
-                <span class="title">Prix total : {{this.sommePrix}} €</span>
+                <span class="title totalPrice">Prix total : {{this.sommePrix}} €</span>
                 <button class="CTA1 shadow" type="button" (click)="this.bsPaiement.next(0)">Payer</button>
                 <button class="CTA2 shadow" type="button">Abandonner</button>
             </footer>
@@ -97,7 +97,9 @@
     </div>
 
     <div class="card centered shadow popup" *ngIf="this.bsPaiement.value === 0">
-        Souhaitez-vous effectuer le paiement de {{this.sommePrix}} € ?
+        <div class="infos">
+            Souhaitez-vous effectuer le paiement de {{this.sommePrix}} € ?
+        </div>
 
         <div class="response">
             <button class="CTA1 shadow" type="button" (click)="this.toValidation()">Payer</button>
@@ -109,12 +111,12 @@
     <div class="card centered shadow popup" *ngIf="this.bsPaiement.value === 1">
         
         <div *ngIf="this.obsPanier$ | async as panier">
-            <p class="merci">Votre paiement a bien été effectué.<p>
-
-            <p class="mail">Vous allez recevoir un mail de confirmation à l'adresse mail : {{panier.idProprietaire.email}}.</p>
-
-            <p class="confiance">L'équipe FestiCar vous remercie pour votre confiance.</p>
-            <div class="response">
+            <div class="infos">
+                Votre paiement a bien été effectué.<br/><br/> 
+                Vous allez recevoir un mail de confirmation à l'adresse mail : {{panier.idProprietaire.email}}.<br/> 
+                L'équipe FestiCar vous remercie pour votre confiance.
+            </div>
+            <div class="response final">
                 <button class="CTA1 shadow" type="button" (click)="this.bsPaiement.next(-1)">Fermer</button>
             </div>
         </div>

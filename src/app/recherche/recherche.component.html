@@ -1,7 +1,7 @@
 <img id="logoAbstract" class="dropShadow" src="../../assets/images/FestCarAbstract.png" alt="FestiCarAbstract"/>
 <div id="componentContainer">
     <div class="s100">
-        <form class="pop" *ngIf="typeRecherche === 'festival'" [formGroup]="festiSearch" (ngSubmit)="this.search('festival')">
+        <form *ngIf="typeRecherche === 'festival'" [formGroup]="festiSearch" (ngSubmit)="this.search('festival')">
             <input class="shadow nom" type="text" placeholder="Trouve ton festival !" [formControl]="festiSearch.controls.festiNom"  [class.inSearch]="this.ds.inSearch.value"/>
             <input class="shadow date" type="date" [formControl]="festiSearch.controls.festiDate"/>
             <div class="tarifDispo">
@@ -28,7 +28,7 @@
             </button>
         </form>
 
-        <div id="searchContainer" class="pop card shadow" *ngIf="this.ds.inSearch.value">
+        <div id="searchContainer" class="card shadow" *ngIf="this.ds.inSearch.value">
             <div class="scrollbar searchResults">
                 <div *ngIf="this.typeRecherche === 'festival'">
                     <div class="searchContent" *ngFor="let festival of festivals, let isLast = last" [class.dernier]="isLast">
