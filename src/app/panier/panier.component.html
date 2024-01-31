@@ -2,12 +2,13 @@
 
 <div class="container">
     <div class="card centered shadow overflow">
-        <div class="panier" *ngIf="this.obsPanier$ | async as commande ; else vide">
+        <div class="panier" *ngIf="this.obsPanier$ | async as panier; else vide">
             <div class="title">
                 Mon Panier
+                {{panier | json}}
             </div>
             <div class="scrollbar">
-            <div *ngFor="let panier of this.paniers; let i index">
+            <!-- <div *ngFor="let panier of this.paniers; let i index"> -->
             
                 <div class="separatorX"></div>
                 <header>
@@ -48,8 +49,8 @@
                 </ul>
                 <div class="moreInfos">
                     <div class="wrap-collabsible">
-                        <input id="collapsible{{i}}" class="toggle" type="checkbox">
-                        <label for="collapsible{{i}}" class="lbl-toggle">Détail des étapes</label>
+                        <input id="collapsible" class="toggle" type="checkbox">
+                        <label for="collapsible" class="lbl-toggle">Détail des étapes</label>
                         <div class="collapsible-content">
                             <div class="content-inner">
                                 <table class="tableEtape">
@@ -78,7 +79,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            <!-- </div> -->
             </div>
             <footer>
                 <span class="title">Prix total : 100.98 €</span>

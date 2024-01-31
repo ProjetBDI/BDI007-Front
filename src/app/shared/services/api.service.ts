@@ -19,9 +19,8 @@ export class ApiService {
       startWith(undefined),
       filter(U => !!U),
       switchMap((user) => {
-        return this.http.get<Panier>(this.apiPath + `/panier/${user}`).pipe(
+        return this.getPanierByID(1).pipe(
           switchMap((panier: Panier) => {
-            // Assuming you have an API endpoint to get the covoiturage and etapes data
             const covoiturage$ = this.http.get<Covoiturage>(this.apiPath + `/covoiturage/${panier}`);
             const etapes$ = this.http.get<Etape[]>(this.apiPath + `/etapes/${panier}`);
 
@@ -71,14 +70,18 @@ export class ApiService {
     return this.http.get(this.apiPath + `/covoiturages/${page}`);
   }
 
-  getCovoituragebyID(id: number){
-    return this.http.get(this.apiPath + `/covoiturage/${id}`);
+  getCovoituragebyID(id: number) : Observable<Covoiturage>{
+    return this.http.get<Covoiturage>(this.apiPath + `/covoiturage/${id}`);
   }
 
   /* PANIERS */
 
   getCurrentPanierByUtilisateur(id: number){
     return this.http.get(this.apiPath + `/panier/utilisateur/current/${id}`)
+  }
+
+  getPanierByID(id: number) : Observable<Panier>{
+    return this.http.get<Panier>(this.apiPath + `/panier/${id}`);
   }
 
   postPanier(panier: Panier){

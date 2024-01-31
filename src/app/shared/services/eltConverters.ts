@@ -15,7 +15,8 @@ export const convUserToFestiUser : FirestoreDataConverter<FestiUser> = {
 
 // convert UserCredential to FestiUser
 export const convUserCredentialToFestiUser = (uc: UserCredential) : FestiUser => ({
-    name : uc.user.displayName ?? uc.user.email ?? uc.user.uid,
+    nom : uc.user.displayName?.split(" ")[1] ?? "",
+    prenom : uc.user.displayName?.split(" ")[0] ?? "",
     email : uc.user.email ?? "",
     dateNaissance : new Date(),
     photoUrl : uc.user.photoURL ?? "https://cdn-icons-png.flaticon.com/512/1077/1077012.png"

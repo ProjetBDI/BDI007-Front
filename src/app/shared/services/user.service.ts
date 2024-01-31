@@ -15,7 +15,7 @@ export class UserService {
   obsFestiUsers$ : Observable<FestiUser|undefined>;
   bsAuth: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private auth: Auth, private fs : Firestore, private api : ApiService) { 
+  constructor(private auth: Auth, private fs : Firestore) { 
     authState(this.auth).pipe(
       filter( u => !!u ),
       map( u => u as User ),
