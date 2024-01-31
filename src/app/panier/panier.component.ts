@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../shared/services/api.service';
-import { BehaviorSubject, Observable, filter, map, of, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, async, filter, map, of, switchMap } from 'rxjs';
 import { Covoiturage, Etape, FestiUser, Panier } from '../shared/services/eltDefinitions';
 import { UserService } from '../shared/services/user.service';
+import { convUserBDToFestiUser } from '../shared/services/eltConverters';
 
 @Component({
   selector: 'app-panier',
@@ -17,14 +18,29 @@ export class PanierComponent implements OnInit{
 
   protected paniers: Panier[] = [];
 
-  constructor(private api: ApiService, private us: UserService) { 
+  constructor(private api: ApiService,readonly us: UserService) { 
     
     this.obsPanier$ = this.us.obsFestiUsers$.pipe(
-      switchMap( (user) => {
+      switchMap( async ( user) => {
         if(user){
-          return this.api.getCurrentPanierByUtilisateur(this.us.bsIdAuth.value)
+          const panierBD = await this.api.getPanierByID(1)
+          if (panierBD === undefined) {
+            return undefined
+          }else {            
+            
+            // const panier : Panier = {
+            //   id: panierBD.id,
+            //   datePaiement: panierBD.datePaiement,
+            //   proprietaire: ,
+            //   nomFestivaliers: panierBD.nomFestivaliers,
+            //   nbPlaceOccuppee: panierBD.nbPlaceOccuppee,
+            //   etapes: panierBD.etapes,
+            // }
+
+            return panierBD
+          }          
         } else{
-          return of(undefined)
+          return undefined
         }
       })
     )
