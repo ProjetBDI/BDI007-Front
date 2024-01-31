@@ -70,44 +70,37 @@
                 </div>
 
                 <div *ngIf="this.typeRecherche === 'covoiturage'">
-                    <!-- <div class="searchContent" *ngFor="let elt of covoits, let isLast = last" [class.dernier]="isLast">
+                    <div class="searchContent" *ngFor="let covoit of covoits, let index = index, let isLast = last" [class.dernier]="isLast">
                         <div class="line">
                             <div class="element">
-                                <div class="inline elt1"><div class="title">Nom</div> {{elt?.nom ?? "N/C"}}</div>
-                                <div class="inline elt2"><div class="title">Lieu</div> {{elt?.lieuPrincipal ?? "N/C"}}</div>
-                                <div class="inline elt3"><div class="title">Du</div> {{elt?.dateDebut ?? "N/C"}} <div class="title">au</div> {{elt?.dateFin ?? "N/C"}} </div>
-                                <div class="inline elt4"><div class="title">Domaine</div> {{"N/C"}}</div>
-                                <div class="inline elt5"><div class="title">Sous-domaine</div> {{"N/C"}}</div>
-                                <div class="inline elt6"><div class="title">Pass disponibles</div> {{elt?.nbPassDispo ?? "N/C"}}</div>
-                                <div class="inline elt7"><div class="title">Tarif</div> {{elt?.tarifPass ?? "N/C"}}</div>
-                                <div class="inline elt8"></div>
+                                <div class="inline elt1"><div class="title">Date départ</div> {{covoit?.dateDepart}}</div>
+                                <div class="inline elt2"><div class="title">Tarif</div> {{covoit?.prixParPersonne}}</div>
+                                <div class="inline elt3"><div class="title">Places disponibles</div> {{covoit?.nbPlaceDispo}}</div>
+                                <div class="inline elt4"><div class="title">Total places</div> {{covoit?.nbPlace}}</div>
+                                <div class="inline elt5"></div>
+                                <div class="inline elt6"><div class="title">Conducteur</div> {{covoit?.conducteur?.nom}}</div>
+                                <div class="inline elt7"><div class="title">Marque</div> {{covoit?.marque}}</div>
+                                <div class="inline elt8"><div class="title">Modèle</div> {{covoit?.modele}}</div>
                                 <div class="inline elt9"></div>
                                 <div class="inline elt10"></div>
                             </div>
 
                             <div class="sideButtons">
-                                <div class="status"
-                                [class.available]="elt?.status === 'OUVERT'"
-                                [class.unavailable]="elt?.status !== 'OUVERT'">
-                                    {{elt?.status ?? "PLEIN"}}
-                                </div>
-                                <div class="separatorX"></div>
-                                <div class="separatorY"></div>
                                 <div class="selecteur inline"
-                                [class.available]="elt?.status === 'OUVERT'"
-                                [class.unavailable]="elt?.status !== 'OUVERT'">
-                                    <button [disabled]="elt?.status !== 'OUVERT' && this.selected !== undefined && elt !== this.selected" (click)="rmPass()">&lt;</button>
-                                    <div *ngIf="this.selected === undefined || this.selected !== elt; else nbPassTmp">0</div>
-                                    <ng-template #nbPassTmp>
-                                        <div>{{nbPass}}</div>
+                                    [class.unavailable]="(placesPrises[index] - (covoits[index]?.nbPlaceDispo || 0)) <= 0"
+                                    [class.available]="(placesPrises[index] - (covoits[index]?.nbPlaceDispo || 0)) > 0">
+                                    <button [disabled]="this.covoit !== undefined && covoit !== this.covoit || ((placesPrises[index] - (covoits[index]?.nbPlaceDispo || 0)) <= 0)" (click)="rmPlace(index)">&lt;</button>
+                                    <div *ngIf="this.selected === undefined || covoit !== this.covoit; else nbPlacesTmp">0</div>
+                                    <ng-template #nbPlacesTmp>
+                                        <div>{{placesPrises[index]}}</div>
                                     </ng-template>
-                                    <button [disabled]="elt?.status !== 'OUVERT' && this.selected !== undefined && elt !== this.selected" (click)="addPass(elt)">&gt;</button>
+                                    <button [disabled]="this.covoit !== undefined && covoit !== this.covoit || ((placesPrises[index] - (covoits[index]?.nbPlaceDispo || 0)) <= 0)" (click)="addPlace(covoit, index)">&gt;</button>
                                 </div>
                             </div>
                         </div>
 
                         <div class="separatorX" *ngIf="!isLast"></div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
             <div class="footer">
