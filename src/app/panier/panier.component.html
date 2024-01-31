@@ -1,13 +1,13 @@
-<!-- <img id="logoAbstract" class="dropShadow" src="../../assets/images/FestCarAbstract.png" alt="FestiCarAbstract"/>
+<img id="logoAbstract" class="dropShadow" src="../../assets/images/FestCarAbstract.png" alt="FestiCarAbstract"/>
 
 <div class="container">
     <div class="card centered shadow overflow">
-        <div class="panier" *ngIf="this.obsCommandes$ | async as paniers; else vide">
+        <div class="panier" *ngIf="this.obsPanier$ | async as panier ; else vide">
             <div class="title">
                 Mon Panier
             </div>
             <div class="scrollbar">
-            <div *ngFor="let panier of paniers; let i index">
+            <!-- <div *ngFor="let panierEtape of panierEtapes; let i index"> -->
                 <div class="separatorX"></div>
                 <header>
                     Mon covoit pour le festival machin
@@ -24,13 +24,13 @@
                         <th>Noms des festivaliers</th>
                     </tr>
                     <tr>                    
-                        <td>{{panier. | date:'yyyy-MM-dd'}}</td>
+                        <td>{{panier.datePaiement | date:'yyyy-MM-dd'}}</td>
                         <td>{{panier.datePaiement | date:'HH:MM'}}</td>
                         <td>109 Batiment F UFR im2ag</td>
                         <td>{{panier.idProprietaire.nom}}</td>
                         <td>
                             <ul>
-                                <li *ngFor="let festivalier of panier.nomFestivaliers">{{festivalier}}</li>
+                                <li *ngFor="let festivalier of this.listFestivaliers">{{festivalier}}</li>
                             </ul>
                         </td>
                     </tr>
@@ -42,7 +42,7 @@
                     <li>Conducteur : Yves Ledru</li>
                     <li>Noms des festivaliers : 
                     <ul>
-                        <li *ngFor="let festivalier of panier.nomFestivaliers">{{festivalier}}</li>
+                        <li *ngFor="let festivalier of this.listFestivaliers">{{festivalier}}</li>
                     </ul>
                 </ul>
                 <div class="moreInfos">
@@ -77,7 +77,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            <!-- </div> -->
             </div>
             <footer>
                 <span class="title">Prix total : 100.98 €</span>
@@ -93,7 +93,7 @@
 
     </div>
 
-    <div class="card centered shadow popup" *ngIf="this.bsPaiement.value">
+    <div class="card centered shadow popup" *ngIf="this.bsPaiement.value === true">
         Souhaitez-vous effectuer le paiement de 100 dollars ?
 
         <div class="response">
@@ -104,4 +104,4 @@
     </div>
 </div>
 
- -->
+

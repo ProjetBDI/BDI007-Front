@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
-import { Covoiturage, Utilisateur, Festival, Panier } from './eltDefinitions';
+import { Covoiturage, Utilisateur, Festival, Panier, PanierEtape } from './eltDefinitions';
 import { Observable, lastValueFrom } from 'rxjs';
 
 @Injectable({
@@ -52,8 +52,8 @@ export class ApiService {
 
   /* PANIERS */
 
-  getPanierEtapeByPanier(id: number) : Promise<Panier | undefined>{
-    return lastValueFrom(this.http.get<Panier>(this.apiPath + `/panierEtapes/${id}/panier`));
+  getPanierEtapeByPanier(id: number) : Promise<PanierEtape[] | undefined>{
+    return lastValueFrom(this.http.get<PanierEtape[]>(this.apiPath + `/panierEtapes/${id}/panier`));
   }
 
   async getCurrentPanierByUtilisateur(id: number): Promise<Panier | undefined>{
