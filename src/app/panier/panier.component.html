@@ -5,7 +5,7 @@
         <div class="panier" *ngIf="this.obsPanier$ | async as panier; else vide">
             <div class="title">
                 Mon Panier
-                {{panier | json}}
+                {{panier.proprietaire| json}}
             </div>
             <div class="scrollbar">
             <!-- <div *ngFor="let panier of this.paniers; let i index"> -->
@@ -29,7 +29,7 @@
                         <td>{{panier.datePaiement | date:'yyyy-MM-dd'}}</td>
                         <td>{{panier.datePaiement | date:'HH:MM'}}</td>
                         <td>109 Batiment F UFR im2ag</td>
-                        <td>Yves Ledru</td>
+                        <td>{{panier.proprietaire.nom}}</td>
                         <td>
                             <ul>
                                 <li *ngFor="let festivalier of panier.nomFestivaliers">{{festivalier}}</li>

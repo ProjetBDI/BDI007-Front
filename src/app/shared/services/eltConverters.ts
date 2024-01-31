@@ -1,5 +1,5 @@
 import { FirestoreDataConverter, doc, docData } from "@angular/fire/firestore";
-import { FestiUser, UserBD } from "./eltDefinitions";
+import { FestiUser, Panier, UserBD } from "./eltDefinitions";
 import { UserCredential } from "@angular/fire/auth";
 
 export const convUserToFestiUser : FirestoreDataConverter<FestiUser> = {
