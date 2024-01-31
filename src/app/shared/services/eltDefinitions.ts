@@ -35,7 +35,7 @@ export interface Festival {
 export interface Panier {
   idPanier: number,
   datePaiement: Date,
-  nomFestivaliers: string,
+  nomsFestivaliers: string,
   idProprietaire: Utilisateur,
 }
 
@@ -47,16 +47,15 @@ export interface Etape {
 }
 
 export interface Covoiturage {
-  id: number,
-  dateDepart: Date,
+  idCovoiturage: number,
   nbPlace: number,
   nbPlaceDispo: number,
   marque: string,
   modele: string,
   couleur: string,
-  prixParPersonne: number,
-  conducteur: Utilisateur,
-  festival: Festival,
+  dateDepart: Date,
+  emailConducteur: Utilisateur,
+  idFestivalestival: Festival,
 }
 
 export interface Lieu {
