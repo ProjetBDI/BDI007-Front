@@ -2,15 +2,16 @@
 
 <div class="container">
     <div class="card centered shadow overflow">
-        <div class="panier" *ngIf="this.obsPanier$ | async as panier ; else vide">
+        <div *ngIf="this.obsPanier$ | async as panier">
+        <div class="panier" *ngIf="this.obsPanierEtapes$ | async as panierEtapes ; else vide">
             <div class="title">
                 Mon Panier
             </div>
             <div class="scrollbar">
-            <!-- <div *ngFor="let panierEtape of panierEtapes; let i index"> -->
+            <div *ngFor="let panierEtape of panierEtapes; let i index">
                 <div class="separatorX"></div>
                 <header>
-                    Mon covoit pour le festival machin
+                    Mon covoit pour le festival {{panierEtape.idEtape.idCovoiturage.idFestival.nom}} - {{panierEtape.idEtape.idCovoiturage.dateDepart | date:'yyyy'}}
                 </header>
                 <div class="separatorX"></div>
 
@@ -22,33 +23,36 @@
                         <th>Lieu RDV</th>
                         <th>Conducteur</th>
                         <th>Noms des festivaliers</th>
+                        <th>Prix de l'étape</th>
                     </tr>
                     <tr>                    
-                        <td>{{panier.datePaiement | date:'yyyy-MM-dd'}}</td>
-                        <td>{{panier.datePaiement | date:'HH:MM'}}</td>
-                        <td>109 Batiment F UFR im2ag</td>
-                        <td>{{panier.idProprietaire.nom}}</td>
+                        <td>{{panierEtape.idEtape.idCovoiturage.dateDepart | date:'yyyy-MM-dd'}}</td>
+                        <td>{{panierEtape.idEtape.idCovoiturage.dateDepart | date:'HH:MM'}}</td>
+                        <td>{{panierEtape.idEtape.idLieu.adresse}}</td>
+                        <td>{{panierEtape.idEtape.idCovoiturage.idConducteur.prenom}} {{panierEtape.idEtape.idCovoiturage.idConducteur.nom}}</td>
                         <td>
                             <ul>
                                 <li *ngFor="let festivalier of this.listFestivaliers">{{festivalier}}</li>
                             </ul>
                         </td>
+                        <td>{{panierEtape.idEtape.prixEtape * this.listFestivaliers.length}} €</td>
                     </tr>
                 </table>
                 <ul class="mobile">
-                    <li>Date : {{panier.datePaiement | date:'yyyy-MM-dd'}}</li>
-                    <li>Heure : {{panier.datePaiement | date:'HH:MM'}}</li>
-                    <li>Lieu : 109 Batiment F UFR im2ag</li>
-                    <li>Conducteur : Yves Ledru</li>
+                    <li>Date : {{panierEtape.idEtape.idCovoiturage.dateDepart | date:'yyyy-MM-dd'}}</li>
+                    <li>Heure : {{panierEtape.idEtape.idCovoiturage.dateDepart | date:'HH:MM'}}</li>
+                    <li>Lieu : {{panierEtape.idEtape.idLieu.adresse}}</li>
+                    <li>Conducteur : {{panierEtape.idEtape.idCovoiturage.idConducteur.prenom}} {{panierEtape.idEtape.idCovoiturage.idConducteur.nom}}</li>
                     <li>Noms des festivaliers : 
                     <ul>
                         <li *ngFor="let festivalier of this.listFestivaliers">{{festivalier}}</li>
                     </ul>
+                    <li>Prix de l'étape : {{panierEtape.idEtape.prixEtape * this.listFestivaliers.length}} €</li>
                 </ul>
                 <div class="moreInfos">
                     <div class="wrap-collabsible">
-                        <input id="collapsible" class="toggle" type="checkbox">
-                        <label for="collapsible" class="lbl-toggle">Détail des étapes</label>
+                        <input id="collapsible{{i}}" class="toggle" type="checkbox">
+                        <label for="collapsible{{i}}" class="lbl-toggle">Détail du covoiturage</label>
                         <div class="collapsible-content">
                             <div class="content-inner">
                                 <table class="tableEtape">
@@ -77,14 +81,15 @@
                         </div>
                     </div>
                 </div>
-            <!-- </div> -->
+            </div>
             </div>
             <footer>
-                <span class="title">Prix total : 100.98 €</span>
+                <span class="title">Prix total : {{this.sommePrix}} €</span>
                 <button class="CTA1 shadow" type="button" (click)="this.bsPaiement.next(true)">Payer</button>
             </footer>
         </div>
-
+        </div>
+        
         <ng-template #vide>
             <div class="title">
                 Panier vide
@@ -94,7 +99,7 @@
     </div>
 
     <div class="card centered shadow popup" *ngIf="this.bsPaiement.value === true">
-        Souhaitez-vous effectuer le paiement de 100 dollars ?
+        Souhaitez-vous effectuer le paiement de {{this.sommePrix}} € ?
 
         <div class="response">
             <button class="CTA1 shadow" type="button" (click)="this.bsPaiement.next(false)">Payer</button>

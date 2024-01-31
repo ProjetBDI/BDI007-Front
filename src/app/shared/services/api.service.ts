@@ -61,11 +61,21 @@ export class ApiService {
   }
 
   async getCurrentPanierByUtilisateur(id: number): Promise<Panier | undefined>{
-    return  await lastValueFrom(this.http.get<Panier>(this.apiPath + `/panier/utilisateur/current/${id}`));
+    try {
+      return await lastValueFrom(this.http.get<Panier>(this.apiPath + `/panier/utilisateur/current/${id}`));
+    }
+    catch(e){
+      return undefined;
+    }
   }
 
   async getPanierByID(id: number) : Promise<Panier | undefined>{
-    return lastValueFrom(this.http.get<any>(this.apiPath + `/panier/${id}`))
+    try {
+      return await lastValueFrom(this.http.get<Panier>(this.apiPath + `/panier/${id}`));
+    }
+    catch(e){
+      return undefined;
+    }
   }
 
   postPanier(panier: Panier){

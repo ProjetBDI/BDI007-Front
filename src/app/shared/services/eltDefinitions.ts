@@ -14,6 +14,7 @@ export interface PanierEtape {
   nbPlaceOccupe: number,
   idEtape: Etape,
   idPanier: Panier,
+  idCovoiturage: Covoiturage,
 }
 
 export interface Festival {
@@ -44,6 +45,7 @@ export interface Etape {
   prixEtape: number,
   dureeDepuisDepart: number,
   idLieu: Lieu,
+  idCovoiturage: Covoiturage,
 }
 
 export interface Covoiturage {
@@ -54,8 +56,8 @@ export interface Covoiturage {
   modele: string,
   couleur: string,
   dateDepart: Date,
-  emailConducteur: Utilisateur,
-  idFestivalestival: Festival,
+  idConducteur: Utilisateur,
+  idFestival: Festival,
 }
 
 export interface Lieu {
