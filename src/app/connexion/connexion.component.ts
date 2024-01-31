@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormGroup, FormControl, FormBuilder, Validators} from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserService } from '../shared/services/user.service';
+import { ApiService } from '../shared/services/api.service';
+import { FestiUser } from '../shared/services/eltDefinitions';
 
 @Component({
   selector: 'app-connexion',
@@ -13,6 +15,8 @@ export class ConnexionComponent {
 
 
   public bsNotAccount = new BehaviorSubject<boolean>(true);
+
+  protected obsUserBD$: Observable<FestiUser| undefined> |undefined;
 
   public fgLogin = new FormGroup({
     email: new FormControl("", [Validators.required, Validators.email]),
@@ -31,7 +35,8 @@ export class ConnexionComponent {
 
   constructor(private us: UserService,
               private fb: FormBuilder,
-              private router: Router) {
+              private router: Router,
+              private api: ApiService) {
 
     this.us.obsFestiUsers$.subscribe(
       u => {
@@ -47,7 +52,10 @@ export class ConnexionComponent {
 
 
   async login() {
+    
     await this.us.loginMail(<string>this.fgLogin.controls.email.value, <string>this.fgLogin.controls.password.value)
+    const userBD = await this.api.getUtilisateurByEmail(<string>this.fgRegister.controls.email.value)
+    this.us.bsIdAuth.next(userBD?.idUtilisateur ?? -1)
     if (this.us.bsAuth.value) {
       this.router.navigateByUrl("")
     } else {
@@ -57,7 +65,10 @@ export class ConnexionComponent {
   }
 
   async register() {
+    
     await this.us.registerMail(<string>this.fgRegister.controls.nom.value, <string>this.fgRegister.controls.prenom.value, <Date>this.fgRegister.controls.dateNaissance.value, <string>this.fgRegister.controls.email.value, <string>this.fgRegister.controls.password.value)
+    const userBD = await this.api.getUtilisateurByEmail(<string>this.fgRegister.controls.email.value)
+    this.us.bsIdAuth.next(userBD?.idUtilisateur ?? -1)
     if (this.us.bsAuth.value) {
       this.router.navigateByUrl("")
     } else {
@@ -67,6 +78,8 @@ export class ConnexionComponent {
 
   async loginGoogle() {
     await this.us.login()
+    const userBD = await this.api.getUtilisateurByEmail(this.us.bsEmailAuth.value)
+    this.us.bsIdAuth.next(userBD?.idUtilisateur ?? -1)
     this.router.navigateByUrl("")
   }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../shared/services/api.service';
-import { BehaviorSubject, Observable, map } from 'rxjs';
-import { Covoiturage, Etape, Panier } from '../shared/services/eltDefinitions';
+import { BehaviorSubject, Observable, filter, map, of, switchMap } from 'rxjs';
+import { Covoiturage, Etape, FestiUser, Panier } from '../shared/services/eltDefinitions';
 import { UserService } from '../shared/services/user.service';
 
 @Component({
@@ -19,16 +19,15 @@ export class PanierComponent implements OnInit{
 
   constructor(private api: ApiService, private us: UserService) { 
     
-    this.obsPanier$ = this.api.getPanierByID(1).pipe(
-      // map((panier: Panier) => {
-      //   date: panier.date,
-      //   proprietaire: panier.idProprietaire,
-      //   nomFestivaliers: panier.nomFestivaliers,
-      //   nbPlaceOccuppee: panier.nbPlaceOccuppee,
-      //   etapes: panier.etapes
-      //   return panier;
-      // })
-    );
+    this.obsPanier$ = this.us.obsFestiUsers$.pipe(
+      switchMap( (user) => {
+        if(user){
+          return this.api.getCurrentPanierByUtilisateur(this.us.bsIdAuth.value)
+        } else{
+          return of(undefined)
+        }
+      })
+    )
 
     // let panier : Panier = {
     //   date: new Date(),

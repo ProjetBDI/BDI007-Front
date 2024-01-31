@@ -4,8 +4,6 @@ import {  doc, docData, Firestore, FirestoreDataConverter, getDoc, setDoc, updat
 import { BehaviorSubject, filter, map, Observable, of, switchMap, tap } from 'rxjs';
 import { FestiUser } from './eltDefinitions';
 import { convUserCredentialToFestiUser, convUserToFestiUser } from './eltConverters';
-import { Router } from '@angular/router';
-import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +12,8 @@ export class UserService {
 
   obsFestiUsers$ : Observable<FestiUser|undefined>;
   bsAuth: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  bsIdAuth: BehaviorSubject<number> = new BehaviorSubject(-1);
+  bsEmailAuth: BehaviorSubject<string> = new BehaviorSubject("");
 
   constructor(private auth: Auth, private fs : Firestore) { 
     authState(this.auth).pipe(
@@ -38,6 +38,7 @@ export class UserService {
     this.obsFestiUsers$ = authState(this.auth).pipe(
       switchMap( (user) => {
         if(user){
+          
           const userRef = doc(this.fs , `users/${user.uid}`).withConverter(convUserToFestiUser)
           const userData$ = docData(userRef)
           return userData$
@@ -59,6 +60,7 @@ export class UserService {
 
     try{
       await signInWithPopup(this.auth, googleProvider); // on ouvre une popup pour se connecter
+      this.bsEmailAuth.next(this.auth.currentUser?.email ?? "");
       console.log("Login success ! : "); // si réussi, on affiche un message de réussite
     } catch(e){
       console.log("Login error (Google): " + e); // si erreur, on affiche l'erreur de login
@@ -106,7 +108,8 @@ export class UserService {
 
   //fonction pour se deconnecter de firebase
   async logout() {
-    
+    this.bsIdAuth.next(-1); // on passe l'id de l'utilisateur à -1
+
     try{
       await signOut(this.auth); // on se déconnecte
     } catch(e){

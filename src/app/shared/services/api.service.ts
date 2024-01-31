@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
-import { Covoiturage, Etape, FestiUser, Festival, Panier, PanierState } from './eltDefinitions';
+import { Covoiturage, Etape, FestiUser, Festival, Panier, PanierState, UserBD } from './eltDefinitions';
 import { Observable, filter, forkJoin, lastValueFrom, map, of, startWith, switchMap } from 'rxjs';
 import { User } from '@angular/fire/auth';
 
@@ -12,31 +12,8 @@ export class ApiService {
 
   private apiPath = "/api/v1"
 
-  readonly obsPanierState$: Observable<PanierState>;
-
   constructor(private http: HttpClient, private us: UserService) {
-    this.obsPanierState$ = this.us.bsAuth.pipe(
-      startWith(undefined),
-      filter(U => !!U),
-      switchMap((user) => {
-        return this.getPanierByID(1).pipe(
-          switchMap((panier: Panier) => {
-            const covoiturage$ = this.http.get<Covoiturage>(this.apiPath + `/covoiturage/${panier}`);
-            const etapes$ = this.http.get<Etape[]>(this.apiPath + `/etapes/${panier}`);
-
-            return forkJoin({ panier: of(panier), covoiturage$, etapes$ }).pipe(
-              map(({ panier, covoiturage$, etapes$ }) => {
-                return {
-                  panier,
-                  covoiturage: covoiturage$,
-                  etapes: etapes$
-                } as PanierState;
-              })
-            );
-          })
-        );
-      })
-    );
+    
   }
 
   /* FESTIVALS */
@@ -76,12 +53,12 @@ export class ApiService {
 
   /* PANIERS */
 
-  getCurrentPanierByUtilisateur(id: number){
-    return this.http.get(this.apiPath + `/panier/utilisateur/current/${id}`)
+  async getCurrentPanierByUtilisateur(id: number): Promise<Panier | undefined>{
+    return  await lastValueFrom(this.http.get<Panier>(this.apiPath + `/panier/utilisateur/current/${id}`));
   }
 
-  getPanierByID(id: number) : Observable<Panier>{
-    return this.http.get<Panier>(this.apiPath + `/panier/${id}`);
+  async getPanierByID(id: number) : Promise<Panier | undefined>{
+    return lastValueFrom(this.http.get<any>(this.apiPath + `/panier/${id}`))
   }
 
   postPanier(panier: Panier){
@@ -109,8 +86,8 @@ export class ApiService {
     return this.http.get(this.apiPath + `/utilisateur/${id}`);
   }
 
-  getUtilisateurByEmail(email: string){
-    return this.http.get(this.apiPath + `/utilisateur/email/${email}`);
+  async getUtilisateurByEmail(email: string) : Promise<UserBD | undefined>{
+    return await lastValueFrom(this.http.get<UserBD>(this.apiPath + `/utilisateur/email/${email}`));
   }
 
 

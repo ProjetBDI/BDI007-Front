@@ -6,6 +6,15 @@ export interface FestiUser{
   dateNaissance?: Date,
 }
 
+export interface UserBD {
+  idUtilisateur: number,
+  nom: string,
+  prenom: string,
+  email: string,
+  motDePasse: string,
+  dateNaissance: Date,
+  telephone: string,
+}
 export interface PanierState {
   panier: Panier,
   covoiturage: Covoiturage,
@@ -28,11 +37,12 @@ export interface Festival {
 }
 
 export interface Panier {
-  etapes: Etape[]
-  date: Date,
-  proprietaire: FestiUser | undefined,
-  nomFestivaliers: string[] // ex: "Arthur - Alex - Kyks - Vincent" à split pour faire une liste
+  id: number,
+  datePaiement: Date,
+  proprietaire: FestiUser,
+  nomFestivaliers: string[],
   nbPlaceOccuppee: number,
+  etapes: Etape[],
 }
 
 export interface Etape {
