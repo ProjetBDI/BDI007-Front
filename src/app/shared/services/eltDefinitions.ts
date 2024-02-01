@@ -9,6 +9,16 @@ export interface Utilisateur {
   photoUrl: string,
 }
 
+export interface UtilisateurBD {
+  email: string,
+  nom: string,
+  prenom: string,
+  motDePasse: string,
+  dateNaissance?: Date,
+  telephone: string,
+}
+
+
 export interface PanierEtape {
   idPanierEtape: number,
   nbPlaceOccupe: number,

@@ -1,5 +1,5 @@
 import { FirestoreDataConverter, doc, docData } from "@angular/fire/firestore";
-import { Panier, Utilisateur } from "./eltDefinitions";
+import { Panier, Utilisateur, UtilisateurBD } from "./eltDefinitions";
 import { UserCredential } from "@angular/fire/auth";
 
 export const convUserToUtilisateur : FirestoreDataConverter<Utilisateur> = {
@@ -26,4 +26,13 @@ export const convUserCredentialToUtilisateur = (uc: UserCredential) : Utilisateu
     dateNaissance: new Date(2000,1,1),
     telephone: uc.user?.phoneNumber ?? "",
     photoUrl: uc.user?.photoURL ?? "https://cdn-icons-png.flaticon.com/512/1077/1077012.png",
+})
+
+export const convUtilisateurToUtilisateurBD = (user: Utilisateur) : UtilisateurBD => ({
+    email: user.email,
+    nom: user.nom,
+    prenom: user.prenom,
+    motDePasse: user.motDePasse,
+    dateNaissance: user.dateNaissance,
+    telephone: user.telephone,
 })

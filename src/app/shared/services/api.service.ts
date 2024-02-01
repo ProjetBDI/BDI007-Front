@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
 import { Covoiturage, Utilisateur, Festival, Panier, PanierEtape, Etape } from './eltDefinitions';
 import { Observable, lastValueFrom } from 'rxjs';
+import { convUtilisateurToUtilisateurBD } from './eltConverters';
+import { NumberFormatStyle } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -60,35 +62,16 @@ export class ApiService {
     return lastValueFrom(this.http.get<PanierEtape[]>(this.apiPath + `/panierEtapes/${id}/panier`));
   }
 
-  async getCurrentPanierByUtilisateur(id: number): Promise<Panier | undefined>{
-    try {
-      return await lastValueFrom(this.http.get<Panier>(this.apiPath + `/panier/utilisateur/current/${id}`));
-    }
-    catch(e){
-      return undefined;
-    }
+  getCurrentPanierByUtilisateur(id: number): Promise<Panier | undefined>{
+    return lastValueFrom(this.http.get<Panier>(this.apiPath + `/panier/utilisateur/current/${id}`));
   }
 
-  async getPanierByID(id: number) : Promise<Panier | undefined>{
-    try {
-      return await lastValueFrom(this.http.get<Panier>(this.apiPath + `/panier/${id}`));
-    }
-    catch(e){
-      return undefined;
-    }
+  getPanierByID(id: number) : Promise<Panier | undefined>{
+    return lastValueFrom(this.http.get<Panier>(this.apiPath + `/panier/${id}`));
   }
 
   postPanier(panier: Panier){
     return this.http.post(this.apiPath + `/panier`, panier);
-  }
-
-  parsePanier(panier: Panier){
-    // let panierJSON = {
-    //   "datePaiement": panier.date,
-    //   "nomFestivaliers": panier.nomFestivaliers,
-    //   "idProprietaire": 
-    // }
-    // return panierJSON;
   }
 
   /* ETAPES */
@@ -116,15 +99,19 @@ export class ApiService {
     }
   }
 
-  async postUtilisateur(user: Utilisateur) : Promise<HttpErrorResponse | any>{
-    const res = JSON.parse(JSON.stringify(user));
-    console.log(res);
-    try {
-      // return this.http.post<any>(this.apiPath + `/utilisateur/create`, user);
-    }
-    catch(e){
-      return undefined;
-    }
+  postUtilisateur(user: Utilisateur) : Promise<Utilisateur | undefined>{
+    const res = JSON.parse(JSON.stringify(convUtilisateurToUtilisateurBD(user)));
+
+    return lastValueFrom(this.http.post<Utilisateur>(this.apiPath + `/utilisateur/create`, res));
+  }
+
+
+  /**
+   * Confirmation commande
+   */
+
+  paiementPanier(idPanier: number) : Promise<Panier> {
+    return lastValueFrom(this.http.post<Panier>(this.apiPath + `/panier/payer/${idPanier}`, null));
   }
 
 

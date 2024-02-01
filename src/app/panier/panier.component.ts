@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ApiService } from '../shared/services/api.service';
 import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
 import { Panier, PanierEtape } from '../shared/services/eltDefinitions';
@@ -9,7 +9,7 @@ import { UserService } from '../shared/services/user.service';
   templateUrl: './panier.component.html',
   styleUrls: ['./panier.component.scss']
 })
-export class PanierComponent implements OnInit{
+export class PanierComponent{
 
   readonly obsPanier$ : Observable<Panier | undefined>;
 
@@ -23,17 +23,25 @@ export class PanierComponent implements OnInit{
 
   listFestivaliers: string[] = [];
 
+  private idPanier: number = -1;
+
   constructor(private api: ApiService, readonly us: UserService) {
     this.obsPanier$ = this.us.obsFestiUsers$.pipe(
       switchMap( async u => {
         try {
           return await this.api.getPanierByID(1)
-          // this.api.getCurrentPanierByUtilisateur(u!.idUtilisateur)
+          // return this.api.getCurrentPanierByUtilisateur(100013)
+          // return this.api.getCurrentPanierByUtilisateur(u!.idUtilisateur)
         } catch (error) {
           return undefined
         }
       }
-      )
+      ),
+      tap( async p => {
+        if (p !== undefined) {
+          this.idPanier = p.idPanier;
+        }
+      })
     )
 
     this.obsPanierEtapes$ = this.obsPanier$.pipe(
@@ -71,11 +79,8 @@ export class PanierComponent implements OnInit{
 
   toValidation() {
     this.bsPaiement.next(1);
-    // this.api.updatePanier(1, this.listFestivaliers.toString(), new Date())
-  }
-  
-  ngOnInit(): void {
     
+    this.api.paiementPanier(this.idPanier);
   }
 
 }
