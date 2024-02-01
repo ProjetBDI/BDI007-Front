@@ -2,8 +2,9 @@
 
 <div class="container">
     <div class="card shadow overflow">
-        <div class="panierContainer" *ngIf="this.obsPanier$ | async as panier ; else vide">
-        <div class="panier" *ngIf="this.obsPanierEtapes$ | async as panierEtapes ; else vide">
+        <!-- <div class="panierContainer" *ngIf="this.obsPanier$ | async as panier ; else vide"> -->
+        <div class="panier" *ngIf="this.obsPanierEtapes$ | async as panierEtapes">
+            <div class="panier" *ngIf="panierEtapes.length > 0; else vide2">
             <div class="title">
                 Mon Panier
             </div>
@@ -53,9 +54,14 @@
                     <li><strong>Tarif festival pour {{this.listFestivaliers.length}} personnes : </strong>{{panierEtape.idEtape.idCovoiturage.idFestival.tarifPass  * this.listFestivaliers.length}} €</li>
                     <li></li>
                 </ul>
-
-                <div class="totalOffre">Total pour cette offre : {{this.listPrixEtapes.at(index)}} €</div>
-
+                <div class="foot">
+                    <div class="totalOffre">Total pour cette offre : {{this.listPrixEtapes.at(index)}} €</div>
+                    <div class="poubelle">
+                        {{panierEtape.idPanierEtape}}
+                        <button class="CTA2 shadow" type="button" (click)="this.deletePanierEtape(panierEtape.idPanierEtape)">Supprimer</button>
+                    </div>
+                    {{this.obsPanierEtapes$ | async | json}}
+                </div>
                 <div class="moreInfos">
                     <div class="wrap-collabsible">
                         <input id="collapsible{{index}}" class="toggle" type="checkbox">
@@ -77,6 +83,7 @@
                             </div>
                         </div>
                     </div>
+                
                 </div>
             </div>
             </div>
@@ -86,9 +93,16 @@
                 <button class="CTA2 shadow" type="button">Abandonner</button>
             </footer>
         </div>
+        <!-- </div> -->
         </div>
         
         <ng-template #vide>
+            <div class="title">
+                Panier vide
+            </div>
+        </ng-template>
+
+        <ng-template #vide2>
             <div class="title">
                 Panier vide
             </div>

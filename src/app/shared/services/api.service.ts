@@ -125,5 +125,9 @@ export class ApiService {
     return lastValueFrom(this.http.post<PanierEtape[]>(this.apiPath + `/panierEtapes`, resultat));
   }
 
+  deletePanierEtape(idPanierEtape: number) : Promise<PanierEtape> {
+    return lastValueFrom(this.http.delete<PanierEtape>(this.apiPath + `/panierEtape/${idPanierEtape}`));
+  }
+
 
 }
