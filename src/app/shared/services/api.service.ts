@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
-import { Covoiturage, Utilisateur, Festival, Panier, PanierEtape, Etape, IPanier } from './eltDefinitions';
+import { Covoiturage, Utilisateur, Festival, Panier, PanierEtape, Etape, InstanciationPanier } from './eltDefinitions';
 import { Observable, lastValueFrom } from 'rxjs';
 import { convUtilisateurToUtilisateurBD } from './eltConverters';
 import { NumberFormatStyle } from '@angular/common';
@@ -76,7 +76,7 @@ export class ApiService {
     return lastValueFrom(this.http.get<Panier>(this.apiPath + `/panier/${id}`));
   }
 
-  postPanier(panier: IPanier) {
+  postPanier(panier: InstanciationPanier) {
     return lastValueFrom(this.http.post<Panier>(this.apiPath + `/panier`, panier));
   }
 
