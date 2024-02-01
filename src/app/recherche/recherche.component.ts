@@ -41,7 +41,10 @@ export class RechercheComponent {
     etapeDep: new FormControl('')
   })
 
-  constructor(protected rs: Router, private api: ApiService, protected ds: DataService, protected us: UserService) {
+  constructor(protected rs: Router, 
+    private api: ApiService, 
+    protected ds: DataService, 
+    protected us: UserService) {
 
     this.us.obsFestiUsers$.subscribe(
       u => {
@@ -148,7 +151,6 @@ export class RechercheComponent {
             this.panierEtapeBody(instancesPanierEtape);
           });
 
-          console.log("Panier instancié 1");
         } else {
           
           let instancesPanierEtape: InstanciationPanierEtape[] = [];
@@ -166,7 +168,6 @@ export class RechercheComponent {
 
             this.panierEtapeBody(instancesPanierEtape);
 
-          console.log("Panier instancié 2");
         }
       }
     });
@@ -193,7 +194,11 @@ export class RechercheComponent {
   instanciatePanierEtape(body: any) {
     
     from(this.api.postPanierEtape(body)).subscribe((panierEtapes: any) => {
-      console.log("PanierEtapes instanciés: ", panierEtapes);
+      //TODO affichage pop-up
     });
+  }
+
+  toAccueil() {
+    this.rs.navigateByUrl("")
   }
 }
