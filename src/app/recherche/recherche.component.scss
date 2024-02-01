@@ -68,6 +68,10 @@ input.nom, input.tarif, input.date{
   color: var(--darkGray);
 }
 
+input.nom.etape {
+  color: black;
+}
+
 input.date {
   width: 12vw;
 }
@@ -78,6 +82,10 @@ input.tarif {
 
 input.nom {
   border-radius: 16px 0 0 16px;
+}
+
+input.departement {
+  width: 12vw;
 }
 
 input.nom.inSearch {
@@ -209,10 +217,10 @@ button.research.inSearch {
 }
 
 .available {
-  background-color: var(--viridian);
+  background-color: var(--pistachio);
 
   button:hover {
-    background-color: var(--viridian-dark);
+    background-color: var(--pistachio-dark);
     cursor: pointer;
   }
 }

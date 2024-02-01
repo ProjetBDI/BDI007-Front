@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
-import { Covoiturage, Utilisateur, Festival, Panier, PanierEtape, Etape } from './eltDefinitions';
+import { Covoiturage, Utilisateur, Festival, Panier, PanierEtape, Etape, IPanier } from './eltDefinitions';
 import { Observable, lastValueFrom } from 'rxjs';
 import { convUtilisateurToUtilisateurBD } from './eltConverters';
 import { NumberFormatStyle } from '@angular/common';
@@ -56,11 +56,17 @@ export class ApiService {
     return lastValueFrom(this.http.get<Covoiturage>(this.apiPath + `/covoiturage/${id}`));
   }
 
-  /* PANIERS */
+  /* PANIER-ETAPES */
 
   getPanierEtapeByPanier(id: number) : Promise<PanierEtape[] | undefined>{
     return lastValueFrom(this.http.get<PanierEtape[]>(this.apiPath + `/panierEtapes/${id}/panier`));
   }
+
+  postPanierEtape(infosInstanciation: string) {
+    return lastValueFrom(this.http.post<PanierEtape>(this.apiPath + `/panierEtapes/create`, infosInstanciation));
+  }
+
+  /* PANIERS */
 
   getCurrentPanierByUtilisateur(id: number): Promise<Panier | undefined>{
     return lastValueFrom(this.http.get<Panier>(this.apiPath + `/panier/utilisateur/current/${id}`));
@@ -70,8 +76,8 @@ export class ApiService {
     return lastValueFrom(this.http.get<Panier>(this.apiPath + `/panier/${id}`));
   }
 
-  postPanier(panier: Panier){
-    return this.http.post(this.apiPath + `/panier`, panier);
+  postPanier(panier: IPanier) {
+    return lastValueFrom(this.http.post<Panier>(this.apiPath + `/panier`, panier));
   }
 
   /* ETAPES */

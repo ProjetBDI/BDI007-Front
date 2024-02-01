@@ -1,7 +1,7 @@
 <img id="logoAbstract" class="dropShadow" src="../../assets/images/FestCarAbstract.png" alt="FestiCarAbstract"/>
 <div id="componentContainer">
     <div class="s100">
-        <form *ngIf="typeRecherche === 'festival'" [formGroup]="festiSearch" (ngSubmit)="this.search('festival')">
+        <form *ngIf="ds.searchType.value === 'festival'" [formGroup]="festiSearch" (ngSubmit)="this.search('festival')">
             <input class="shadow nom" type="text" placeholder="Trouve ton festival !" [formControl]="festiSearch.controls.festiNom"  [class.inSearch]="this.ds.inSearch.value"/>
             <input class="shadow date" type="date" [formControl]="festiSearch.controls.festiDate"/>
             <div class="tarifDispo">
@@ -16,10 +16,10 @@
             </button>
         </form>
 
-        <form *ngIf="typeRecherche === 'etape'">
-            <input class="shadow nom" type="text" placeholder="NomFestival" readonly [class.inSearch]="this.ds.inSearch.value"/>
+        <form *ngIf="ds.searchType.value === 'etape'">
+            <input class="shadow nom etape" type="text" [value]="this.selected?.nom" readonly [class.inSearch]="this.ds.inSearch.value"/>
             <input class="shadow date" type="date" [formControl]="etapeSearch.controls.etapeDate"/>
-            <select class="shadow dispo" [formControl]="etapeSearch.controls.etapeDep" >
+            <select class="shadow departement" [formControl]="etapeSearch.controls.etapeDep" >
                 <option value="" disabled selected>département</option>
                 <option *ngFor="let departement of departements" [value]="departement">{{departement}}</option>
             </select>
@@ -30,7 +30,7 @@
 
         <div id="searchContainer" class="card shadow" *ngIf="this.ds.inSearch.value">
             <div class="scrollbar searchResults">
-                <div *ngIf="this.typeRecherche === 'festival'">
+                <div *ngIf="this.ds.searchType.value === 'festival'">
                     <div class="searchContent" *ngFor="let festival of festivals, let isLast = last" [class.dernier]="isLast">
                         <div class="line">
                             <div class="element">
@@ -40,7 +40,7 @@
                                 <div class="inline elt4"><div class="title">Domaine</div> {{festival?.idDomaine?.nomDomaine}}</div>
                                 <div class="inline elt5"><div class="title">Sous-domaine</div> {{festival?.idDomaine?.sousDomaine}}</div>
                                 <div class="inline elt6"><div class="title">Pass disponibles</div> {{festival?.nbPassDispo ?? "N/C"}}</div>
-                                <div class="inline elt7"><div class="title">Tarif</div> {{festival?.tarifPass ?? "N/C"}}</div>
+                                <div class="inline elt7"><div class="title">Tarif</div> {{festival?.tarifPass ?? "N/C"}} €</div>
                                 <div class="inline elt8"></div>
                                 <div class="inline elt9"></div>
                                 <div class="inline elt10"></div>
@@ -57,12 +57,12 @@
                                 <div class="selecteur inline"
                                 [class.available]="festival?.status === 'OUVERT'"
                                 [class.unavailable]="festival?.status !== 'OUVERT'">
-                                    <button [disabled]="festival?.status !== 'OUVERT' && this.selected !== undefined && festival !== this.selected" (click)="rmPass()">&lt;</button>
+                                    <button [disabled]="this.selected === undefined || festival !== this.selected" (click)="rmPass(festival)">&lt;</button>
                                     <div *ngIf="this.selected === undefined || this.selected !== festival; else nbPassTmp">0</div>
                                     <ng-template #nbPassTmp>
-                                        <div>{{nbPass}}</div>
+                                        <div>{{this.nbPass}}</div>
                                     </ng-template>
-                                    <button [disabled]="festival?.status !== 'OUVERT' && this.selected !== undefined && festival !== this.selected" (click)="addPass(festival)">&gt;</button>
+                                    <button [disabled]="this.selected !== undefined && festival !== this.selected || festival?.status !== 'OUVERT'" (click)="addPass(festival)">&gt;</button>
                                 </div>
                             </div>
                         </div>
@@ -71,32 +71,29 @@
                     </div>
                 </div>
 
-                <div *ngIf="this.typeRecherche === 'etape'">
+                <div *ngIf="this.ds.searchType.value === 'etape'">
                     <div class="searchContent" *ngFor="let etape of etapes, let index = index, let isLast = last" [class.dernier]="isLast">
                         <div class="line">
                             <div class="element">
-                                <div class="inline elt1"><div class="title">Lieu</div></div>
-                                <div class="inline elt2"><div class="title">Date de départ</div></div>
-                                <div class="inline elt3"><div class="title">Tarif</div></div>
-                                <div class="inline elt4"><div class="title">Places disponibles</div></div>
+                                <div class="inline elt1"><div class="title">Lieu</div> {{etape?.idLieu?.adresse}}</div>
+                                <div class="inline elt2"><div class="title">Date de départ</div> {{etape?.idCovoiturage?.dateDepart}}</div>
+                                <div class="inline elt3"><div class="title">Tarif</div> {{etape?.prixEtape}} €</div>
+                                <div class="inline elt4"><div class="title">Places disponibles</div> {{etape?.idCovoiturage?.nbPlaceDispo}}</div>
                                 <div class="inline elt5"></div>
-                                <div class="inline elt6"><div class="title">Conducteur</div></div>
-                                <div class="inline elt7"><div class="title">Marque</div></div>
-                                <div class="inline elt8"><div class="title">Modèle</div></div>
-                                <div class="inline elt9"></div>
+                                <div class="inline elt6"><div class="title">Conducteur</div> {{etape?.idCovoiturage?.idConducteur?.nom}}</div>
+                                <div class="inline elt7"><div class="title">Marque</div> {{etape?.idCovoiturage?.marque}}</div>
+                                <div class="inline elt8"><div class="title">Modèle</div> {{etape?.idCovoiturage?.modele}}</div>
+                                <div class="inline elt9"><div class="title">Total places</div> {{etape?.idCovoiturage?.nbPlace}}</div>
                                 <div class="inline elt10"></div>
                             </div>
 
                             <div class="sideButtons">
                                 <div class="selecteur inline"
-                                    [class.unavailable]="(placesPrises[index] - (0)) <= 0"
-                                    [class.available]="(placesPrises[index] - (0)) > 0">
-                                    <button [disabled]="this.etape !== undefined && etape !== this.etape || ((placesPrises[index] - (0)) <= 0)" (click)="rmPlace(index)">&lt;</button>
-                                    <div *ngIf="this.selected === undefined || etape !== this.etape; else nbPlacesTmp">0</div>
-                                    <ng-template #nbPlacesTmp>
-                                        <div>{{placesPrises[index]}}</div>
-                                    </ng-template>
-                                    <button [disabled]="this.etape !== undefined && etape !== this.etape || ((placesPrises[index] - (0)) <= 0)" (click)="addPlace(etape, index)">&gt;</button>
+                                    [class.unavailable]="etape?.idCovoiturage!.nbPlaceDispo <= 0"
+                                    [class.available]="etape?.idCovoiturage!.nbPlaceDispo > 0">
+                                    <button [disabled]="etape?.idCovoiturage!.nbPlaceDispo <= 0" (click)="rmPlace(etape, index)">&lt;</button>
+                                        <div>{{this.placesPrises[index]}}</div>
+                                    <button [disabled]="etape?.idCovoiturage!.nbPlaceDispo <= 0" (click)="addPlace(etape, index)">&gt;</button>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +103,8 @@
                 </div>
             </div>
             <div class="footer">
-                <button class="CTA1 shadow" (click)="this.toCovoits()">Covoiturages &gt;</button>
+                <button class="CTA1 shadow" (click)="this.toCovoits()" *ngIf="this.ds.searchType.value === 'festival'" [disabled]="!this.us.bsAuth.value">Covoiturages &gt;</button>
+                <button class="CTA1 shadow" (click)="this.toCovoits()" *ngIf="this.ds.searchType.value === 'etape'">Confirmer la commande &gt;</button>
             </div>
         </div>
     </div>

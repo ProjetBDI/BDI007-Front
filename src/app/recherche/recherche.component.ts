@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ApiService } from '../shared/services/api.service';
-import { Commune, Etape, Domaine, Festival } from '../shared/services/eltDefinitions';
+import { Commune, Etape, Domaine, Festival, Panier, IPanier, InstanciationPanierEtape } from '../shared/services/eltDefinitions';
 import { Observable, Observer, from, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { DataService } from '../shared/services/data.service';
 import { connectFirestoreEmulator } from '@angular/fire/firestore';
 import { FormControl, FormGroup } from '@angular/forms';
+import { UserService } from '../shared/services/user.service';
 
 @Component({
   selector: 'app-recherche',
@@ -24,7 +25,9 @@ export class RechercheComponent {
   nbPages: number = 1;
   options: string[] = ["ouvert", "ferme", "plein"];
   departements: string[] = ["1","2","3"];
-  typeRecherche: string = "festival";
+
+  userEmail: string = "";
+  panierCourant: Panier | undefined;
 
   festiSearch = new FormGroup({
     festiNom: new FormControl(''),
@@ -38,23 +41,33 @@ export class RechercheComponent {
     etapeDep: new FormControl('')
   })
 
-  constructor(protected rs: Router, private api: ApiService, protected ds: DataService) { }
+  constructor(protected rs: Router, private api: ApiService, protected ds: DataService, protected us: UserService) {
 
-  search(typeRecherche: string) {
+    this.us.obsFestiUsers$.subscribe(
+      u => {
+        if (u !== undefined) {
+          this.userEmail = u.email;
+        }
+      }
+    )
+   }
+
+  search(searchType: string) {
     
     this.festivals = [];
     this.etapes = [];
     
     this.ds.inSearch.next(true);
     
-    if(typeRecherche === "festival"){
+    if(searchType === "festival"){
       from(this.api.getFestivalsWithPageAndName(this.nbPages, this.festiSearch.controls.festiNom.value || '')).subscribe((festivals: Festival[]) => { 
         this.nbPages = festivals.length;
         festivals.forEach((festival: Festival) => {
+          festival.status = festival.nbPassDispo === 0 ? "PLEIN" : (festival.dateFin < new Date() ? "FERME" : "OUVERT");
           this.festivals.push(festival);
         });
       });
-    } else if(typeRecherche === "etape") {
+    } else if(searchType === "etape") {
       from(this.api.getEtapesByFestival(this.nbPages, this.selected?.idFestival || 0)).subscribe((etapes: Etape[]) => { 
         this.nbPages = etapes.length;
         etapes.forEach((etape: Etape) => {
@@ -68,30 +81,92 @@ export class RechercheComponent {
   }
 
   addPass(selected: Festival | undefined) {
-    this.nbPass++;
-    this.selected = this.nbPass === 0 ? undefined : selected;
+    if(selected!.nbPassDispo > 0) {
+      this.nbPass++;
+      selected!.nbPassDispo -= 1;
+      this.selected = selected;
+    }
+    selected!.nbPassDispo <= 0 ? selected!.status = "PLEIN" : selected!.status = "OUVERT";
   }
 
   addPlace(covoit: Etape | undefined, index: number) {
     this.placesPrises[index]++;
     this.etapesSelected[index] = this.placesPrises[index] === 0 ? undefined : covoit;
+    covoit!.idCovoiturage!.nbPlaceDispo -= 1;
   }
 
-  rmPass() {
+  rmPass(selected: Festival | undefined) {
     this.nbPass = this.nbPass === 0 ? 0 : (this.nbPass - 1);
+    selected!.nbPassDispo += 1;
+    selected!.status = this.nbPass === 0 ? "OUVERT" : selected!.status;
     this.selected = this.nbPass === 0 ? undefined : this.selected;
   }
 
-  rmPlace(index: number) {
+  rmPlace(covoit: Etape | undefined, index: number) {
     this.placesPrises[index] = this.placesPrises[index] === 0 ? 0 : (this.placesPrises[index] - 1);
     this.etapesSelected[index] = this.placesPrises[index] === 0 ? undefined : this.etapesSelected[index];
+    covoit!.idCovoiturage!.nbPlaceDispo += 1;
   }
 
   toCovoits() { console.log("Festival sélectionné: ", this.selected);
     if(this.selected){ console.log("toCovoits")
       this.nbPages = 1;
-      this.typeRecherche = "etape";
-      this.search(this.typeRecherche);
+      this.ds.searchType.next("etape");
+      this.search(this.ds.searchType.value);
     }
+  }
+
+  instanciatePanier() {
+
+    from(this.api.getUtilisateurByEmail(this.userEmail)).subscribe((user: any) => {
+      if(user !== undefined) {
+        if(this.panierCourant === undefined) {
+          let nouveauPanier: IPanier = {
+            datePaiement: new Date(),
+            nomsFestivaliers: "",
+            idProprietaire: user
+          }
+
+          from(this.api.postPanier(nouveauPanier)).subscribe((panier: Panier) => {
+            this.panierCourant = panier;
+            console.log("Panier instancié: ", this.panierCourant);
+          });
+
+
+          this.postPanierEtapes();
+        } else {
+          this.postPanierEtapes();
+        }
+      }
+    });
+  }
+
+  panierEtapeBody(panierEtapes: InstanciationPanierEtape[]): any {
+    let panierEtapeCreateList = panierEtapes.map(panierEtape => {
+      return {
+        nbPlaceOccuppe: panierEtape.nbPlaceOccupe,
+        idPanier: panierEtape.idPanier,
+        idEtape: panierEtape.idEtape
+      };
+    });
+  
+    return { panierEtapeCreateList };
+  }
+
+  postPanierEtapes() {
+    let instancesPanierEtape: InstanciationPanierEtape[] = [];
+          for(let i = 0; i < this.etapesSelected.length; i++) {
+            let element = this.etapesSelected[i];
+            if(element !== undefined) {
+              let panierEtape: InstanciationPanierEtape = {
+                nbPlaceOccupe:this.placesPrises[i],
+                idPanier: this.panierCourant!.idPanier,
+                idEtape: element.idEtape
+              }
+              instancesPanierEtape.push(panierEtape);
+            }
+          }
+
+          let dataInstanciationPanierEtape = this.panierEtapeBody(instancesPanierEtape);
   }
 }

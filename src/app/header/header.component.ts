@@ -42,6 +42,7 @@ export class HeaderComponent {
 
   goBack() {
     this.ds.inSearch.next(false);
+    this.ds.searchType.next("festival");
     this.rs.navigateByUrl("");
   }
 
