@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../shared/services/api.service';
-import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, switchMap, tap } from 'rxjs';
 import { Panier, PanierEtape } from '../shared/services/eltDefinitions';
 import { UserService } from '../shared/services/user.service';
 import { Router } from '@angular/router';
@@ -14,7 +14,7 @@ export class PanierComponent{
 
   readonly obsPanier$ : Observable<Panier | undefined>;
 
-  readonly obsPanierEtapes$ : Observable<PanierEtape[] | undefined>;
+  obsPanierEtapes$ : Observable<PanierEtape[] | undefined>;
 
   bsPaiement = new BehaviorSubject<number>(-1);
 
@@ -26,7 +26,7 @@ export class PanierComponent{
 
   private idPanier: number = -1;
 
-  constructor(private api: ApiService, readonly us: UserService, readonly router: Router) {
+  constructor(readonly api: ApiService, readonly us: UserService, readonly router: Router) {
     this.obsPanier$ = this.us.obsFestiUsers$.pipe(
       switchMap( async u => {
         try {
@@ -86,7 +86,7 @@ export class PanierComponent{
           })
         }
       })
-    ).subscribe()
+    )
   }
 
   toValidation() {
@@ -99,6 +99,26 @@ export class PanierComponent{
   toHome() {
     this.bsPaiement.next(-1);
     this.router.navigateByUrl("recherche")
+  }
+
+  deletePanierEtape(id: number) {
+    this.obsPanierEtapes$.subscribe( async pe => {
+      if (pe !== undefined) {
+        pe.forEach( async e => {
+          // supprimer le panier etape de la liste
+          if (e.idPanierEtape === id) {
+            await this.api.deletePanierEtape(e.idPanierEtape);
+            console.log("delete panier etape")
+            // window.location.reload();
+          }
+        })
+        return pe;
+      }
+      return undefined;
+    })
+    // await this.api.deletePanierEtape(id)
+    // console.log("delete panier etape")
+    // window.location.reload();
   }
 
 
