@@ -17,6 +17,12 @@ export interface PanierEtape {
   idCovoiturage: Covoiturage,
 }
 
+export interface InstanciationPanierEtape {
+  nbPlaceOccupe: number,
+  idPanier: number,
+  idEtape: number
+}
+
 export interface Festival {
   idFestival: number,
   nom: string,
@@ -33,12 +39,16 @@ export interface Festival {
   idDomaine: Domaine
 }
 
-export interface Panier {
-  idPanier: number,
+export interface IPanier {
   datePaiement: Date,
   nomsFestivaliers: string,
-  idProprietaire: Utilisateur,
+  idProprietaire: Utilisateur
 }
+
+export interface Panier extends IPanier{
+  idPanier: number,
+}
+
 
 export interface Etape {
   idEtape: number,

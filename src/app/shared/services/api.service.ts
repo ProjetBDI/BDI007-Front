@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
-import { Covoiturage, Utilisateur, Festival, Panier, PanierEtape, Etape } from './eltDefinitions';
+import { Covoiturage, Utilisateur, Festival, Panier, PanierEtape, Etape, IPanier } from './eltDefinitions';
 import { Observable, lastValueFrom } from 'rxjs';
 
 @Injectable({
@@ -54,11 +54,17 @@ export class ApiService {
     return lastValueFrom(this.http.get<Covoiturage>(this.apiPath + `/covoiturage/${id}`));
   }
 
-  /* PANIERS */
+  /* PANIER-ETAPES */
 
   getPanierEtapeByPanier(id: number) : Promise<PanierEtape[] | undefined>{
     return lastValueFrom(this.http.get<PanierEtape[]>(this.apiPath + `/panierEtapes/${id}/panier`));
   }
+
+  postPanierEtape(infosInstanciation: string) {
+    return lastValueFrom(this.http.post<PanierEtape>(this.apiPath + `/panierEtapes/create`, infosInstanciation));
+  }
+
+  /* PANIERS */
 
   async getCurrentPanierByUtilisateur(id: number): Promise<Panier | undefined>{
     try {
@@ -78,17 +84,8 @@ export class ApiService {
     }
   }
 
-  postPanier(panier: Panier){
-    return this.http.post(this.apiPath + `/panier`, panier);
-  }
-
-  parsePanier(panier: Panier){
-    // let panierJSON = {
-    //   "datePaiement": panier.date,
-    //   "nomFestivaliers": panier.nomFestivaliers,
-    //   "idProprietaire": 
-    // }
-    // return panierJSON;
+  postPanier(panier: IPanier) {
+    return lastValueFrom(this.http.post<Panier>(this.apiPath + `/panier`, panier));
   }
 
   /* ETAPES */
