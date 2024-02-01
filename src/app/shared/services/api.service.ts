@@ -77,7 +77,7 @@ export class ApiService {
   }
 
   postPanier(panier: InstanciationPanier) {
-    return lastValueFrom(this.http.post<Panier>(this.apiPath + `/panier`, panier));
+    return lastValueFrom(this.http.post<Panier>(this.apiPath + `/panier/create`, panier));
   }
 
   /* ETAPES */
