@@ -13,7 +13,7 @@ export class UserService {
   obsFestiUsers$ : Observable<Utilisateur|undefined>;
   bsAuth: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private auth: Auth, private fs : Firestore) { 
+  constructor(private auth: Auth, private fs : Firestore) {
     authState(this.auth).pipe(
       filter( u => !!u ),
       map( u => u as User ),
@@ -36,7 +36,6 @@ export class UserService {
     this.obsFestiUsers$ = authState(this.auth).pipe(
       switchMap( (user) => {
         if(user){
-          
           const userRef = doc(this.fs , `users/${user.uid}`).withConverter(convUserToUtilisateur)
           const userData$ = docData(userRef)
           return userData$
@@ -79,7 +78,7 @@ export class UserService {
     this.bsAuth.next(false); // on passe l'état de la connection à false
   }
 
-  async registerMail(nom: string, prenom: string, dateNaissance: Date, email:string, password: string): Promise<Utilisateur | void> {
+  async registerMail(nom: string, prenom: string, dateNaissance: Date, email:string, password: string, telephone: string): Promise<Utilisateur | void> {
     try {
       let uc = await createUserWithEmailAndPassword(this.auth, email, password);
       await this.loginMail(email, password);
@@ -90,12 +89,13 @@ export class UserService {
         dateNaissance: dateNaissance,
         email: email,
         photoUrl: "",
+        telephone: telephone,
       } as Utilisateur);
       
       console.log("Register success !", user.name);
       this.bsAuth.next(true);
 
-      return convUserCredentialToUtilisateur(uc);
+      return convUserCredentialToUtilisateur(uc, nom, prenom, dateNaissance, password, telephone);
 
     } catch (exception) {
       console.log("Register failed ! ", exception);

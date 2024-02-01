@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="card shadow overflow">
-        <div class="panierContainer" *ngIf="this.obsPanier$ | async as panier">
+        <div class="panierContainer" *ngIf="this.obsPanier$ | async as panier ; else vide">
         <div class="panier" *ngIf="this.obsPanierEtapes$ | async as panierEtapes ; else vide">
             <div class="title">
                 Mon Panier

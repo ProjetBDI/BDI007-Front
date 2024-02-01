@@ -29,14 +29,19 @@ export class PanierComponent{
     this.obsPanier$ = this.us.obsFestiUsers$.pipe(
       switchMap( async u => {
         try {
-          return await this.api.getPanierByID(1)
+          const user = await this.api.getUtilisateurByEmail(u!.email);
+          if (user?.idUtilisateur === undefined) {
+            console.log("user undefined")
+            return undefined;
+          }
+          // return await this.api.getPanierByID(1)
           // return this.api.getCurrentPanierByUtilisateur(100013)
-          // return this.api.getCurrentPanierByUtilisateur(u!.idUtilisateur)
+          return this.api.getCurrentPanierByUtilisateur(user?.idUtilisateur!)
+          
         } catch (error) {
           return undefined
         }
-      }
-      ),
+      }),
       tap( async p => {
         if (p !== undefined) {
           this.idPanier = p.idPanier;
@@ -57,7 +62,12 @@ export class PanierComponent{
           this.listFestivaliers = nomsFestivaliers.split(", ");
         }
       }),
-      switchMap( async p => await this.api.getPanierEtapeByPanier(p!.idPanier) )
+      switchMap( async p => {
+        if (p === undefined) {
+          return undefined;
+        }
+        return await this.api.getPanierEtapeByPanier(p!.idPanier);
+      } )
     )
 
     this.obsPanierEtapes$.pipe(

@@ -17,14 +17,14 @@ export const convUserToUtilisateur : FirestoreDataConverter<Utilisateur> = {
 }
 
 // convert UserCredential to FestiUser
-export const convUserCredentialToUtilisateur = (uc: UserCredential) : Utilisateur => ({
+export const convUserCredentialToUtilisateur = (uc: UserCredential, nom: string, prenom: string, dateNaissance: Date, password: string, telephone: string) : Utilisateur => ({
     idUtilisateur: -1,
     email: uc.user?.email ?? "",
-    nom: uc.user?.displayName?.split(" ")[1] ?? "",
-    prenom: uc.user?.displayName?.split(" ")[0] ?? "",
-    motDePasse: "",
-    dateNaissance: new Date(2000,1,1),
-    telephone: uc.user?.phoneNumber ?? "",
+    nom: nom,
+    prenom: prenom,
+    motDePasse: password,
+    dateNaissance: dateNaissance,
+    telephone: telephone,
     photoUrl: uc.user?.photoURL ?? "https://cdn-icons-png.flaticon.com/512/1077/1077012.png",
 })
 

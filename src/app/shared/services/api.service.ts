@@ -90,18 +90,13 @@ export class ApiService {
     return this.http.get(this.apiPath + `/utilisateur/${id}`);
   }
 
-  async getUtilisateurByEmail(email: string) : Promise<Utilisateur | undefined>{
-    try{
-      return await lastValueFrom(this.http.get<Utilisateur>(this.apiPath + `/utilisateur/email/${email}`));
-    }
-    catch(e){
-      return undefined;
-    }
+  getUtilisateurByEmail(email: string) : Promise<Utilisateur | undefined>{
+    return lastValueFrom(this.http.get<Utilisateur>(this.apiPath + `/utilisateur/email/${email}`));
   }
 
   postUtilisateur(user: Utilisateur) : Promise<Utilisateur | undefined>{
     const res = JSON.parse(JSON.stringify(convUtilisateurToUtilisateurBD(user)));
-
+    
     return lastValueFrom(this.http.post<Utilisateur>(this.apiPath + `/utilisateur/create`, res));
   }
 

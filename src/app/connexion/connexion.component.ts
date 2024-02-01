@@ -18,6 +18,8 @@ export class ConnexionComponent {
 
   protected obsUserBD$: Observable<Utilisateur| undefined> |undefined;
 
+  user: Utilisateur | void = void 0;
+
   public fgLogin = new FormGroup({
     email: new FormControl("", [Validators.required, Validators.email]),
     password: new FormControl("", [Validators.required, Validators.minLength(6)])
@@ -60,15 +62,15 @@ export class ConnexionComponent {
     } else {
       this.router.navigateByUrl("connexion")
     }
-    console.log(this.us.obsFestiUsers$)
   }
 
   async register() {
     
-    const user = await this.us.registerMail(<string>this.fgRegister.controls.nom.value, <string>this.fgRegister.controls.prenom.value, <Date>this.fgRegister.controls.dateNaissance.value, <string>this.fgRegister.controls.email.value, <string>this.fgRegister.controls.password.value)
+    this.user = await this.us.registerMail(<string>this.fgRegister.controls.nom.value, <string>this.fgRegister.controls.prenom.value, <Date>this.fgRegister.controls.dateNaissance.value, <string>this.fgRegister.controls.email.value, <string>this.fgRegister.controls.password.value, <string>this.fgRegister.controls.telephone.value)
 
-    if (user) {
-      this.api.postUtilisateur(user)
+    if (this.user) {
+      const userReturn = await this.api.postUtilisateur(this.user)
+
       this.router.navigateByUrl("")
     } else {
       this.router.navigateByUrl("connexion")
