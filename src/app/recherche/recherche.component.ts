@@ -1,10 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { ApiService } from '../shared/services/api.service';
-import { Commune, Etape, Domaine, Festival, Panier, InstanciationPanier, InstanciationPanierEtape, Utilisateur } from '../shared/services/eltDefinitions';
-import { Observable, Observer, from, map } from 'rxjs';
+import { Etape, Festival, Panier, InstanciationPanier, InstanciationPanierEtape, Utilisateur } from '../shared/services/eltDefinitions';
+import { from } from 'rxjs';
 import { Router } from '@angular/router';
 import { DataService } from '../shared/services/data.service';
-import { connectFirestoreEmulator } from '@angular/fire/firestore';
 import { FormControl, FormGroup } from '@angular/forms';
 import { UserService } from '../shared/services/user.service';
 
@@ -128,7 +127,6 @@ export class RechercheComponent {
           console.log("---------------------------------");
           from(this.api.postPanier(nouveauPanier)).subscribe((panier: Panier) => {
             this.panierCourant = panier;
-            console.log("Panier instancié: ", this.panierCourant);
 
             let instancesPanierEtape: InstanciationPanierEtape[] = [];
             for(let i = 0; i < this.etapesSelected.length; i++) {
@@ -143,7 +141,7 @@ export class RechercheComponent {
               }
             }
 
-            let dataInstanciationPanierEtape = this.panierEtapeBody(instancesPanierEtape);
+            this.panierEtapeBody(instancesPanierEtape);
           });
 
           //TODO Post PanierEtape
@@ -155,19 +153,25 @@ export class RechercheComponent {
   }
 
   panierEtapeBody(panierEtapes: InstanciationPanierEtape[]) {
-    let panierEtapeCreateList = panierEtapes.map(panierEtape => {
+    let panierEtapeCreateList = '{ "panierEtapeCreateList" : ';
+    
+    let bodyRes = panierEtapes.map(panierEtape => {
       return {
         nbPlaceOccuppe: panierEtape.nbPlaceOccupe,
         idPanier: panierEtape.idPanier,
         idEtape: panierEtape.idEtape
       };
     });
-  
-    this.instanciatePanierEtape(panierEtapeCreateList);
+
+    panierEtapeCreateList += (JSON.stringify(bodyRes));
+
+    panierEtapeCreateList += ('}');
+
+    this.instanciatePanierEtape(JSON.parse(panierEtapeCreateList));
   }
 
   instanciatePanierEtape(body: any) {
-    console.log('BODYYYYYYYY', body);
+    
     from(this.api.postPanierEtape(body)).subscribe((panierEtapes: any) => {
       console.log("PanierEtapes instanciés: ", panierEtapes);
     });
