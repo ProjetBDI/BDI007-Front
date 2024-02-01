@@ -58,7 +58,7 @@ export class ApiService {
 
   /* PANIER-ETAPES */
 
-  getPanierEtapeByPanier(id: number) : Promise<PanierEtape[] | undefined>{
+  getPanierEtapeByPanier(id: number) : Promise<PanierEtape[]>{
     return lastValueFrom(this.http.get<PanierEtape[]>(this.apiPath + `/panierEtapes/${id}/panier`));
   }
 
@@ -68,7 +68,7 @@ export class ApiService {
 
   /* PANIERS */
 
-  getCurrentPanierByUtilisateur(id: number): Promise<Panier | undefined>{
+  getCurrentPanierByUtilisateur(id: number): Promise<Panier>{
     return lastValueFrom(this.http.get<Panier>(this.apiPath + `/panier/utilisateur/current/${id}`));
   }
 
