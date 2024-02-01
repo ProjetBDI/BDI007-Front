@@ -20,6 +20,7 @@ export class RechercheComponent {
   etapesSelected: (Etape | undefined)[] = [];
 
   nbPass: number = 0;
+  nbPlacesPrises: number = 0;
   placesPrises: number[] = [];
   nbPages: number = 1;
   options: string[] = ["ouvert", "ferme", "plein"];
@@ -88,9 +89,12 @@ export class RechercheComponent {
   }
 
   addPlace(covoit: Etape | undefined, index: number) {
-    this.placesPrises[index]++;
-    this.etapesSelected[index] = this.placesPrises[index] === 0 ? undefined : covoit;
-    covoit!.idCovoiturage!.nbPlaceDispo -= 1;
+    if(this.nbPlacesPrises < this.nbPass) {
+      this.placesPrises[index]++;
+      this.etapesSelected[index] = this.placesPrises[index] === 0 ? undefined : covoit;
+      covoit!.idCovoiturage!.nbPlaceDispo -= 1;
+      this.nbPlacesPrises += 1;
+    }
   }
 
   rmPass(selected: Festival | undefined) {
@@ -104,10 +108,11 @@ export class RechercheComponent {
     this.placesPrises[index] = this.placesPrises[index] === 0 ? 0 : (this.placesPrises[index] - 1);
     this.etapesSelected[index] = this.placesPrises[index] === 0 ? undefined : this.etapesSelected[index];
     covoit!.idCovoiturage!.nbPlaceDispo += 1;
+    this.nbPlacesPrises = this.nbPlacesPrises === 0 ? 0 : (this.nbPlacesPrises - 1);
   }
 
-  toCovoits() { console.log("Festival sélectionné: ", this.selected);
-    if(this.selected){ console.log("toCovoits")
+  toCovoits() { 
+    if(this.selected){
       this.nbPages = 1;
       this.ds.searchType.next("etape");
       this.search(this.ds.searchType.value);
@@ -123,8 +128,7 @@ export class RechercheComponent {
             nomsFestivaliers: "[]",
             idProprietaire: user!.idUtilisateur
           }
-          console.log("Nouveau panier: ", nouveauPanier);
-          console.log("---------------------------------");
+
           from(this.api.postPanier(nouveauPanier)).subscribe((panier: Panier) => {
             this.panierCourant = panier;
 
@@ -144,9 +148,25 @@ export class RechercheComponent {
             this.panierEtapeBody(instancesPanierEtape);
           });
 
-          //TODO Post PanierEtape
+          console.log("Panier instancié 1");
         } else {
-          //TODO Post PanierEtape
+          
+          let instancesPanierEtape: InstanciationPanierEtape[] = [];
+            for(let i = 0; i < this.etapesSelected.length; i++) {
+              let element = this.etapesSelected[i];
+              if(element !== undefined) {
+                let panierEtape: InstanciationPanierEtape = {
+                  nbPlaceOccupe:this.placesPrises[i],
+                  idPanier: this.panierCourant!.idPanier,
+                  idEtape: element.idEtape
+                }
+                instancesPanierEtape.push(panierEtape);
+              }
+            }
+
+            this.panierEtapeBody(instancesPanierEtape);
+
+          console.log("Panier instancié 2");
         }
       }
     });

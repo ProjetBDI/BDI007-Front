@@ -91,9 +91,9 @@
                                 <div class="selecteur inline"
                                     [class.unavailable]="etape?.idCovoiturage!.nbPlaceDispo <= 0"
                                     [class.available]="etape?.idCovoiturage!.nbPlaceDispo > 0">
-                                    <button [disabled]="etape?.idCovoiturage!.nbPlaceDispo <= 0" (click)="rmPlace(etape, index)">&lt;</button>
+                                    <button [disabled]="this.etapesSelected[index] === undefined" (click)="rmPlace(etape, index)">&lt;</button>
                                         <div>{{this.placesPrises[index]}}</div>
-                                    <button [disabled]="etape?.idCovoiturage!.nbPlaceDispo <= 0" (click)="addPlace(etape, index)">&gt;</button>
+                                    <button [disabled]="etape?.idCovoiturage!.nbPlaceDispo <= 0  || this.nbPlacesPrises === this.nbPass" (click)="addPlace(etape, index)">&gt;</button>
                                 </div>
                             </div>
                         </div>
