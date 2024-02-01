@@ -3,6 +3,7 @@ import { ApiService } from '../shared/services/api.service';
 import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
 import { Panier, PanierEtape } from '../shared/services/eltDefinitions';
 import { UserService } from '../shared/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-panier',
@@ -25,36 +26,37 @@ export class PanierComponent{
 
   private idPanier: number = -1;
 
-  constructor(private api: ApiService, readonly us: UserService) {
+  constructor(private api: ApiService, readonly us: UserService, readonly router: Router) {
     this.obsPanier$ = this.us.obsFestiUsers$.pipe(
       switchMap( async u => {
         try {
           const user = await this.api.getUtilisateurByEmail(u!.email);
-          if (user?.idUtilisateur === undefined) {
+
+          if (user?.idUtilisateur === null || user?.idUtilisateur === undefined || user?.idUtilisateur === -1) {
             console.log("user undefined")
             return undefined;
           }
           // return await this.api.getPanierByID(1)
           // return this.api.getCurrentPanierByUtilisateur(100013)
           return this.api.getCurrentPanierByUtilisateur(user?.idUtilisateur!)
-          
+
         } catch (error) {
           return undefined
         }
       }),
       tap( async p => {
-        if (p !== undefined) {
-          this.idPanier = p.idPanier;
+        if (p !== undefined || p !== null) {
+          this.idPanier = p?.idPanier ?? -1;
         }
       })
     )
 
     this.obsPanierEtapes$ = this.obsPanier$.pipe(
       tap( async p => {
-        if (p !== undefined) {
+        if (p !== undefined || p !== null) {
 
           // enlever les [] dans le string nomsFestivaliers
-          let nomsFestivaliers = p.nomsFestivaliers;
+          let nomsFestivaliers = p?.nomsFestivaliers ?? "";
           nomsFestivaliers = nomsFestivaliers.substring(1, nomsFestivaliers.length-1);
           // enlever les '' dans le string nomsFestivaliers 
           nomsFestivaliers = nomsFestivaliers.replace(/'/g, "");
@@ -63,7 +65,7 @@ export class PanierComponent{
         }
       }),
       switchMap( async p => {
-        if (p === undefined) {
+        if (p === undefined || p === null) {
           return undefined;
         }
         return await this.api.getPanierEtapeByPanier(p!.idPanier);
@@ -91,6 +93,13 @@ export class PanierComponent{
     this.bsPaiement.next(1);
     
     this.api.paiementPanier(this.idPanier);
+    
   }
+
+  toHome() {
+    this.bsPaiement.next(-1);
+    this.router.navigateByUrl("recherche")
+  }
+
 
 }

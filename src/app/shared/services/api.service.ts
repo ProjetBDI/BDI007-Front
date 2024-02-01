@@ -96,7 +96,6 @@ export class ApiService {
 
   postUtilisateur(user: Utilisateur) : Promise<Utilisateur | undefined>{
     const res = JSON.parse(JSON.stringify(convUtilisateurToUtilisateurBD(user)));
-    
     return lastValueFrom(this.http.post<Utilisateur>(this.apiPath + `/utilisateur/create`, res));
   }
 
@@ -106,7 +105,18 @@ export class ApiService {
    */
 
   paiementPanier(idPanier: number) : Promise<Panier> {
-    return lastValueFrom(this.http.post<Panier>(this.apiPath + `/panier/payer/${idPanier}`, null));
+    return lastValueFrom(this.http.patch<Panier>(this.apiPath + `/panier/payer/${idPanier}`, ""));
+  }
+
+  postPanierEtapes(panierEtapes: PanierEtape[]) : Promise<PanierEtape[]> {
+    const res = '{ "panierEtapeCreateList" : [';
+    
+    panierEtapes.forEach(panierEtape => {
+      res.concat(JSON.stringify(panierEtape));
+    });
+    res.concat(']}');
+    const resultat = JSON.parse(res);
+    return lastValueFrom(this.http.post<PanierEtape[]>(this.apiPath + `/panierEtapes`, resultat));
   }
 
 

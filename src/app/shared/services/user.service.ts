@@ -47,7 +47,7 @@ export class UserService {
   }
 
   //Fonction pour se connecter à firebase
-  async login() {
+  async login() : Promise<Utilisateur>{
     this.bsAuth.next(true); // on passe l'état de la connection à false
     const googleProvider = new GoogleAuthProvider(); // on utilise le provider Google
 
@@ -56,26 +56,30 @@ export class UserService {
     });
 
     try{
-      await signInWithPopup(this.auth, googleProvider); // on ouvre une popup pour se connecter
+
+      const user = await signInWithPopup(this.auth, googleProvider); // on ouvre une popup pour se connecter
       console.log("Login success ! : "); // si réussi, on affiche un message de réussite
+      this.bsAuth.next(false); // on passe l'état de la connection à false
+      return convUserCredentialToUtilisateur(user, " ", " ", new Date(), "", "");
     } catch(e){
       console.log("Login error (Google): " + e); // si erreur, on affiche l'erreur de login
+      return Promise.resolve({} as Utilisateur)
     }
 
-    this.bsAuth.next(false); // on passe l'état de la connection à false
+    
   }
 
   // fonction se connecter avec adresse mail
-  async loginMail(email: string, password: string) {
+  async loginMail(email: string, password: string) : Promise<string> {
     this.bsAuth.next(true); // on passe l'état de la connection à false
 
     try{
       await signInWithEmailAndPassword(this.auth, email, password); // on ouvre une popup pour se connecter
+      return "";
     } catch(e){
-      console.log("Login error (Mail): " + e); // si erreur, on affiche l'erreur de login
+      this.bsAuth.next(false); // on passe l'état de la connection à false
+      return "Mail ou mot de passe invalide"
     }
-
-    this.bsAuth.next(false); // on passe l'état de la connection à false
   }
 
   async registerMail(nom: string, prenom: string, dateNaissance: Date, email:string, password: string, telephone: string): Promise<Utilisateur | void> {

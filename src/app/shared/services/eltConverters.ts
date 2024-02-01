@@ -20,11 +20,11 @@ export const convUserToUtilisateur : FirestoreDataConverter<Utilisateur> = {
 export const convUserCredentialToUtilisateur = (uc: UserCredential, nom: string, prenom: string, dateNaissance: Date, password: string, telephone: string) : Utilisateur => ({
     idUtilisateur: -1,
     email: uc.user?.email ?? "",
-    nom: nom,
-    prenom: prenom,
+    nom: nom ?? uc.user?.displayName?.split(" ")[1] ?? uc?.user?.displayName ?? "",
+    prenom: prenom ?? uc.user?.displayName?.split(" ")[0] ?? "",
     motDePasse: password,
     dateNaissance: dateNaissance,
-    telephone: telephone,
+    telephone: telephone ?? "",
     photoUrl: uc.user?.photoURL ?? "https://cdn-icons-png.flaticon.com/512/1077/1077012.png",
 })
 
