@@ -103,8 +103,8 @@
                 </div>
             </div>
             <div class="footer">
-                <button class="CTA1 shadow" (click)="this.toCovoits()" *ngIf="this.ds.searchType.value === 'festival'" [disabled]="!this.us.bsAuth.value">Covoiturages &gt;</button>
-                <button class="CTA1 shadow" (click)="this.toCovoits()" *ngIf="this.ds.searchType.value === 'etape'">Confirmer la commande &gt;</button>
+                <button class="CTA1 shadow" (click)="this.toCovoits()" *ngIf="this.ds.searchType.value === 'festival'">Covoiturages &gt;</button>
+                <button class="CTA1 shadow" (click)="this.instanciatePanier()" *ngIf="this.ds.searchType.value === 'etape'">Confirmer la commande &gt;</button>
             </div>
         </div>
     </div>

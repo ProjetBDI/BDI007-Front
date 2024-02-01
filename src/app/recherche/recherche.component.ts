@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ApiService } from '../shared/services/api.service';
-import { Commune, Etape, Domaine, Festival, Panier, IPanier, InstanciationPanierEtape } from '../shared/services/eltDefinitions';
+import { Commune, Etape, Domaine, Festival, Panier, InstanciationPanier, InstanciationPanierEtape, Utilisateur } from '../shared/services/eltDefinitions';
 import { Observable, Observer, from, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { DataService } from '../shared/services/data.service';
@@ -71,7 +71,6 @@ export class RechercheComponent {
       from(this.api.getEtapesByFestival(this.nbPages, this.selected?.idFestival || 0)).subscribe((etapes: Etape[]) => { 
         this.nbPages = etapes.length;
         etapes.forEach((etape: Etape) => {
-          console.log(etape);
           this.etapes.push(etape);
           this.placesPrises.push(0);
           this.etapesSelected.push(undefined);
@@ -118,30 +117,44 @@ export class RechercheComponent {
 
   instanciatePanier() {
 
-    from(this.api.getUtilisateurByEmail(this.userEmail)).subscribe((user: any) => {
+    from(this.api.getUtilisateurByEmail(this.userEmail)).subscribe((user: Utilisateur | undefined) => {
       if(user !== undefined) {
         if(this.panierCourant === undefined) {
-          let nouveauPanier: IPanier = {
-            datePaiement: new Date(),
-            nomsFestivaliers: "",
-            idProprietaire: user
+          let nouveauPanier: InstanciationPanier = {
+            nomsFestivaliers: "[]",
+            idProprietaire: user!.idUtilisateur
           }
-
+          console.log("Nouveau panier: ", nouveauPanier);
+          console.log("---------------------------------");
           from(this.api.postPanier(nouveauPanier)).subscribe((panier: Panier) => {
             this.panierCourant = panier;
             console.log("Panier instancié: ", this.panierCourant);
+
+            let instancesPanierEtape: InstanciationPanierEtape[] = [];
+            for(let i = 0; i < this.etapesSelected.length; i++) {
+              let element = this.etapesSelected[i];
+              if(element !== undefined) {
+                let panierEtape: InstanciationPanierEtape = {
+                  nbPlaceOccupe:this.placesPrises[i],
+                  idPanier: this.panierCourant!.idPanier,
+                  idEtape: element.idEtape
+                }
+                instancesPanierEtape.push(panierEtape);
+              }
+            }
+
+            let dataInstanciationPanierEtape = this.panierEtapeBody(instancesPanierEtape);
           });
 
-
-          this.postPanierEtapes();
+          //TODO Post PanierEtape
         } else {
-          this.postPanierEtapes();
+          //TODO Post PanierEtape
         }
       }
     });
   }
 
-  panierEtapeBody(panierEtapes: InstanciationPanierEtape[]): any {
+  panierEtapeBody(panierEtapes: InstanciationPanierEtape[]) {
     let panierEtapeCreateList = panierEtapes.map(panierEtape => {
       return {
         nbPlaceOccuppe: panierEtape.nbPlaceOccupe,
@@ -150,23 +163,13 @@ export class RechercheComponent {
       };
     });
   
-    return { panierEtapeCreateList };
+    this.instanciatePanierEtape(panierEtapeCreateList);
   }
 
-  postPanierEtapes() {
-    let instancesPanierEtape: InstanciationPanierEtape[] = [];
-          for(let i = 0; i < this.etapesSelected.length; i++) {
-            let element = this.etapesSelected[i];
-            if(element !== undefined) {
-              let panierEtape: InstanciationPanierEtape = {
-                nbPlaceOccupe:this.placesPrises[i],
-                idPanier: this.panierCourant!.idPanier,
-                idEtape: element.idEtape
-              }
-              instancesPanierEtape.push(panierEtape);
-            }
-          }
-
-          let dataInstanciationPanierEtape = this.panierEtapeBody(instancesPanierEtape);
+  instanciatePanierEtape(body: any) {
+    console.log('BODYYYYYYYY', body);
+    from(this.api.postPanierEtape(body)).subscribe((panierEtapes: any) => {
+      console.log("PanierEtapes instanciés: ", panierEtapes);
+    });
   }
 }

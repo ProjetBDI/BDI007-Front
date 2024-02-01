@@ -49,14 +49,16 @@ export interface Festival {
   idDomaine: Domaine
 }
 
-export interface IPanier {
+export interface Panier{
+  idPanier: number,
   datePaiement: Date,
   nomsFestivaliers: string,
   idProprietaire: Utilisateur
 }
 
-export interface Panier extends IPanier{
-  idPanier: number,
+export interface InstanciationPanier {
+  nomsFestivaliers: string,
+  idProprietaire: number
 }
 
 
