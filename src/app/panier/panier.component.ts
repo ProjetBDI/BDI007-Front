@@ -77,7 +77,6 @@ export class PanierComponent{
         if (pe !== undefined) {
           this.sommePrix = 0;
           this.listPrixEtapes = [];
-
           pe.forEach( e => {
             this.listPrixEtapes.push((e.idEtape.prixEtape + e.idEtape.idCovoiturage.idFestival.tarifPass) * e.idPanier.nomsFestivaliers.split(", ").length);
 
@@ -86,7 +85,7 @@ export class PanierComponent{
           })
         }
       })
-    )
+    ).subscribe()
   }
 
   toValidation() {

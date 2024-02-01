@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="card shadow overflow">
-        <!-- <div class="panierContainer" *ngIf="this.obsPanier$ | async as panier ; else vide"> -->
+        <div class="panierContainer" *ngIf="this.obsPanier$ | async as panier ; else vide">
         <div class="panier" *ngIf="this.obsPanierEtapes$ | async as panierEtapes">
             <div class="panier" *ngIf="panierEtapes.length > 0; else vide2">
             <div class="title">
@@ -57,10 +57,8 @@
                 <div class="foot">
                     <div class="totalOffre">Total pour cette offre : {{this.listPrixEtapes.at(index)}} €</div>
                     <div class="poubelle">
-                        {{panierEtape.idPanierEtape}}
                         <button class="CTA2 shadow" type="button" (click)="this.deletePanierEtape(panierEtape.idPanierEtape)">Supprimer</button>
                     </div>
-                    {{this.obsPanierEtapes$ | async | json}}
                 </div>
                 <div class="moreInfos">
                     <div class="wrap-collabsible">
@@ -93,7 +91,7 @@
                 <button class="CTA2 shadow" type="button">Abandonner</button>
             </footer>
         </div>
-        <!-- </div> -->
+        </div>
         </div>
         
         <ng-template #vide>
