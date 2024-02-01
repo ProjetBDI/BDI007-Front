@@ -1,5 +1,6 @@
 <!-- Page de connexion avec register si pas de compte -->
 <img id="logoAbstract" class="dropShadow" src="../../assets/images/FestCarAbstract.png" alt="FestiCarAbstract"/>
+
 <div class="container card shadow centered">
     <section *ngIf="bsNotAccount.asObservable() | async ; else notAccount">  
         <div class="header">
@@ -21,6 +22,10 @@
                         <input type="password" placeholder="Mot de passe" [formControl]="fgLogin.controls.password">
                     </div>
                     <div class="separatorX"></div>
+                </div>
+
+                <div class="errorMessage" *ngIf="this.bsMessageError.value">
+                    <div class="error">{{this.bsMessageError.value}}</div>
                 </div>
 
                 <div class="signIn">

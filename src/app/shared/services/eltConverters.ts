@@ -1,5 +1,5 @@
 import { FirestoreDataConverter, doc, docData } from "@angular/fire/firestore";
-import { Panier, Utilisateur } from "./eltDefinitions";
+import { Panier, Utilisateur, UtilisateurBD } from "./eltDefinitions";
 import { UserCredential } from "@angular/fire/auth";
 
 export const convUserToUtilisateur : FirestoreDataConverter<Utilisateur> = {
@@ -17,13 +17,22 @@ export const convUserToUtilisateur : FirestoreDataConverter<Utilisateur> = {
 }
 
 // convert UserCredential to FestiUser
-export const convUserCredentialToUtilisateur = (uc: UserCredential) : Utilisateur => ({
+export const convUserCredentialToUtilisateur = (uc: UserCredential, nom: string, prenom: string, dateNaissance: Date, password: string, telephone: string) : Utilisateur => ({
     idUtilisateur: -1,
     email: uc.user?.email ?? "",
-    nom: uc.user?.displayName?.split(" ")[1] ?? "",
-    prenom: uc.user?.displayName?.split(" ")[0] ?? "",
-    motDePasse: "",
-    dateNaissance: new Date(2000,1,1),
-    telephone: uc.user?.phoneNumber ?? "",
+    nom: nom ?? uc.user?.displayName?.split(" ")[1] ?? uc?.user?.displayName ?? "",
+    prenom: prenom ?? uc.user?.displayName?.split(" ")[0] ?? "",
+    motDePasse: password,
+    dateNaissance: dateNaissance,
+    telephone: telephone ?? "",
     photoUrl: uc.user?.photoURL ?? "https://cdn-icons-png.flaticon.com/512/1077/1077012.png",
+})
+
+export const convUtilisateurToUtilisateurBD = (user: Utilisateur) : UtilisateurBD => ({
+    email: user.email,
+    nom: user.nom,
+    prenom: user.prenom,
+    motDePasse: user.motDePasse,
+    dateNaissance: user.dateNaissance,
+    telephone: user.telephone,
 })

@@ -13,7 +13,7 @@ export class UserService {
   obsFestiUsers$ : Observable<Utilisateur|undefined>;
   bsAuth: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private auth: Auth, private fs : Firestore) { 
+  constructor(private auth: Auth, private fs : Firestore) {
     authState(this.auth).pipe(
       filter( u => !!u ),
       map( u => u as User ),
@@ -36,7 +36,6 @@ export class UserService {
     this.obsFestiUsers$ = authState(this.auth).pipe(
       switchMap( (user) => {
         if(user){
-          
           const userRef = doc(this.fs , `users/${user.uid}`).withConverter(convUserToUtilisateur)
           const userData$ = docData(userRef)
           return userData$
@@ -48,7 +47,7 @@ export class UserService {
   }
 
   //Fonction pour se connecter à firebase
-  async login() {
+  async login() : Promise<Utilisateur>{
     this.bsAuth.next(true); // on passe l'état de la connection à false
     const googleProvider = new GoogleAuthProvider(); // on utilise le provider Google
 
@@ -57,29 +56,33 @@ export class UserService {
     });
 
     try{
-      await signInWithPopup(this.auth, googleProvider); // on ouvre une popup pour se connecter
+
+      const user = await signInWithPopup(this.auth, googleProvider); // on ouvre une popup pour se connecter
       console.log("Login success ! : "); // si réussi, on affiche un message de réussite
+      this.bsAuth.next(false); // on passe l'état de la connection à false
+      return convUserCredentialToUtilisateur(user, " ", " ", new Date(), "", "");
     } catch(e){
       console.log("Login error (Google): " + e); // si erreur, on affiche l'erreur de login
+      return Promise.resolve({} as Utilisateur)
     }
 
-    this.bsAuth.next(false); // on passe l'état de la connection à false
+    
   }
 
   // fonction se connecter avec adresse mail
-  async loginMail(email: string, password: string) {
+  async loginMail(email: string, password: string) : Promise<string> {
     this.bsAuth.next(true); // on passe l'état de la connection à false
 
     try{
       await signInWithEmailAndPassword(this.auth, email, password); // on ouvre une popup pour se connecter
+      return "";
     } catch(e){
-      console.log("Login error (Mail): " + e); // si erreur, on affiche l'erreur de login
+      this.bsAuth.next(false); // on passe l'état de la connection à false
+      return "Mail ou mot de passe invalide"
     }
-
-    this.bsAuth.next(false); // on passe l'état de la connection à false
   }
 
-  async registerMail(nom: string, prenom: string, dateNaissance: Date, email:string, password: string): Promise<Utilisateur | void> {
+  async registerMail(nom: string, prenom: string, dateNaissance: Date, email:string, password: string, telephone: string): Promise<Utilisateur | void> {
     try {
       let uc = await createUserWithEmailAndPassword(this.auth, email, password);
       await this.loginMail(email, password);
@@ -90,12 +93,13 @@ export class UserService {
         dateNaissance: dateNaissance,
         email: email,
         photoUrl: "",
+        telephone: telephone,
       } as Utilisateur);
       
       console.log("Register success !", user.name);
       this.bsAuth.next(true);
 
-      return convUserCredentialToUtilisateur(uc);
+      return convUserCredentialToUtilisateur(uc, nom, prenom, dateNaissance, password, telephone);
 
     } catch (exception) {
       console.log("Register failed ! ", exception);

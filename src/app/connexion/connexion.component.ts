@@ -18,6 +18,10 @@ export class ConnexionComponent {
 
   protected obsUserBD$: Observable<Utilisateur| undefined> |undefined;
 
+  bsMessageError = new BehaviorSubject<string>("");
+
+  user: Utilisateur | void = void 0;
+
   public fgLogin = new FormGroup({
     email: new FormControl("", [Validators.required, Validators.email]),
     password: new FormControl("", [Validators.required, Validators.minLength(6)])
@@ -54,21 +58,23 @@ export class ConnexionComponent {
 
   async login() {
     
-    await this.us.loginMail(<string>this.fgLogin.controls.email.value, <string>this.fgLogin.controls.password.value)
+    const retour = await this.us.loginMail(<string>this.fgLogin.controls.email.value, <string>this.fgLogin.controls.password.value)
+    this.bsMessageError.next(retour)
+    
     if (this.us.bsAuth.value) {
       this.router.navigateByUrl("")
     } else {
       this.router.navigateByUrl("connexion")
     }
-    console.log(this.us.obsFestiUsers$)
   }
 
   async register() {
-    
-    const user = await this.us.registerMail(<string>this.fgRegister.controls.nom.value, <string>this.fgRegister.controls.prenom.value, <Date>this.fgRegister.controls.dateNaissance.value, <string>this.fgRegister.controls.email.value, <string>this.fgRegister.controls.password.value)
 
-    if (user) {
-      this.api.postUtilisateur(user)
+    this.user = await this.us.registerMail(<string>this.fgRegister.controls.nom.value, <string>this.fgRegister.controls.prenom.value, <Date>this.fgRegister.controls.dateNaissance.value, <string>this.fgRegister.controls.email.value, <string>this.fgRegister.controls.password.value, <string>this.fgRegister.controls.telephone.value)
+
+    if (this.user) {
+      await this.api.postUtilisateur(this.user)
+
       this.router.navigateByUrl("")
     } else {
       this.router.navigateByUrl("connexion")
@@ -76,7 +82,16 @@ export class ConnexionComponent {
   }
 
   async loginGoogle() {
-    await this.us.login()
+    this.user = await this.us.login()
+    
+    const userExist = await this.api.getUtilisateurByEmail(this.user?.email!)
+
+    if (!userExist) {
+      this.user = await this.api.postUtilisateur(this.user)
+    } else {
+      this.user = userExist
+    }
+    
     this.router.navigateByUrl("")
   }
 

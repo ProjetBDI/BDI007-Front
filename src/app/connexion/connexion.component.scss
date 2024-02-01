@@ -85,3 +85,8 @@ input {
         filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(4deg) brightness(111%) contrast(101%);
     }
 }
+
+.error {
+    color: red;
+    margin-bottom: 2%;
+}

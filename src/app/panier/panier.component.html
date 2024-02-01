@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="card shadow overflow">
-        <div class="panierContainer" *ngIf="this.obsPanier$ | async as panier">
+        <div class="panierContainer" *ngIf="this.obsPanier$ | async as panier ; else vide">
         <div class="panier" *ngIf="this.obsPanierEtapes$ | async as panierEtapes ; else vide">
             <div class="title">
                 Mon Panier
@@ -71,7 +71,7 @@
                                     <tr>
                                         <td>{{panierEtape.idEtape.idCovoiturage.marque}} {{panierEtape.idEtape.idCovoiturage.modele}} couleur {{panierEtape.idEtape.idCovoiturage.couleur}}</td>
                                         <td>{{panierEtape.idEtape.idCovoiturage.nbPlace}}</td>
-                                        <td>{{panierEtape.idEtape.idCovoiturage.idConducteur.telephone}}</td>
+                                        <td>{{panierEtape.idEtape.idCovoiturage.idConducteur.email}}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -117,7 +117,7 @@
                 L'équipe FestiCar vous remercie pour votre confiance.
             </div>
             <div class="response final">
-                <button class="CTA1 shadow" type="button" (click)="this.bsPaiement.next(-1)">Fermer</button>
+                <button class="CTA1 shadow" type="button" (click)="this.toHome()">Fermer</button>
             </div>
         </div>
     </div>
