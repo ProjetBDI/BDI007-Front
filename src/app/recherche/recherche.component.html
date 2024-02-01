@@ -16,7 +16,7 @@
             </button>
         </form>
 
-        <form *ngIf="typeRecherche === 'covoiturage'">
+        <form *ngIf="typeRecherche === 'etape'">
             <input class="shadow nom" type="text" placeholder="NomFestival" readonly [class.inSearch]="this.ds.inSearch.value"/>
             <input class="shadow date" type="date" [formControl]="etapeSearch.controls.etapeDate"/>
             <select class="shadow dispo" [formControl]="etapeSearch.controls.etapeDep" >
@@ -71,8 +71,8 @@
                     </div>
                 </div>
 
-                <div *ngIf="this.typeRecherche === 'covoiturage'">
-                    <div class="searchContent" *ngFor="let covoit of etapes, let index = index, let isLast = last" [class.dernier]="isLast">
+                <div *ngIf="this.typeRecherche === 'etape'">
+                    <div class="searchContent" *ngFor="let etape of etapes, let index = index, let isLast = last" [class.dernier]="isLast">
                         <div class="line">
                             <div class="element">
                                 <div class="inline elt1"><div class="title">Lieu</div></div>
@@ -91,12 +91,12 @@
                                 <div class="selecteur inline"
                                     [class.unavailable]="(placesPrises[index] - (0)) <= 0"
                                     [class.available]="(placesPrises[index] - (0)) > 0">
-                                    <button [disabled]="this.covoit !== undefined && covoit !== this.covoit || ((placesPrises[index] - (0)) <= 0)" (click)="rmPlace(index)">&lt;</button>
-                                    <div *ngIf="this.selected === undefined || covoit !== this.covoit; else nbPlacesTmp">0</div>
+                                    <button [disabled]="this.etape !== undefined && etape !== this.etape || ((placesPrises[index] - (0)) <= 0)" (click)="rmPlace(index)">&lt;</button>
+                                    <div *ngIf="this.selected === undefined || etape !== this.etape; else nbPlacesTmp">0</div>
                                     <ng-template #nbPlacesTmp>
                                         <div>{{placesPrises[index]}}</div>
                                     </ng-template>
-                                    <button [disabled]="this.covoit !== undefined && covoit !== this.covoit || ((placesPrises[index] - (0)) <= 0)" (click)="addPlace(covoit, index)">&gt;</button>
+                                    <button [disabled]="this.etape !== undefined && etape !== this.etape || ((placesPrises[index] - (0)) <= 0)" (click)="addPlace(etape, index)">&gt;</button>
                                 </div>
                             </div>
                         </div>

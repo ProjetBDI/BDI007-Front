@@ -55,15 +55,15 @@ export class RechercheComponent {
         });
       });
     } else if(typeRecherche === "etape") {
-      // from(this.api.getEtapesWithPageAndFestival(this.nbPages, this.selected?.idFestival || 0)).subscribe((etapes: Etape[]) => { 
-      //   this.nbPages = etapes.length;
-      //   etapes.forEach((etape: Etape) => {
-      //     console.log(etape);
-      //     this.etapes.push(etape);
-      //     this.placesPrises.push(0);
-      //     this.etapesSelected.push(undefined);
-      //   });
-      // });
+      from(this.api.getEtapesByFestival(this.nbPages, this.selected?.idFestival || 0)).subscribe((etapes: Etape[]) => { 
+        this.nbPages = etapes.length;
+        etapes.forEach((etape: Etape) => {
+          console.log(etape);
+          this.etapes.push(etape);
+          this.placesPrises.push(0);
+          this.etapesSelected.push(undefined);
+        });
+      });
     }
   }
 

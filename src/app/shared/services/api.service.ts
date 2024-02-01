@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
-import { Covoiturage, Utilisateur, Festival, Panier, PanierEtape } from './eltDefinitions';
+import { Covoiturage, Utilisateur, Festival, Panier, PanierEtape, Etape } from './eltDefinitions';
 import { Observable, lastValueFrom } from 'rxjs';
 
 @Injectable({
@@ -95,6 +95,10 @@ export class ApiService {
 
   getEtapeByID(id: number){
     return this.http.get(this.apiPath + `/etape/${id}`);
+  }
+
+  getEtapesByFestival(page: number, idFestival: number){
+    return lastValueFrom(this.http.get<Array<Etape>>(this.apiPath + `/festival/${idFestival}/covoiturage/etapes/page/${page}`));
   }
 
   /* UTILISATEURS */
