@@ -4,6 +4,7 @@ import {FormGroup, FormControl, FormBuilder, Validators} from '@angular/forms';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserService } from '../shared/services/user.service';
 import { Utilisateur } from '../shared/services/eltDefinitions';
+import { ApiService } from '../shared/services/api.service';
 
 @Component({
   selector: 'app-connexion',
@@ -27,6 +28,7 @@ export class ConnexionComponent {
     prenom: new FormControl("", [Validators.required, Validators.minLength(2)]),
     dateNaissance: new FormControl(new Date(), [Validators.required]),
     email: new FormControl("", [Validators.required, Validators.email]),
+    telephone: new FormControl("", [Validators.required, Validators.minLength(10)]),
     password: new FormControl("", [Validators.required, Validators.minLength(6)]),
     passwordCheck: new FormControl("", [Validators.required, Validators.minLength(6)])
   })
@@ -34,7 +36,8 @@ export class ConnexionComponent {
 
   constructor(private us: UserService,
               private fb: FormBuilder,
-              private router: Router) {
+              private router: Router,
+              private api: ApiService) {
 
     this.us.obsFestiUsers$.subscribe(
       u => {
@@ -62,8 +65,10 @@ export class ConnexionComponent {
 
   async register() {
     
-    await this.us.registerMail(<string>this.fgRegister.controls.nom.value, <string>this.fgRegister.controls.prenom.value, <Date>this.fgRegister.controls.dateNaissance.value, <string>this.fgRegister.controls.email.value, <string>this.fgRegister.controls.password.value)
-    if (this.us.bsAuth.value) {
+    const user = await this.us.registerMail(<string>this.fgRegister.controls.nom.value, <string>this.fgRegister.controls.prenom.value, <Date>this.fgRegister.controls.dateNaissance.value, <string>this.fgRegister.controls.email.value, <string>this.fgRegister.controls.password.value)
+
+    if (user) {
+      this.api.postUtilisateur(user)
       this.router.navigateByUrl("")
     } else {
       this.router.navigateByUrl("connexion")

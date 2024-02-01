@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
 import { Covoiturage, Utilisateur, Festival, Panier, PanierEtape, Etape } from './eltDefinitions';
@@ -116,8 +116,15 @@ export class ApiService {
     }
   }
 
-  postUtilisateur(user: Utilisateur){
-    return this.http.post(this.apiPath + `/utilisateur/create`, user);
+  async postUtilisateur(user: Utilisateur) : Promise<HttpErrorResponse | any>{
+    const res = JSON.parse(JSON.stringify(user));
+    console.log(res);
+    try {
+      // return this.http.post<any>(this.apiPath + `/utilisateur/create`, user);
+    }
+    catch(e){
+      return undefined;
+    }
   }
 
 

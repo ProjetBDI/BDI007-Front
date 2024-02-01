@@ -94,6 +94,7 @@ export class UserService {
       
       console.log("Register success !", user.name);
       this.bsAuth.next(true);
+
       return convUserCredentialToUtilisateur(uc);
 
     } catch (exception) {
