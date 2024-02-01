@@ -133,28 +133,7 @@ export class RechercheComponent {
           });
 
 
-          this.postPanierEtapes();
-        } else {
-          this.postPanierEtapes();
-        }
-      }
-    });
-  }
-
-  panierEtapeBody(panierEtapes: InstanciationPanierEtape[]): any {
-    let panierEtapeCreateList = panierEtapes.map(panierEtape => {
-      return {
-        nbPlaceOccuppe: panierEtape.nbPlaceOccupe,
-        idPanier: panierEtape.idPanier,
-        idEtape: panierEtape.idEtape
-      };
-    });
-  
-    return { panierEtapeCreateList };
-  }
-
-  postPanierEtapes() {
-    let instancesPanierEtape: InstanciationPanierEtape[] = [];
+          let instancesPanierEtape: InstanciationPanierEtape[] = [];
           for(let i = 0; i < this.etapesSelected.length; i++) {
             let element = this.etapesSelected[i];
             if(element !== undefined) {
@@ -168,5 +147,33 @@ export class RechercheComponent {
           }
 
           let dataInstanciationPanierEtape = this.panierEtapeBody(instancesPanierEtape);
+
+          
+
+          //TODO Post PanierEtape
+        } else {
+          //TODO Post PanierEtape
+        }
+      }
+    });
+  }
+
+  panierEtapeBody(panierEtapes: InstanciationPanierEtape[]) {
+    let panierEtapeCreateList = panierEtapes.map(panierEtape => {
+      return {
+        nbPlaceOccuppe: panierEtape.nbPlaceOccupe,
+        idPanier: panierEtape.idPanier,
+        idEtape: panierEtape.idEtape
+      };
+    });
+  
+    this.instanciatePanierEtape(panierEtapeCreateList);
+  }
+
+  instanciatePanierEtape(body: any) {
+
+    from(this.api.postPanierEtape(body)).subscribe((panierEtapes: any) => {
+      console.log("PanierEtapes instanciés: ", panierEtapes);
+    });
   }
 }
