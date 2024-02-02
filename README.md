@@ -31,26 +31,22 @@ Il s'agit d'une application web qui permet aux utilisateurs de rechercher des fe
 - Ajout de nouvelles fonctionnalités pour les utilisateurs (profil, historique des commandes, etc.)
 - Abandonner un panier en cours de commande
 
-## Development server
+## Developement du serveur
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Pour faire tourner le serveur de développement, exécutez `ng serve`. Naviguez à `http://localhost:4200/`. L'application se rechargera automatiquement si vous modifiez un fichier source.
 
-## Code scaffolding
+## Déploiement
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Pour déployer l'application, exécutez `ng build`. Les fichiers seront générés dans le répertoire `dist/`. Utilisez l'option `--prod` pour une version de production.
 
-## Build
+## Tests unitaires
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Des tests unitaires sont en cours de développement. Pour les exécuter, exécutez `ng test`.
 
-## Running unit tests
+## Tests de bout en bout
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Prévu en développement pour la finalisation de la V2.0.0.
 
-## Running end-to-end tests
+## Aide supplémentaire
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Pour obtenir plus d'aide sur Angular CLI, utilisez `ng help` ou consultez la page [Angular CLI Overview and Command Reference](https://angular.io/cli).
