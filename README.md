@@ -1,6 +1,36 @@
-# Angular16App
+# FesticarApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.2.
+Ce projet a été généré avec [Angular CLI] version 15.0.2.
+Il s'agit d'une application web qui permet aux utilisateurs de rechercher des festivals et d'acheter des offres de covoiturages pour y aller en plus d'acheter leur places.
+
+## Prérequis
+
+- Node.js
+- Angular CLI
+
+## Installation
+
+1. Clone the repository
+2. Run `npm install` to install the dependencies
+3. Run `ng serve` to start the development server
+4. Navigate to `http://localhost:4200/` to use the application
+
+## Fonctionnalités actuelles
+
+- Rechercher un festival avec des filtres (date, lieu, prix, etc.)
+- Voir les détails d'un festival
+- Rechercher des offres de covoiturages pour le festival choisi
+- Acheter des offres qui combinent le festival et le covoiturage
+- Recevoir un récapitulatif de la commande par email
+
+## Fonctionnalités à venir
+
+- Créer une offre de covoiturage et la publier
+- Créer une offre de festival et la publier
+- Géo-localisation des festivals et des offres de covoiturages
+- Ajout de nouveaux critères de recherche pour les festivals et les offres de covoiturages
+- Ajout de nouvelles fonctionnalités pour les utilisateurs (profil, historique des commandes, etc.)
+- Abandonner un panier en cours de commande
 
 ## Development server
 
