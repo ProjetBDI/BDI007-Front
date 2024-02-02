@@ -33,11 +33,8 @@ export class PanierComponent{
           const user = await this.api.getUtilisateurByEmail(u!.email);
 
           if (user?.idUtilisateur === null || user?.idUtilisateur === undefined || user?.idUtilisateur === -1) {
-            console.log("user undefined")
             return undefined;
           }
-          // return await this.api.getPanierByID(1)
-          // return this.api.getCurrentPanierByUtilisateur(100013)
           return this.api.getCurrentPanierByUtilisateur(user?.idUtilisateur!)
 
         } catch (error) {
@@ -107,17 +104,12 @@ export class PanierComponent{
           // supprimer le panier etape de la liste
           if (e.idPanierEtape === id) {
             await this.api.deletePanierEtape(e.idPanierEtape);
-            console.log("delete panier etape")
-            // window.location.reload();
           }
         })
         return pe;
       }
       return undefined;
     })
-    // await this.api.deletePanierEtape(id)
-    // console.log("delete panier etape")
-    // window.location.reload();
   }
 
 
