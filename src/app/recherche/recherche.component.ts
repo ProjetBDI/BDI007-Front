@@ -126,50 +126,52 @@ export class RechercheComponent {
 
     from(this.api.getUtilisateurByEmail(this.userEmail)).subscribe((user: Utilisateur | undefined) => {
       if(user !== undefined) {
-        if(this.panierCourant === undefined) {
-          let nouveauPanier: InstanciationPanier = {
-            nomsFestivaliers: "[]",
-            idProprietaire: user!.idUtilisateur
-          }
-
-          from(this.api.postPanier(nouveauPanier)).subscribe((panier: Panier) => {
-            this.panierCourant = panier;
-
+        from(this.api.getCurrentPanierByUtilisateur(user.idUtilisateur)).subscribe((panier: Panier | undefined) => {
+          this.panierCourant = panier;
+          if(this.panierCourant === undefined) { 
+            let nouveauPanier: InstanciationPanier = {
+              nomsFestivaliers: "[]",
+              idProprietaire: user!.idUtilisateur
+            }
+  
+            from(this.api.postPanier(nouveauPanier)).subscribe((panier: Panier) => {
+              this.panierCourant = panier;
+  
+              let instancesPanierEtape: InstanciationPanierEtape[] = [];
+              for(let i = 0; i < this.etapesSelected.length; i++) {
+                let element = this.etapesSelected[i];
+                if(element !== undefined) {
+                  let panierEtape: InstanciationPanierEtape = {
+                    nbPlaceOccupe:this.placesPrises[i],
+                    idPanier: this.panierCourant!.idPanier,
+                    idEtape: element.idEtape
+                  }
+                  instancesPanierEtape.push(panierEtape);
+                }
+              }
+  
+              this.panierEtapeBody(instancesPanierEtape);
+            });
+  
+          } else {
+            
             let instancesPanierEtape: InstanciationPanierEtape[] = [];
-            for(let i = 0; i < this.etapesSelected.length; i++) {
-              let element = this.etapesSelected[i];
-              if(element !== undefined) {
-                let panierEtape: InstanciationPanierEtape = {
-                  nbPlaceOccupe:this.placesPrises[i],
-                  idPanier: this.panierCourant!.idPanier,
-                  idEtape: element.idEtape
+              for(let i = 0; i < this.etapesSelected.length; i++) {
+                let element = this.etapesSelected[i];
+                if(element !== undefined) {
+                  let panierEtape: InstanciationPanierEtape = {
+                    nbPlaceOccupe:this.placesPrises[i],
+                    idPanier: this.panierCourant!.idPanier,
+                    idEtape: element.idEtape
+                  }
+                  instancesPanierEtape.push(panierEtape);
                 }
-                instancesPanierEtape.push(panierEtape);
               }
-            }
-
-            this.panierEtapeBody(instancesPanierEtape);
-          });
-
-        } else {
-          
-          let instancesPanierEtape: InstanciationPanierEtape[] = [];
-            for(let i = 0; i < this.etapesSelected.length; i++) {
-              let element = this.etapesSelected[i];
-              if(element !== undefined) {
-                let panierEtape: InstanciationPanierEtape = {
-                  nbPlaceOccupe:this.placesPrises[i],
-                  idPanier: this.panierCourant!.idPanier,
-                  idEtape: element.idEtape
-                }
-                instancesPanierEtape.push(panierEtape);
-              }
-            }
-
-            this.panierEtapeBody(instancesPanierEtape);
-
-        }
-      }
+  
+              this.panierEtapeBody(instancesPanierEtape);
+  
+          }
+      })}
     });
   }
 
@@ -194,7 +196,7 @@ export class RechercheComponent {
   instanciatePanierEtape(body: any) {
     
     from(this.api.postPanierEtape(body)).subscribe((panierEtapes: any) => {
-      //TODO affichage pop-up
+      console.log("PanierEtape instancié: " + panierEtapes);
     });
   }
 
