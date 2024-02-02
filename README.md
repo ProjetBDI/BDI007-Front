@@ -25,7 +25,6 @@ Il s'agit d'une application web qui permet aux utilisateurs de rechercher des fe
 
 ## Fonctionnalités à venir
 
-- Créer une offre de covoiturage et la publier
 - Créer une offre de festival et la publier
 - Géo-localisation des festivals et des offres de covoiturages
 - Ajout de nouveaux critères de recherche pour les festivals et les offres de covoiturages
