@@ -1,27 +1,52 @@
-# Angular16App
+# FesticarApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.2.
+Ce projet a été généré avec [Angular CLI] version 15.0.2.
+Il s'agit d'une application web qui permet aux utilisateurs de rechercher des festivals et d'acheter des offres de covoiturages pour y aller en plus d'acheter leur places.
 
-## Development server
+## Prérequis
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Node.js
+- Angular CLI
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. Clone the repository
+2. Run `npm install` to install the dependencies
+3. Run `ng serve` to start the development server
+4. Navigate to `http://localhost:4200/` to use the application
 
-## Build
+## Fonctionnalités actuelles
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Rechercher un festival avec des filtres (date, lieu, prix, etc.)
+- Voir les détails d'un festival
+- Rechercher des offres de covoiturages pour le festival choisi
+- Acheter des offres qui combinent le festival et le covoiturage
+- Recevoir un récapitulatif de la commande par email
 
-## Running unit tests
+## Fonctionnalités à venir
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Créer une offre de festival et la publier
+- Géo-localisation des festivals et des offres de covoiturages
+- Ajout de nouveaux critères de recherche pour les festivals et les offres de covoiturages
+- Ajout de nouvelles fonctionnalités pour les utilisateurs (profil, historique des commandes, etc.)
+- Abandonner un panier en cours de commande
 
-## Running end-to-end tests
+## Developement du serveur
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Pour faire tourner le serveur de développement, exécutez `ng serve`. Naviguez à `http://localhost:4200/`. L'application se rechargera automatiquement si vous modifiez un fichier source.
 
-## Further help
+## Déploiement
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Pour déployer l'application, exécutez `ng build`. Les fichiers seront générés dans le répertoire `dist/`. Utilisez l'option `--prod` pour une version de production.
+
+## Tests unitaires
+
+Des tests unitaires sont en cours de développement. Pour les exécuter, exécutez `ng test`.
+
+## Tests de bout en bout
+
+Prévu en développement pour la finalisation de la V2.0.0.
+
+## Aide supplémentaire
+
+Pour obtenir plus d'aide sur Angular CLI, utilisez `ng help` ou consultez la page [Angular CLI Overview and Command Reference](https://angular.io/cli).

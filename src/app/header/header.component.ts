@@ -1,20 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, map } from 'rxjs';
-import { FestiUser } from '../eltDefinitions';
-import { Auth } from '@angular/fire/auth';
-import { UserService } from '../services/user.service';
-import { RoutingService } from '../services/routing.service';
+import { Component, ElementRef, HostListener } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { UserService } from '../shared/services/user.service';
+import { Router } from '@angular/router';
+import { DataService } from '../shared/services/data.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
-  public user$: Observable<FestiUser | undefined> | undefined; // utilisateur connecté
+  bsMenu = new BehaviorSubject<string>("")
 
-  constructor(protected us : UserService, protected rs: RoutingService) {
+  @HostListener('document:click', ['$event'])
+  clickout(event: MouseEvent) {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      this.bsMenu.next("");
+    }
+  }
+
+  constructor(protected us : UserService, protected rs: Router, private ds: DataService, private eRef: ElementRef) {
     const partie = document.getElementById("app-partie");
     if (partie) {
       partie.addEventListener("unload", () => {
@@ -23,25 +29,21 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.user$ = this.us.obsFestiUsers$;
-    this.user$.subscribe(
-      data => console.log(data),
-      error => console.error(error),
-      () => console.log('Observable complet')
-    );
-  }
-
   async login() {
-    this.us.login();
+    this.bsMenu.next("");
+    this.rs.navigateByUrl('connexion')
   }
 
   async logout() {
+    this.bsMenu.next("");
     this.us.logout();
+    this.rs.navigateByUrl("");
   }
 
-  goHome() {
-    this.rs.goToHome();
+  goBack() {
+    this.ds.inSearch.next(false);
+    this.ds.searchType.next("festival");
+    this.rs.navigateByUrl("");
   }
 
 }

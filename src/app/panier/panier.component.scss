@@ -1,0 +1,305 @@
+@media screen and (max-width: 768px) {
+    .popup.card {
+        width: 90%;
+        height: 30%;
+    }
+    .table:first-of-type {
+        display: none;
+    }
+
+    .card {
+        min-width: 90%;
+        width: min-content;
+    }
+
+    .title.totalPrice {
+        font-size: 16px;
+    }
+
+    .totalOffre {
+        margin-left: 5vw;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .popup.card {
+        width: 50vw;
+        height: 30vh;
+    }
+
+    .mobile {
+        display: none !important;
+    }
+    
+}
+
+
+.title {
+    font-size: 24px;
+    margin: 2%;
+}
+
+.container {
+    width: 100vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.table, .tableEtape {
+    border-collapse: separate;
+    border-spacing: 0 1em;
+    width: 100%;
+    margin-top: 2%;
+}
+
+.tableEtape {
+    z-index: 1000;
+}
+
+.table td, .tableEtape td {
+    border-top: 1px solid var(--gray);
+    text-align: center;
+    padding: 1em;
+    align-items: center;
+}
+.table ul, .tableEtape ul, .mobile ul {
+    padding: 0;
+}
+.table th, .tableEtape th {
+    padding: 1em;
+}
+
+
+.table header, .tableEtape header {
+    background-color: var(--gray);
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    padding: 1em;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    width: 100%;
+}
+
+
+.card {
+    width: 60vw;
+    height: 80vh;
+    min-width: min-content;
+    padding: 1%;
+    margin-top: 8vh;
+    position: fixed;
+}
+
+footer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2%;
+    padding: 2%;
+    box-sizing: border-box;
+}
+
+.popup {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+    div.infos {
+        text-align: center;
+    }
+}
+
+.response {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 70%;
+    gap: 5%;
+    margin: 5%;
+}
+
+.response button {
+    width: 100%;
+}
+
+.response.final {
+    width: auto;
+}
+
+input[type='checkbox'] {
+    display: none;
+}
+
+.wrap-collabsible {
+    margin-bottom: 1.2rem 0;
+    width: 100%;
+  }
+
+input[type='checkbox'] {
+    display: none;
+}
+  
+.lbl-toggle {
+    display: block;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 1rem;
+  
+    color: white;
+    background-color: var(--pistachio);
+  
+    cursor: pointer;
+  
+    border-radius: 7px;
+    transition: all 0.25s ease-out;
+}
+  
+.lbl-toggle:hover {
+    background-color: var(--pistachio-dark);
+    
+}
+
+.lbl-toggle::before {
+    content: ' ';
+    display: inline-block;
+  
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid currentColor;
+    vertical-align: middle;
+    margin-right: .7rem;
+    transform: translateY(-2px);
+  
+    transition: transform .2s ease-out;
+}
+  
+.toggle:checked + .lbl-toggle::before {
+    transform: rotate(90deg) translateX(-3px);
+}
+  
+.collapsible-content {
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height .25s ease-in-out;
+}
+  
+.toggle:checked + .lbl-toggle + .collapsible-content {
+  max-height: 100vh;
+}
+  
+.toggle:checked + .lbl-toggle {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+  
+.collapsible-content .content-inner {
+    background-color: var(--pistachio-light);
+    border-bottom: 1px solid var(--gray);
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    padding: .5rem 1rem;
+}
+
+.moreInfos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footers {
+    width: 70%;
+}
+
+.panier {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.panierContainer {
+    height: 100%;
+}
+
+li {
+    list-style-type: none;
+}
+
+footer {
+    margin: 1%
+}
+footer button {
+    padding: 3% 6%;
+}
+
+.mobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: left;
+    width: 100%;
+}
+
+.mobile li {
+    width: 100%;
+    margin: 2% 0;
+}
+
+.scrollbar {
+    height: 70%;
+}
+
+.overflow {
+    overflow: hidden;
+}
+
+.commande {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    // width: 100%;
+    padding-top: 20px;
+}
+
+.totalOffre {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin: 2%;
+    margin-left: 10vw;
+    margin-top: 0%;
+    background-color: var(--gray);
+}
+
+.foot{
+    display: flex;
+    flex-direction: row;
+    // justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 2%;
+}
+
+.poubelle {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-left: 10%;
+}

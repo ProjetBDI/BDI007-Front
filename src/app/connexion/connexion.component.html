@@ -1,0 +1,97 @@
+<!-- Page de connexion avec register si pas de compte -->
+<img id="logoAbstract" class="dropShadow" src="../../assets/images/FestCarAbstract.png" alt="FestiCarAbstract"/>
+
+<div class="container card shadow centered">
+    <section *ngIf="bsNotAccount.asObservable() | async ; else notAccount">  
+        <div class="header">
+            <div class="title">
+                Connexion
+            </div>
+        </div>
+
+        <div>
+            <form [formGroup]="fgLogin">
+
+                <div class="inputs">
+                    <div id="email">
+                        <input type="email" placeholder="Email" [formControl]="fgLogin.controls.email">
+                    </div>
+                    <div class="separatorX"></div>
+    
+                    <div id="password">
+                        <input type="password" placeholder="Mot de passe" [formControl]="fgLogin.controls.password">
+                    </div>
+                    <div class="separatorX"></div>
+                </div>
+
+                <div class="errorMessage" *ngIf="this.bsMessageError.value">
+                    <div class="error">{{this.bsMessageError.value}}</div>
+                </div>
+
+                <div class="signIn">
+                    <div id="create-account" class="CTA2 shadow"><u><span (click)="this.bsNotAccount.next(false)">Créer un compte</span></u></div>
+                    <button type="button" class="CTA2 shadow" (click)="login()">
+                        Se connecter
+                    </button>
+                </div>
+                
+                <div class="google CTA1 shadow" (click)="loginGoogle()">
+                    <div>Connexion avec </div>
+                    <button type="button">
+                        <img class="convertible" src="../../assets/icons/google.png" height ="25" width="25" alt="ConnexionGoogle"/>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+    
+    
+    <ng-template #notAccount>    
+        <div class="section">
+            <div class="header">
+                <div class="title">
+                    Inscription
+                </div>
+            </div>
+            
+            <div class="inputs">
+                <form [formGroup]="fgRegister">
+                    <div id="name">
+                        <input type="text" placeholder="Nom" [formControl]="fgRegister.controls.nom">
+                    </div>
+                    <div class="separatorX"></div>
+                    <div id="firstname">
+                        <input type="text" placeholder="Prénom" [formControl]="fgRegister.controls.prenom">
+                    </div>
+                    <div class="separatorX"></div>
+                    <div id="date">
+                        <input type="date" placeholder="Date de naissance" [formControl]="fgRegister.controls.dateNaissance">
+                    </div>
+                    <div id="telephone">
+                        <input type="tel" placeholder="Téléphone" [formControl]="fgRegister.controls.telephone">
+                    </div>
+                    <div class="separatorX"></div>
+                    <div id="email">
+                        <input type="email" placeholder="Email" [formControl]="fgRegister.controls.email">
+                    </div>
+                    <div class="separatorX"></div>
+                    <div id="password">
+                        <input type="password" placeholder="Mot de passe" [formControl] = "fgRegister.controls.password">
+                    </div>
+                    <div class="separatorX"></div>
+                    <div id="password">
+                        <input type="password" placeholder="Confirmation mot de passe" [formControl]="fgRegister.controls.passwordCheck">
+                    </div>
+                    <div class="separatorX"></div>
+                    
+                    <div class="actions">
+                        <div id="goBack" class="CTA2 shadow" (click)="backToConnexion()"><u><span>Retour</span></u></div>
+                        <button id="inscription" class="CTA1 shadow" (click)="register()">
+                            S'inscrire
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-template>
+</div>

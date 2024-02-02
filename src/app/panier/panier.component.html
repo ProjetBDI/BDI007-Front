@@ -1,0 +1,138 @@
+<img id="logoAbstract" class="dropShadow" src="../../assets/images/FestCarAbstract.png" alt="FestiCarAbstract"/>
+
+<div class="container">
+    <div class="card shadow overflow">
+        <div class="panierContainer" *ngIf="this.obsPanier$ | async as panier ; else vide">
+        <div class="panier" *ngIf="this.obsPanierEtapes$ | async as panierEtapes">
+            <div class="panier" *ngIf="panierEtapes.length > 0; else vide2">
+            <div class="title">
+                Mon Panier
+            </div>
+            <div class="scrollbar">
+            <div class="commande" *ngFor="let panierEtape of panierEtapes; let index = index">
+                <div class="separatorX"></div>
+                <header>
+                    Mon covoit pour le festival {{panierEtape.idEtape.idCovoiturage.idFestival.nom}} - {{panierEtape.idEtape.idCovoiturage.dateDepart | date:'yyyy'}}
+                </header>
+                <div class="separatorX"></div>
+
+                <table class="table">
+                    
+                    <tr>
+                        <th>Date</th>
+                        <th>Heure</th>
+                        <th>Lieu RDV</th>
+                        <th>Conducteur/trice</th>
+                        <th>Noms des festivaliers</th>
+                        <th>Prix de l'étape</th>
+                        <th>Tarif festival pour {{this.listFestivaliers.length}} personnes</th>
+                    </tr>
+                    <tr>                    
+                        <td>{{panierEtape.idEtape.idCovoiturage.dateDepart | date:'yyyy-MM-dd'}}</td>
+                        <td>{{panierEtape.idEtape.idCovoiturage.dateDepart | date:'HH:MM'}}</td>
+                        <td>{{panierEtape.idEtape.idLieu.adresse}}</td>
+                        <td>{{panierEtape.idEtape.idCovoiturage.idConducteur.prenom}} {{panierEtape.idEtape.idCovoiturage.idConducteur.nom}}</td>
+                        <td>
+                            <ul>
+                                <li *ngFor="let festivalier of this.listFestivaliers">{{festivalier}}</li>
+                            </ul>
+                        </td>
+                        <td>{{panierEtape.idEtape.prixEtape * this.listFestivaliers.length}} €</td>
+                        <td>{{panierEtape.idEtape.idCovoiturage.idFestival.tarifPass  * this.listFestivaliers.length}} €</td>
+                    </tr>
+                </table>
+                <ul class="mobile">
+                    <li><strong>Date : </strong>{{panierEtape.idEtape.idCovoiturage.dateDepart | date:'yyyy-MM-dd'}}</li>
+                    <li><strong>Heure : </strong>{{panierEtape.idEtape.idCovoiturage.dateDepart | date:'HH:MM'}}</li>
+                    <li><strong>Lieu : </strong>{{panierEtape.idEtape.idLieu.adresse}} ({{panierEtape.idEtape.idLieu.typeLieu}})</li>
+                    <li><strong>Conducteur/trice : </strong>{{panierEtape.idEtape.idCovoiturage.idConducteur.prenom}} {{panierEtape.idEtape.idCovoiturage.idConducteur.nom}}</li>
+                    <li><strong>Noms des festivaliers : </strong>
+                    <ul>
+                        <li *ngFor="let festivalier of this.listFestivaliers">{{festivalier}}</li>
+                    </ul>
+                    <li><strong>Prix de l'étape : </strong>{{panierEtape.idEtape.prixEtape * this.listFestivaliers.length}} €</li>
+                    <li><strong>Tarif festival pour {{this.listFestivaliers.length}} personnes : </strong>{{panierEtape.idEtape.idCovoiturage.idFestival.tarifPass  * this.listFestivaliers.length}} €</li>
+                    <li></li>
+                </ul>
+                <div class="foot">
+                    <div class="totalOffre">Total pour cette offre : {{this.listPrixEtapes.at(index)}} €</div>
+                    <div class="poubelle">
+                        <button class="CTA2 shadow" type="button" (click)="this.deletePanierEtape(panierEtape.idPanierEtape)">Supprimer</button>
+                    </div>
+                </div>
+                <div class="moreInfos">
+                    <div class="wrap-collabsible">
+                        <input id="collapsible{{index}}" class="toggle" type="checkbox">
+                        <label for="collapsible{{index}}" class="lbl-toggle">Détails du covoiturage</label>
+                        <div class="collapsible-content">
+                            <div class="content-inner">
+                                <table class="tableEtape">
+                                    <tr>
+                                        <th>Voiture</th>
+                                        <th>Nombre de place</th>
+                                        <th>Contact conducteur</th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{panierEtape.idEtape.idCovoiturage.marque}} {{panierEtape.idEtape.idCovoiturage.modele}} couleur {{panierEtape.idEtape.idCovoiturage.couleur}}</td>
+                                        <td>{{panierEtape.idEtape.idCovoiturage.nbPlace}}</td>
+                                        <td>{{panierEtape.idEtape.idCovoiturage.idConducteur.email}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            </div>
+            <footer>
+                <span class="title totalPrice">Prix total : {{this.sommePrix}} €</span>
+                <button class="CTA1 shadow" type="button" (click)="this.bsPaiement.next(0)">Payer</button>
+                <button class="CTA2 shadow" type="button">Abandonner</button>
+            </footer>
+        </div>
+        </div>
+        </div>
+        
+        <ng-template #vide>
+            <div class="title">
+                Panier vide
+            </div>
+        </ng-template>
+
+        <ng-template #vide2>
+            <div class="title">
+                Panier vide
+            </div>
+        </ng-template>
+
+    </div>
+
+    <div class="card centered shadow popup" *ngIf="this.bsPaiement.value === 0">
+        <div class="infos">
+            Souhaitez-vous effectuer le paiement de {{this.sommePrix}} € ?
+        </div>
+
+        <div class="response">
+            <button class="CTA1 shadow" type="button" (click)="this.toValidation()">Payer</button>
+            <button class="CTA2 shadow" type="button" (click)="this.bsPaiement.next(-1)">Annuler</button>
+        </div>
+        
+    </div>
+
+    <div class="card centered shadow popup" *ngIf="this.bsPaiement.value === 1">
+        
+        <div *ngIf="this.obsPanier$ | async as panier">
+            <div class="infos">
+                Votre paiement a bien été effectué.<br/><br/> 
+                Vous allez recevoir un mail de confirmation à l'adresse mail : {{panier.idProprietaire.email}}.<br/> 
+                L'équipe FestiCar vous remercie pour votre confiance.
+            </div>
+            <div class="response final">
+                <button class="CTA1 shadow" type="button" (click)="this.toHome()">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

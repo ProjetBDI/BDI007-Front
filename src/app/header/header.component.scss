@@ -14,12 +14,38 @@
 #logo {
     width: 90px;
     margin: 0 auto;
+    cursor: pointer;
 }
 
-#menuIcons {
-    height: 51px;
+#menuIconsR {
+    height: 100%;
     position: absolute;
     right: 2%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    .menuIcon {
+        width: 51px;
+        height: 51px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    
+        img { height: 64%; }
+
+        #googlePP {
+            border-radius: 100%;
+        }
+    }
+}
+
+#menuIconsL {
+    height: 100%;
+    position: absolute;
+    left: 2%;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -44,6 +70,46 @@
     top: 0;
     left: 0;
   }
-  .superposable_sub {
+
+.superposable_sub {
     z-index: 1;
-  }
+}
+
+#menuContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    top: 110px;
+    right: 2%;
+    z-index: 1000;
+    padding: 1%;
+    box-sizing: border-box;
+}
+
+.element {
+    margin-top: 1%;
+    margin-bottom: 1%;
+
+    div {
+        font-size: 18px;
+
+        span {
+            color: var(--gray);
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+
+        div {
+            color: var(--pistachio);
+        }
+    }
+
+    width: 100%;
+    height: 100%;
+
+    margin-top: 1%;
+    margin-bottom: 0.5%;
+}
