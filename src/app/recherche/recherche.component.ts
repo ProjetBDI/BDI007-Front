@@ -125,10 +125,10 @@ export class RechercheComponent {
   instanciatePanier() {
 
     from(this.api.getUtilisateurByEmail(this.userEmail)).subscribe((user: Utilisateur | undefined) => {
-      if(user !== undefined) {
-        from(this.api.getCurrentPanierByUtilisateur(user.idUtilisateur)).subscribe((panier: Panier | undefined) => {
+      if(user !== undefined || user !== null) {
+        from(this.api.getCurrentPanierByUtilisateur(user!.idUtilisateur)).subscribe((panier: Panier | undefined) => {
           this.panierCourant = panier;
-          if(this.panierCourant === undefined) { 
+          if(this.panierCourant === undefined || this.panierCourant === null) { 
             let nouveauPanier: InstanciationPanier = {
               nomsFestivaliers: "[]",
               idProprietaire: user!.idUtilisateur
