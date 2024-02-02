@@ -83,8 +83,8 @@ export class ConnexionComponent {
 
   async loginGoogle() {
     this.user = await this.us.login()
-    
-    const userExist = await this.api.getUtilisateurByEmail(this.user?.email!)
+
+    const userExist = await this.api.getUtilisateurByEmail(this.user?.email)
 
     if (!userExist) {
       this.user = await this.api.postUtilisateur(this.user)
