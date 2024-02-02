@@ -196,7 +196,7 @@ export class RechercheComponent {
   instanciatePanierEtape(body: any) {
     
     from(this.api.postPanierEtape(body)).subscribe((panierEtapes: any) => {
-      console.log("PanierEtape instancié: " + panierEtapes);
+      
     });
   }
 

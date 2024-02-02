@@ -58,11 +58,9 @@ export class UserService {
     try{
 
       const user = await signInWithPopup(this.auth, googleProvider); // on ouvre une popup pour se connecter
-      console.log("Login success ! : "); // si réussi, on affiche un message de réussite
       this.bsAuth.next(false); // on passe l'état de la connection à false
       return convUserCredentialToUtilisateur(user, " ", " ", new Date(), "", "");
     } catch(e){
-      console.log("Login error (Google): " + e); // si erreur, on affiche l'erreur de login
       return Promise.resolve({} as Utilisateur)
     }
 
@@ -96,13 +94,11 @@ export class UserService {
         telephone: telephone,
       } as Utilisateur);
       
-      console.log("Register success !", user.name);
       this.bsAuth.next(true);
 
       return convUserCredentialToUtilisateur(uc, nom, prenom, dateNaissance, password, telephone);
 
     } catch (exception) {
-      console.log("Register failed ! ", exception);
       this.bsAuth.next(false);
     }
 
@@ -114,7 +110,6 @@ export class UserService {
     try{
       await signOut(this.auth); // on se déconnecte
     } catch(e){
-      console.log("Logout failed (Google): " + e); // si erreur, on affiche l'erreur de logout
     }
   }
 }
